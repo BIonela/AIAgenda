@@ -54,7 +54,9 @@
                 android:fontFamily="@font/roboto_medium_font"
                 android:hint="@string/email"
                 android:importantForAutofill="no"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:textColorHint="@color/gray_medium"
+                tools:ignore="TextContrastCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -78,7 +80,10 @@
                 android:drawablePadding="10dp"
                 android:fontFamily="@font/roboto_medium_font"
                 android:hint="@string/password"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textColor="@color/gray_medium"
+                android:textColorHint="@color/gray_medium"
+                tools:ignore="TextContrastCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -89,7 +94,7 @@
             android:layout_marginTop="5dp"
             android:fontFamily="@font/roboto_medium_font"
             android:text="@string/forgot_password"
-            android:textColor="@color/gray_light"
+            android:textColor="@color/gray_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tiePasswordLayout" />
 
