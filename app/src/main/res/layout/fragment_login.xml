@@ -81,7 +81,6 @@
                 android:fontFamily="@font/roboto_medium_font"
                 android:hint="@string/password"
                 android:inputType="textPassword"
-                android:textColor="@color/gray_medium"
                 android:textColorHint="@color/gray_medium"
                 tools:ignore="TextContrastCheck" />
 
