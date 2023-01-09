@@ -3,8 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/An_4/licenta/licenta/AIAgenda/app/src/main/res/drawable/ic_alternate_email.xml" value="0.143" />
+        <entry key="..\:/An_4/licenta/licenta/AIAgenda/app/src/main/res/drawable/ic_main_image.xml" value="0.1465" />
+        <entry key="..\:/An_4/licenta/licenta/AIAgenda/app/src/main/res/drawable/rounded_button.xml" value="0.157" />
+        <entry key="..\:/An_4/licenta/licenta/AIAgenda/app/src/main/res/drawable/toogle_password.xml" value="0.157" />
         <entry key="..\:/An_4/licenta/licenta/AIAgenda/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
-        <entry key="..\:/An_4/licenta/licenta/AIAgenda/app/src/main/res/layout/fragment_login.xml" value="0.17447916666666666" />
+        <entry key="..\:/An_4/licenta/licenta/AIAgenda/app/src/main/res/layout/fragment_login.xml" value="0.24814814814814815" />
       </map>
     </option>
   </component>
