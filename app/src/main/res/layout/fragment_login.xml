@@ -25,7 +25,7 @@
             android:id="@+id/tvLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/playfair_display_bold_font"
+            android:fontFamily="@font/roboto_bold_font"
             android:paddingBottom="10dp"
             android:text="@string/login"
             android:textColor="@color/black"
