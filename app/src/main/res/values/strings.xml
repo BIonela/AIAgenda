@@ -10,5 +10,8 @@
     <string name="keep_me_logged_in">Pastreaza-ma logat</string>
     <!--    &#160; -> white space-->
     <string name="no_account">Nu ai cont?&#160;</string>
-    <string name="sign_up">Sign Up</string>
+    <string name="sign_up">Inregistreaza-te</string>
+    <string name="sign_up_title">Inregistrare</string>
+    <string name="last_name">Nume</string>
+    <string name="first_name">Prenume</string>
 </resources>
