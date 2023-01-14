@@ -114,6 +114,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="25dp"
+            app:endIconDrawable="@drawable/toggle_password"
+            app:endIconMode="password_toggle"
             app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -133,6 +135,40 @@
                 tools:ignore="TextContrastCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tvStudyYear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/roboto_medium_font"
+            android:text="@string/study_year"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@id/tiePasswordLayout"
+            app:layout_constraintTop_toBottomOf="@id/tiePasswordLayout" />
+
+        <Spinner
+            android:id="@+id/spYear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/black"
+            android:entries="@array/an_studiu"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="@id/tvStudyYear"
+            app:layout_constraintStart_toEndOf="@id/tvStudyYear"
+            app:layout_constraintTop_toTopOf="@id/tvStudyYear" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="25dp"
+            android:background="@drawable/rounded_button"
+            android:fontFamily="@font/roboto_bold_font"
+            android:text="@string/sign_up"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
