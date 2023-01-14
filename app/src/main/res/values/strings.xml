@@ -10,5 +10,18 @@
     <string name="keep_me_logged_in">Pastreaza-ma logat</string>
     <!--    &#160; -> white space-->
     <string name="no_account">Nu ai cont?&#160;</string>
-    <string name="sign_up">Sign Up</string>
+    <string name="sign_up">Inregistreaza-te</string>
+    <string name="sign_up_title">Inregistrare</string>
+    <string name="last_name">Nume</string>
+    <string name="first_name">Prenume</string>
+    <string name="study_year">An de studiu:</string>
+
+    <string-array name="an_studiu">
+        <item>Nicio selectie</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
 </resources>
