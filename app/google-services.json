@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1096511005017",
+    "project_id": "aiagenda-5241a",
+    "storage_bucket": "aiagenda-5241a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1096511005017:android:a84b5f46081f48c165ec48",
+        "android_client_info": {
+          "package_name": "com.example.aiagenda"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1096511005017-5dqtlgurt9urj2u9urbq773o92u6lr2o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiU9I1WBbg2HAdJKdWBJ1v4RzwzytqgcQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1096511005017-5dqtlgurt9urj2u9urbq773o92u6lr2o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
