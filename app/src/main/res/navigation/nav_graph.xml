@@ -17,5 +17,24 @@
         android:id="@+id/signUpFragment"
         android:name="com.example.aiagenda.ui.SignUpFragment"
         android:label="SignUpFragment"
-        tools:layout="@layout/fragment_sign_up" />
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_dialogFragment"
+            app:destination="@id/dialogFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/dialogFragment"
+        android:name="com.example.aiagenda.ui.DialogFragment"
+        android:label="DialogFragment"
+        tools:layout="@layout/fragment_dialog" >
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="toLogin"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_dialogFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </dialog>
 </navigation>

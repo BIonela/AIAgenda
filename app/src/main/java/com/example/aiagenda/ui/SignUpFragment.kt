@@ -1,13 +1,10 @@
 package com.example.aiagenda.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -38,20 +35,7 @@ class SignUpFragment : Fragment() {
         )
         auth = FirebaseAuth.getInstance()
 
-        viewModel.repository.status.observe(this.viewLifecycleOwner) {
-            if (it == AuthenticationStatus.SUCCESS) {
-                Toast.makeText(
-                    requireContext(),
-                    "Inregistrare efectuata cu succes.",
-                    Toast.LENGTH_SHORT
-                ).show()
-                findNavController().navigateUp()
-            } else if (it == AuthenticationStatus.USER_EXISTS) {
-                Log.e("Nav Message", "EXISTA DEJA")
-            } else if (it == AuthenticationStatus.NO_INTERNET_CONNECTION) {
-                Log.e("Nav Message", "FARA INTERNET")
-            }
-        }
+        registerStatus()
 
         return binding.root
     }
@@ -60,7 +44,6 @@ class SignUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnSignUp.setOnClickListener {
-
             viewModel.register(
                 email = binding.etEmail.text.toString(),
                 password = binding.etPassword.text.toString(),
@@ -68,66 +51,124 @@ class SignUpFragment : Fragment() {
                 firstName = binding.etFirstName.text.toString(),
                 year = binding.spYear.selectedItem.toString()
             )
+            validateForm()
+        }
+    }
 
-            viewModel.error.observe(viewLifecycleOwner) {
-                if (viewModel.error.value == ValidationError.LAST_NAME_IS_EMPTY) {
-                    binding.tieLastNameLayout.error = "Completati campul!"
-                    binding.tieFirstNameLayout.isErrorEnabled = false
-                    binding.tieEmailLayout.isErrorEnabled = false
-                    binding.tiePasswordLayout.isErrorEnabled = false
-                    binding.tvSpinnerError.visibility = View.GONE
-
+    private fun registerStatus() {
+        viewModel.repository.status.observe(this.viewLifecycleOwner) {
+            when (it) {
+                AuthenticationStatus.SUCCESS -> {
+                    findNavController().navigate(
+                        SignUpFragmentDirections.actionSignUpFragmentToDialogFragment(
+                            getString(
+                                R.string.signup_success
+                            ),
+                            true
+                        )
+                    )
                 }
-                if (viewModel.error.value == ValidationError.FIRST_NAME_IS_EMPTY) {
-                    binding.tieFirstNameLayout.error = "Completati campul!"
-                    binding.tieLastNameLayout.isErrorEnabled = false
-                    binding.tieEmailLayout.isErrorEnabled = false
-                    binding.tiePasswordLayout.isErrorEnabled = false
-                    binding.tvSpinnerError.visibility = View.GONE
-
+                AuthenticationStatus.USER_EXISTS -> {
+                    findNavController().navigate(
+                        SignUpFragmentDirections.actionSignUpFragmentToDialogFragment(
+                            getString(
+                                R.string.email_used
+                            ),
+                            true
+                        )
+                    )
                 }
-                if (viewModel.error.value == ValidationError.EMAIL_IS_EMPTY) {
-                    binding.tieEmailLayout.error = "Completati campul!"
-                    binding.tiePasswordLayout.isErrorEnabled = false
-                    binding.tieLastNameLayout.isErrorEnabled = false
-                    binding.tieFirstNameLayout.isErrorEnabled = false
-                    binding.tvSpinnerError.visibility = View.GONE
-
+                AuthenticationStatus.NO_INTERNET_CONNECTION -> {
+                    findNavController().navigate(
+                        SignUpFragmentDirections.actionSignUpFragmentToDialogFragment(
+                            getString(
+                                R.string.no_internet
+                            ),
+                            false
+                        )
+                    )
                 }
-                if (viewModel.error.value == ValidationError.EMAIL_NOT_VALID) {
-                    binding.tieEmailLayout.error = "Nu ati introdus adresa institutionala UTCB!"
-                    binding.tiePasswordLayout.isErrorEnabled = false
-                    binding.tieLastNameLayout.isErrorEnabled = false
-                    binding.tieFirstNameLayout.isErrorEnabled = false
-                    binding.tvSpinnerError.visibility = View.GONE
-
-                }
-                if (viewModel.error.value == ValidationError.PASSWORD_IS_EMPTY) {
-                    binding.tiePasswordLayout.error = "Completati campul!"
-                    binding.tieEmailLayout.isErrorEnabled = false
-                    binding.tieLastNameLayout.isErrorEnabled = false
-                    binding.tieFirstNameLayout.isErrorEnabled = false
-                    binding.tvSpinnerError.visibility = View.GONE
-
-                }
-                if (viewModel.error.value == ValidationError.PASSWORD_SHORT) {
-                    binding.tiePasswordLayout.error = "Parola trebuie sa contina minim 6 caractere!"
-                    binding.tieEmailLayout.isErrorEnabled = false
-                    binding.tieLastNameLayout.isErrorEnabled = false
-                    binding.tieFirstNameLayout.isErrorEnabled = false
-                    binding.tvSpinnerError.visibility = View.GONE
-                }
-                if (viewModel.error.value == ValidationError.YEAR_NOT_SELECTED) {
-                    binding.tvSpinnerError.visibility = View.VISIBLE
-                    binding.tvSpinnerError.error = "Eroare"
-                    binding.tvSpinnerError.text = getString(R.string.select_year)
-                    binding.tieEmailLayout.isErrorEnabled = false
-                    binding.tieLastNameLayout.isErrorEnabled = false
-                    binding.tieFirstNameLayout.isErrorEnabled = false
-                    binding.tiePasswordLayout.isErrorEnabled = false
+                else -> {
+                    return@observe
                 }
             }
+        }
+    }
 
+    private fun validateForm() {
+        viewModel.error.observe(viewLifecycleOwner) {
+            if (viewModel.error.value == ValidationError.LAST_NAME_IS_EMPTY) {
+                binding.apply {
+                    tieLastNameLayout.isErrorEnabled = true
+                    tieLastNameLayout.error = getString(R.string.empty_field)
+                    tieFirstNameLayout.isErrorEnabled = false
+                    tieEmailLayout.isErrorEnabled = false
+                    tiePasswordLayout.isErrorEnabled = false
+                    tvSpinnerError.visibility = View.GONE
+                }
+            }
+            if (viewModel.error.value == ValidationError.FIRST_NAME_IS_EMPTY) {
+                binding.apply {
+                    tieFirstNameLayout.isErrorEnabled = true
+                    tieFirstNameLayout.error = getString(R.string.empty_field)
+                    tieLastNameLayout.isErrorEnabled = false
+                    tieEmailLayout.isErrorEnabled = false
+                    tiePasswordLayout.isErrorEnabled = false
+                    tvSpinnerError.visibility = View.GONE
+                }
+            }
+            if (viewModel.error.value == ValidationError.EMAIL_IS_EMPTY) {
+                binding.apply {
+                    tieEmailLayout.isErrorEnabled = true
+                    tieEmailLayout.error = getString(R.string.empty_field)
+                    tiePasswordLayout.isErrorEnabled = false
+                    tieLastNameLayout.isErrorEnabled = false
+                    tieFirstNameLayout.isErrorEnabled = false
+                    tvSpinnerError.visibility = View.GONE
+                }
+            }
+            if (viewModel.error.value == ValidationError.EMAIL_NOT_VALID) {
+                binding.apply {
+                    tieEmailLayout.isErrorEnabled = true
+                    tieEmailLayout.error = getString(R.string.email_not_valid)
+                    tiePasswordLayout.isErrorEnabled = false
+                    tieLastNameLayout.isErrorEnabled = false
+                    tieFirstNameLayout.isErrorEnabled = false
+                    tvSpinnerError.visibility = View.GONE
+                }
+            }
+            if (viewModel.error.value == ValidationError.PASSWORD_IS_EMPTY) {
+                binding.apply {
+                    tiePasswordLayout.isErrorEnabled = true
+                    tiePasswordLayout.error = getString(R.string.empty_field)
+                    tieEmailLayout.isErrorEnabled = false
+                    tieLastNameLayout.isErrorEnabled = false
+                    tieFirstNameLayout.isErrorEnabled = false
+                    tvSpinnerError.visibility = View.GONE
+                }
+            }
+            if (viewModel.error.value == ValidationError.PASSWORD_SHORT) {
+                binding.apply {
+                    tiePasswordLayout.isErrorEnabled = true
+                    tiePasswordLayout.error = getString(R.string.password_short)
+                    tieEmailLayout.isErrorEnabled = false
+                    tieLastNameLayout.isErrorEnabled = false
+                    tieFirstNameLayout.isErrorEnabled = false
+                    tvSpinnerError.visibility = View.GONE
+                }
+            }
+            if (viewModel.error.value == ValidationError.YEAR_NOT_SELECTED) {
+                binding.apply {
+                    tvSpinnerError.visibility = View.VISIBLE
+                    tvSpinnerError.error = ""
+                    tvSpinnerError.text = getString(R.string.select_year)
+                    tieEmailLayout.isErrorEnabled = false
+                    tieLastNameLayout.isErrorEnabled = false
+                    tieFirstNameLayout.isErrorEnabled = false
+                    tiePasswordLayout.isErrorEnabled = false
+                }
+
+            }
         }
     }
 }
