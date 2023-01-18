@@ -4,7 +4,9 @@ enum class AuthenticationStatus {
     SUCCESS,
     ERROR,
     USER_EXISTS,
-    NO_INTERNET_CONNECTION
+    NO_INTERNET_CONNECTION,
+    EMAIL_NOT_FOUND,
+    WRONG_PASSWORD
 }
 
 enum class ValidationError() {

@@ -6,15 +6,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.aiagenda.repository.AuthenticationRepository
 import com.example.aiagenda.util.ValidationError
-import com.google.android.material.textfield.TextInputLayout
 
 class AuthViewModel(val app: Application, val repository: AuthenticationRepository) :
     AndroidViewModel(app) {
 
     //mutablelivedata password error
 
-    private val _error = MutableLiveData<ValidationError>()
-    val error: LiveData<ValidationError> = _error
+    private val _registerError = MutableLiveData<ValidationError>()
+    val registerError: LiveData<ValidationError> = _registerError
+
+    private val _loginError = MutableLiveData<ValidationError>()
+    val loginError: LiveData<ValidationError> = _loginError
 
     fun register(
         email: String,
@@ -24,7 +26,7 @@ class AuthViewModel(val app: Application, val repository: AuthenticationReposito
         year: String
     ) {
 
-        if (validateIfNotEmpty(
+        if (validateRegister(
                 email = email,
                 password = password,
                 firstName = firstName,
@@ -36,7 +38,13 @@ class AuthViewModel(val app: Application, val repository: AuthenticationReposito
         }
     }
 
-    private fun validateIfNotEmpty(
+    fun login(email: String, password: String) {
+        if (validateLogin(email, password)) {
+            repository.login(email, password)
+        }
+    }
+
+    private fun validateRegister(
         email: String,
         password: String,
         lastName: String,
@@ -44,35 +52,55 @@ class AuthViewModel(val app: Application, val repository: AuthenticationReposito
         year: String
     ): Boolean {
         if (lastName.isEmpty()) {
-            _error.postValue(ValidationError.LAST_NAME_IS_EMPTY)
+            _registerError.postValue(ValidationError.LAST_NAME_IS_EMPTY)
             return false
         }
         if (firstName.isEmpty()) {
-            _error.postValue(ValidationError.FIRST_NAME_IS_EMPTY)
+            _registerError.postValue(ValidationError.FIRST_NAME_IS_EMPTY)
             return false
         }
         if (email.isEmpty()) {
-            _error.postValue(ValidationError.EMAIL_IS_EMPTY)
+            _registerError.postValue(ValidationError.EMAIL_IS_EMPTY)
             return false
         }
         if (email.split("@").last() != "student.utcb.ro") {
-            _error.postValue(ValidationError.EMAIL_NOT_VALID)
+            _registerError.postValue(ValidationError.EMAIL_NOT_VALID)
             return false
         }
         if (password.isEmpty()) {
-            _error.postValue(ValidationError.PASSWORD_IS_EMPTY)
+            _registerError.postValue(ValidationError.PASSWORD_IS_EMPTY)
             return false
         }
         if (password.length < 6) {
-            _error.postValue(ValidationError.PASSWORD_SHORT)
+            _registerError.postValue(ValidationError.PASSWORD_SHORT)
             return false
         }
         if (year == "Nicio selectie") {
-            _error.postValue(ValidationError.YEAR_NOT_SELECTED)
+            _registerError.postValue(ValidationError.YEAR_NOT_SELECTED)
             return false
         }
         return true
     }
 
+    //check if empty, if user exists, if password wrong, if email is not student.utcb.ro
+    private fun validateLogin(email: String, password: String): Boolean {
+        if (email.isEmpty()) {
+            _loginError.postValue(ValidationError.EMAIL_IS_EMPTY)
+            return false
+        }
+        if (email.split("@").last() != "student.utcb.ro") {
+            _loginError.postValue(ValidationError.EMAIL_NOT_VALID)
+            return false
+        }
+        if (password.isEmpty()) {
+            _loginError.postValue(ValidationError.PASSWORD_IS_EMPTY)
+            return false
+        }
+        if (password.length < 6) {
+            _loginError.postValue(ValidationError.PASSWORD_SHORT)
+            return false
+        }
+        return true
+    }
 
 }

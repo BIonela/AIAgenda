@@ -56,7 +56,7 @@ class SignUpFragment : Fragment() {
     }
 
     private fun registerStatus() {
-        viewModel.repository.status.observe(this.viewLifecycleOwner) {
+        viewModel.repository.registerStatus.observe(this.viewLifecycleOwner) {
             when (it) {
                 AuthenticationStatus.SUCCESS -> {
                     findNavController().navigate(
@@ -96,8 +96,8 @@ class SignUpFragment : Fragment() {
     }
 
     private fun validateForm() {
-        viewModel.error.observe(viewLifecycleOwner) {
-            if (viewModel.error.value == ValidationError.LAST_NAME_IS_EMPTY) {
+        viewModel.registerError.observe(viewLifecycleOwner) {
+            if (viewModel.registerError.value == ValidationError.LAST_NAME_IS_EMPTY) {
                 binding.apply {
                     tieLastNameLayout.isErrorEnabled = true
                     tieLastNameLayout.error = getString(R.string.empty_field)
@@ -107,7 +107,7 @@ class SignUpFragment : Fragment() {
                     tvSpinnerError.visibility = View.GONE
                 }
             }
-            if (viewModel.error.value == ValidationError.FIRST_NAME_IS_EMPTY) {
+            if (viewModel.registerError.value == ValidationError.FIRST_NAME_IS_EMPTY) {
                 binding.apply {
                     tieFirstNameLayout.isErrorEnabled = true
                     tieFirstNameLayout.error = getString(R.string.empty_field)
@@ -117,7 +117,7 @@ class SignUpFragment : Fragment() {
                     tvSpinnerError.visibility = View.GONE
                 }
             }
-            if (viewModel.error.value == ValidationError.EMAIL_IS_EMPTY) {
+            if (viewModel.registerError.value == ValidationError.EMAIL_IS_EMPTY) {
                 binding.apply {
                     tieEmailLayout.isErrorEnabled = true
                     tieEmailLayout.error = getString(R.string.empty_field)
@@ -127,7 +127,7 @@ class SignUpFragment : Fragment() {
                     tvSpinnerError.visibility = View.GONE
                 }
             }
-            if (viewModel.error.value == ValidationError.EMAIL_NOT_VALID) {
+            if (viewModel.registerError.value == ValidationError.EMAIL_NOT_VALID) {
                 binding.apply {
                     tieEmailLayout.isErrorEnabled = true
                     tieEmailLayout.error = getString(R.string.email_not_valid)
@@ -137,7 +137,7 @@ class SignUpFragment : Fragment() {
                     tvSpinnerError.visibility = View.GONE
                 }
             }
-            if (viewModel.error.value == ValidationError.PASSWORD_IS_EMPTY) {
+            if (viewModel.registerError.value == ValidationError.PASSWORD_IS_EMPTY) {
                 binding.apply {
                     tiePasswordLayout.isErrorEnabled = true
                     tiePasswordLayout.error = getString(R.string.empty_field)
@@ -147,7 +147,7 @@ class SignUpFragment : Fragment() {
                     tvSpinnerError.visibility = View.GONE
                 }
             }
-            if (viewModel.error.value == ValidationError.PASSWORD_SHORT) {
+            if (viewModel.registerError.value == ValidationError.PASSWORD_SHORT) {
                 binding.apply {
                     tiePasswordLayout.isErrorEnabled = true
                     tiePasswordLayout.error = getString(R.string.password_short)
@@ -157,7 +157,7 @@ class SignUpFragment : Fragment() {
                     tvSpinnerError.visibility = View.GONE
                 }
             }
-            if (viewModel.error.value == ValidationError.YEAR_NOT_SELECTED) {
+            if (viewModel.registerError.value == ValidationError.YEAR_NOT_SELECTED) {
                 binding.apply {
                     tvSpinnerError.visibility = View.VISIBLE
                     tvSpinnerError.error = ""
@@ -167,7 +167,6 @@ class SignUpFragment : Fragment() {
                     tieFirstNameLayout.isErrorEnabled = false
                     tiePasswordLayout.isErrorEnabled = false
                 }
-
             }
         }
     }

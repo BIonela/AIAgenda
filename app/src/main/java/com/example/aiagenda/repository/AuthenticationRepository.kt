@@ -1,27 +1,27 @@
 package com.example.aiagenda.repository
 
+import android.R
 import android.app.Application
-import android.widget.Toast
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.aiagenda.util.AuthenticationStatus
 import com.google.firebase.FirebaseNetworkException
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
-import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.*
+
 
 class AuthenticationRepository(private val application: Application) {
     val firebaseUser: MutableLiveData<FirebaseUser> = MutableLiveData()
     val userLogged: MutableLiveData<Boolean> = MutableLiveData()
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    val status: MutableLiveData<AuthenticationStatus> = MutableLiveData()
+    val registerStatus: MutableLiveData<AuthenticationStatus> = MutableLiveData()
+    val loginStatus: MutableLiveData<AuthenticationStatus> = MutableLiveData()
 
     fun signUp(email: String, password: String) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
-
                 if (task.isSuccessful) {
-                    status.postValue(AuthenticationStatus.SUCCESS)
+                    registerStatus.postValue(AuthenticationStatus.SUCCESS)
                 } else {
                     // If sign in fails, display a message to the user.
                     //verificare erori
@@ -29,15 +29,35 @@ class AuthenticationRepository(private val application: Application) {
 //                        application.applicationContext, "Inregistrare esuata. ${task.exception}",
 //                        Toast.LENGTH_SHORT
 //                    ).show()
-//                    status.postValue(AuthenticationStatus.ERROR)
+                    registerStatus.postValue(AuthenticationStatus.ERROR)
                     try {
                         throw task.exception!!
                     } catch (e: FirebaseAuthUserCollisionException) {
-                        status.postValue(AuthenticationStatus.USER_EXISTS)
+                        registerStatus.postValue(AuthenticationStatus.USER_EXISTS)
                     } catch (e: FirebaseNetworkException) {
-                        status.postValue(AuthenticationStatus.NO_INTERNET_CONNECTION)
+                        registerStatus.postValue(AuthenticationStatus.NO_INTERNET_CONNECTION)
                     }
                 }
             }
+    }
+
+    fun login(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                loginStatus.postValue(AuthenticationStatus.SUCCESS)
+            } else {
+                try {
+                    throw task.exception!!
+                } catch (e: FirebaseAuthInvalidUserException) {
+                    loginStatus.postValue(AuthenticationStatus.EMAIL_NOT_FOUND)
+                } catch (e: FirebaseAuthInvalidCredentialsException) {
+                    loginStatus.postValue(AuthenticationStatus.WRONG_PASSWORD)
+                    Log.e("LOGIN", "PAROLA INCORECTA")
+                } catch (e: FirebaseNetworkException) {
+                    loginStatus.postValue(AuthenticationStatus.NO_INTERNET_CONNECTION)
+                }
+            }
+        }
+
     }
 }

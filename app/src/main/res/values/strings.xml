@@ -23,8 +23,8 @@
     <string name="empty_field">Completati campul!</string>
     <string name="email_not_valid">Nu ati introdus adresa institutionala UTCB!</string>
     <string name="password_short">Parola trebuie sa contina minim 6 caractere!</string>
-
-
+    <string name="email_not_found">Nu exista niciun cont asociat adresei de mail.</string>
+    <string name="wrong_password">Parola nu este corecta.</string>
 
     <string-array name="an_studiu">
         <item>Nicio selectie</item>
