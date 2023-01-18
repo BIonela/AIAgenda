@@ -13,4 +13,6 @@
     <color name="gray_medium">#757575</color>
     <color name="transparent">#FFFFFF</color>
     <color name="blue_medium">#120DF5</color>
+    <color name="red_medium">#FF0000</color>
+
 </resources>

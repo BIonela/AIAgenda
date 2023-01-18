@@ -15,6 +15,16 @@
     <string name="last_name">Nume</string>
     <string name="first_name">Prenume</string>
     <string name="study_year">An de studiu:</string>
+    <string name="select_year">Selectati anul</string>
+    <string name="ok">OK</string>
+    <string name="email_used">Adresa de e-mail are deja un cont asociat.</string>
+    <string name="no_internet">Nu s-a putut realiza conexiunea la internet.</string>
+    <string name="signup_success">Inregistrare efectuata cu succes.</string>
+    <string name="empty_field">Completati campul!</string>
+    <string name="email_not_valid">Nu ati introdus adresa institutionala UTCB!</string>
+    <string name="password_short">Parola trebuie sa contina minim 6 caractere!</string>
+
+
 
     <string-array name="an_studiu">
         <item>Nicio selectie</item>
