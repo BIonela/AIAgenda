@@ -14,5 +14,6 @@
     <color name="transparent">#FFFFFF</color>
     <color name="blue_medium">#120DF5</color>
     <color name="red_medium">#FF0000</color>
+    <color name="semi_transparent">#80FFFFFF</color>
 
 </resources>

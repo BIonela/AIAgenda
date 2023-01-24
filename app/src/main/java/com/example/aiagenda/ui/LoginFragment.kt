@@ -1,6 +1,7 @@
 package com.example.aiagenda.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -32,6 +33,8 @@ class LoginFragment : Fragment() {
             false
         )
         registerStatus()
+        updateIfLoading()
+
         return binding.root
     }
 
@@ -50,24 +53,42 @@ class LoginFragment : Fragment() {
             )
             validateForm()
         }
+
+        binding.tvForgotPassword.setOnClickListener {
+            findNavController().navigate(
+                LoginFragmentDirections.actionLoginFragmentToForgotPasswordFragment()
+            )
+        }
+    }
+
+    private fun updateIfLoading() {
+        viewModel.loginError.observe(viewLifecycleOwner) {
+            if (it == ValidationError.LOADING) {
+                binding.pbLoading.visibility = View.VISIBLE
+                binding.btnLogin.isEnabled = false
+            } else {
+                binding.pbLoading.visibility = View.GONE
+                binding.btnLogin.isEnabled = true
+            }
+        }
     }
 
     private fun registerStatus() {
         viewModel.repository.loginStatus.observe(this.viewLifecycleOwner) {
+            binding.pbLoading.visibility = View.GONE
+            binding.btnLogin.isEnabled = true
             when (it) {
                 AuthenticationStatus.SUCCESS -> {
                     //navigare catre home
                     findNavController().navigate(
-                        LoginFragmentDirections.actionLoginFragmentToDialogFragment(
-                            "Login efectuat cu succes",
-                            false
-                        )
+                        LoginFragmentDirections.actionLoginFragmentToHomeFragment()
                     )
                 }
                 AuthenticationStatus.EMAIL_NOT_FOUND -> {
                     findNavController().navigate(
                         LoginFragmentDirections.actionLoginFragmentToDialogFragment(
                             getString(R.string.email_not_found),
+                            false,
                             false
                         )
                     )
@@ -76,6 +97,7 @@ class LoginFragment : Fragment() {
                     findNavController().navigate(
                         LoginFragmentDirections.actionLoginFragmentToDialogFragment(
                             getString(R.string.wrong_password),
+                            false,
                             false
                         )
                     )
@@ -86,7 +108,19 @@ class LoginFragment : Fragment() {
                             getString(
                                 R.string.no_internet
                             ),
+                            false,
                             false
+                        )
+                    )
+                }
+                AuthenticationStatus.ANOTHER_EXCEPTION -> {
+                    findNavController().navigate(
+                        LoginFragmentDirections.actionLoginFragmentToDialogFragment(
+                            getString(
+                                R.string.another_exception
+                            ),
+                            false,
+                            true
                         )
                     )
                 }

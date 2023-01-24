@@ -44,6 +44,8 @@ class DialogFragment : DialogFragment() {
         binding.tvOk.setOnClickListener {
             if (args.toLogin) {
                 findNavController().navigate(DialogFragmentDirections.actionDialogFragmentToLoginFragment())
+            } else if (args.exitApp) {
+                requireActivity().finishAndRemoveTask()
             } else {
                 dismiss()
             }

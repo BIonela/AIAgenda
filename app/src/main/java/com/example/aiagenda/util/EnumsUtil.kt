@@ -6,10 +6,12 @@ enum class AuthenticationStatus {
     USER_EXISTS,
     NO_INTERNET_CONNECTION,
     EMAIL_NOT_FOUND,
-    WRONG_PASSWORD
+    WRONG_PASSWORD,
+    ANOTHER_EXCEPTION
 }
 
 enum class ValidationError() {
+    LOADING,
     FIRST_NAME_IS_EMPTY,
     LAST_NAME_IS_EMPTY,
     EMAIL_IS_EMPTY,
@@ -17,5 +19,4 @@ enum class ValidationError() {
     PASSWORD_IS_EMPTY,
     PASSWORD_SHORT,
     YEAR_NOT_SELECTED
-
 }

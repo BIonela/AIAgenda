@@ -1,6 +1,5 @@
 package com.example.aiagenda.repository
 
-import android.R
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -16,6 +15,7 @@ class AuthenticationRepository(private val application: Application) {
 
     val registerStatus: MutableLiveData<AuthenticationStatus> = MutableLiveData()
     val loginStatus: MutableLiveData<AuthenticationStatus> = MutableLiveData()
+    val forgotPasswordStatus: MutableLiveData<AuthenticationStatus> = MutableLiveData()
 
     fun signUp(email: String, password: String) {
         auth.createUserWithEmailAndPassword(email, password)
@@ -23,12 +23,6 @@ class AuthenticationRepository(private val application: Application) {
                 if (task.isSuccessful) {
                     registerStatus.postValue(AuthenticationStatus.SUCCESS)
                 } else {
-                    // If sign in fails, display a message to the user.
-                    //verificare erori
-//                    Toast.makeText(
-//                        application.applicationContext, "Inregistrare esuata. ${task.exception}",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
                     registerStatus.postValue(AuthenticationStatus.ERROR)
                     try {
                         throw task.exception!!
@@ -36,8 +30,13 @@ class AuthenticationRepository(private val application: Application) {
                         registerStatus.postValue(AuthenticationStatus.USER_EXISTS)
                     } catch (e: FirebaseNetworkException) {
                         registerStatus.postValue(AuthenticationStatus.NO_INTERNET_CONNECTION)
+                    } catch (e: Exception) {
+                        registerStatus.postValue(AuthenticationStatus.ANOTHER_EXCEPTION)
                     }
                 }
+            }
+            .addOnFailureListener {
+                Log.e("EROARE", "SIGN UP NOT COMPLETED")
             }
     }
 
@@ -55,9 +54,32 @@ class AuthenticationRepository(private val application: Application) {
                     Log.e("LOGIN", "PAROLA INCORECTA")
                 } catch (e: FirebaseNetworkException) {
                     loginStatus.postValue(AuthenticationStatus.NO_INTERNET_CONNECTION)
+                } catch (e: Exception) {
+                    loginStatus.postValue(AuthenticationStatus.ANOTHER_EXCEPTION)
                 }
             }
         }
+    }
 
+    fun forgotPassword(email: String) {
+        auth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                forgotPasswordStatus.postValue(AuthenticationStatus.SUCCESS)
+                Log.e("SUCCESS", "Email sent")
+
+            } else {
+                try {
+                    throw task.exception!!
+                } catch (e: FirebaseNetworkException) {
+                    forgotPasswordStatus.postValue(AuthenticationStatus.NO_INTERNET_CONNECTION)
+                } catch (e: FirebaseAuthInvalidUserException) {
+                    forgotPasswordStatus.postValue(AuthenticationStatus.EMAIL_NOT_FOUND)
+                } catch (e: Exception) {
+                    forgotPasswordStatus.postValue(AuthenticationStatus.ANOTHER_EXCEPTION)
+                }
+            }
+        }.addOnFailureListener {
+            Log.e("Error", "Email reset failed")
+        }
     }
 }

@@ -36,12 +36,17 @@ class SignUpFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
 
         registerStatus()
+        updateIfLoading()
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.ivArrowBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
 
         binding.btnSignUp.setOnClickListener {
             viewModel.register(
@@ -55,8 +60,22 @@ class SignUpFragment : Fragment() {
         }
     }
 
+    private fun updateIfLoading() {
+        viewModel.registerError.observe(viewLifecycleOwner) {
+            if (it == ValidationError.LOADING) {
+                binding.pbLoading.visibility = View.VISIBLE
+                binding.btnSignUp.isEnabled = false
+            } else {
+                binding.pbLoading.visibility = View.GONE
+                binding.btnSignUp.isEnabled = true
+            }
+        }
+    }
+
     private fun registerStatus() {
         viewModel.repository.registerStatus.observe(this.viewLifecycleOwner) {
+            binding.pbLoading.visibility = View.GONE
+            binding.btnSignUp.isEnabled = true
             when (it) {
                 AuthenticationStatus.SUCCESS -> {
                     findNavController().navigate(
@@ -64,7 +83,8 @@ class SignUpFragment : Fragment() {
                             getString(
                                 R.string.signup_success
                             ),
-                            true
+                            true,
+                            false,
                         )
                     )
                 }
@@ -74,7 +94,8 @@ class SignUpFragment : Fragment() {
                             getString(
                                 R.string.email_used
                             ),
-                            true
+                            true,
+                            false
                         )
                     )
                 }
@@ -84,7 +105,19 @@ class SignUpFragment : Fragment() {
                             getString(
                                 R.string.no_internet
                             ),
+                            false,
                             false
+                        )
+                    )
+                }
+                AuthenticationStatus.ANOTHER_EXCEPTION -> {
+                    findNavController().navigate(
+                        SignUpFragmentDirections.actionSignUpFragmentToDialogFragment(
+                            getString(
+                                R.string.another_exception
+                            ),
+                            false,
+                            true
                         )
                     )
                 }

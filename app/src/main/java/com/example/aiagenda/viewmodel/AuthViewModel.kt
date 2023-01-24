@@ -18,6 +18,9 @@ class AuthViewModel(val app: Application, val repository: AuthenticationReposito
     private val _loginError = MutableLiveData<ValidationError>()
     val loginError: LiveData<ValidationError> = _loginError
 
+    private val _forgotPasswordError = MutableLiveData<ValidationError>()
+    val forgotPasswordError: LiveData<ValidationError> = _forgotPasswordError
+
     fun register(
         email: String,
         password: String,
@@ -25,7 +28,7 @@ class AuthViewModel(val app: Application, val repository: AuthenticationReposito
         lastName: String,
         year: String
     ) {
-
+        _registerError.postValue(ValidationError.LOADING)
         if (validateRegister(
                 email = email,
                 password = password,
@@ -39,6 +42,7 @@ class AuthViewModel(val app: Application, val repository: AuthenticationReposito
     }
 
     fun login(email: String, password: String) {
+        _loginError.postValue(ValidationError.LOADING)
         if (validateLogin(email, password)) {
             repository.login(email, password)
         }
@@ -98,6 +102,26 @@ class AuthViewModel(val app: Application, val repository: AuthenticationReposito
         }
         if (password.length < 6) {
             _loginError.postValue(ValidationError.PASSWORD_SHORT)
+            return false
+        }
+        return true
+    }
+
+    fun forgotPassword(email: String) {
+        _forgotPasswordError.postValue(ValidationError.LOADING)
+        if (validateForgotPassword(email)) {
+            repository.forgotPassword(email)
+        }
+    }
+
+    //check if mail exists and internet connection
+    private fun validateForgotPassword(email: String): Boolean {
+        if (email.isEmpty()) {
+            _forgotPasswordError.postValue(ValidationError.EMAIL_IS_EMPTY)
+            return false
+        }
+        if (email.split("@").last() != "student.utcb.ro") {
+            _forgotPasswordError.postValue(ValidationError.EMAIL_NOT_VALID)
             return false
         }
         return true

@@ -15,12 +15,18 @@
         <action
             android:id="@+id/action_loginFragment_to_dialogFragment"
             app:destination="@id/dialogFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.example.aiagenda.ui.SignUpFragment"
         android:label="SignUpFragment"
-        tools:layout="@layout/fragment_sign_up" >
+        tools:layout="@layout/fragment_sign_up">
         <action
             android:id="@+id/action_signUpFragment_to_dialogFragment"
             app:destination="@id/dialogFragment" />
@@ -29,7 +35,7 @@
         android:id="@+id/dialogFragment"
         android:name="com.example.aiagenda.ui.DialogFragment"
         android:label="DialogFragment"
-        tools:layout="@layout/fragment_dialog" >
+        tools:layout="@layout/fragment_dialog">
         <argument
             android:name="title"
             app:argType="string" />
@@ -39,5 +45,22 @@
         <action
             android:id="@+id/action_dialogFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <argument
+            android:name="exitApp"
+            app:argType="boolean" />
     </dialog>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.aiagenda.ui.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.example.aiagenda.ui.ForgotPasswordFragment"
+        android:label="ForgotPasswordFragment"
+        tools:layout="@layout/fragment_forgot_password" >
+        <action
+            android:id="@+id/action_forgotPasswordFragment_to_dialogFragment"
+            app:destination="@id/dialogFragment" />
+    </fragment>
 </navigation>
