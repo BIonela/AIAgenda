@@ -77,6 +77,8 @@ class LoginFragment : Fragment() {
         viewModel.repository.loginStatus.observe(this.viewLifecycleOwner) {
             binding.pbLoading.visibility = View.GONE
             binding.btnLogin.isEnabled = true
+            Log.e("LOGIN", viewModel.repository.loginStatus.value.toString())
+
             when (it) {
                 AuthenticationStatus.SUCCESS -> {
                     //navigare catre home

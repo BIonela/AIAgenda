@@ -41,10 +41,17 @@ class AuthenticationRepository(private val application: Application) {
     }
 
     fun login(email: String, password: String) {
+        Log.e("LOGIN","INLOGIN")
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            Log.e("LOGIN","TASK")
+
             if (task.isSuccessful) {
                 loginStatus.postValue(AuthenticationStatus.SUCCESS)
+                Log.e("LOGIN","INLOGINSUCCES")
+
             } else {
+                Log.e("LOGIN","INLOGINELSE")
+
                 try {
                     throw task.exception!!
                 } catch (e: FirebaseAuthInvalidUserException) {

@@ -56,10 +56,8 @@ class ForgotPasswordFragment : Fragment() {
         viewModel.forgotPasswordError.observe(viewLifecycleOwner) {
             if (it == ValidationError.LOADING) {
                 binding.pbLoading.visibility = View.VISIBLE
-                binding.btnSendRecovery.isEnabled = false
             } else {
                 binding.pbLoading.visibility = View.GONE
-                binding.btnSendRecovery.isEnabled = false
             }
         }
     }
@@ -68,7 +66,6 @@ class ForgotPasswordFragment : Fragment() {
         viewModel.repository.forgotPasswordStatus.observe(this.viewLifecycleOwner) {
             binding.tieEmailLayout.isErrorEnabled = false
             binding.pbLoading.visibility = View.GONE
-            binding.btnSendRecovery.isEnabled = true
             when (it) {
                 AuthenticationStatus.SUCCESS -> {
                     findNavController().navigate(
