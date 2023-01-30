@@ -7,7 +7,8 @@ enum class AuthenticationStatus {
     NO_INTERNET_CONNECTION,
     EMAIL_NOT_FOUND,
     WRONG_PASSWORD,
-    ANOTHER_EXCEPTION
+    ANOTHER_EXCEPTION,
+    EMAIL_INVALID
 }
 
 enum class ValidationError() {

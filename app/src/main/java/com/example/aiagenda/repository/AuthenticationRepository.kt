@@ -30,6 +30,8 @@ class AuthenticationRepository(private val application: Application) {
                         registerStatus.postValue(AuthenticationStatus.USER_EXISTS)
                     } catch (e: FirebaseNetworkException) {
                         registerStatus.postValue(AuthenticationStatus.NO_INTERNET_CONNECTION)
+                    } catch (e: FirebaseAuthInvalidCredentialsException) {
+                        registerStatus.postValue(AuthenticationStatus.EMAIL_INVALID)
                     } catch (e: Exception) {
                         registerStatus.postValue(AuthenticationStatus.ANOTHER_EXCEPTION)
                     }
@@ -41,24 +43,25 @@ class AuthenticationRepository(private val application: Application) {
     }
 
     fun login(email: String, password: String) {
-        Log.e("LOGIN","INLOGIN")
+        Log.e("LOGIN", "INLOGIN")
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-            Log.e("LOGIN","TASK")
+            Log.e("LOGIN", "TASK")
 
             if (task.isSuccessful) {
                 loginStatus.postValue(AuthenticationStatus.SUCCESS)
-                Log.e("LOGIN","INLOGINSUCCES")
+                Log.e("LOGIN", "INLOGINSUCCES")
 
             } else {
-                Log.e("LOGIN","INLOGINELSE")
+                Log.e("LOGIN", "INLOGINELSE")
 
                 try {
                     throw task.exception!!
+                } catch (e: FirebaseAuthInvalidCredentialsException) {
+                    loginStatus.postValue(AuthenticationStatus.EMAIL_INVALID)
                 } catch (e: FirebaseAuthInvalidUserException) {
                     loginStatus.postValue(AuthenticationStatus.EMAIL_NOT_FOUND)
                 } catch (e: FirebaseAuthInvalidCredentialsException) {
                     loginStatus.postValue(AuthenticationStatus.WRONG_PASSWORD)
-                    Log.e("LOGIN", "PAROLA INCORECTA")
                 } catch (e: FirebaseNetworkException) {
                     loginStatus.postValue(AuthenticationStatus.NO_INTERNET_CONNECTION)
                 } catch (e: Exception) {

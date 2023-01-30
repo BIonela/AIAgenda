@@ -110,6 +110,17 @@ class SignUpFragment : Fragment() {
                         )
                     )
                 }
+                AuthenticationStatus.EMAIL_INVALID -> {
+                    findNavController().navigate(
+                        SignUpFragmentDirections.actionSignUpFragmentToDialogFragment(
+                            getString(
+                                R.string.email_invalid
+                            ),
+                            false,
+                            false
+                        )
+                    )
+                }
                 AuthenticationStatus.ANOTHER_EXCEPTION -> {
                     findNavController().navigate(
                         SignUpFragmentDirections.actionSignUpFragmentToDialogFragment(

@@ -61,6 +61,16 @@ class LoginFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.apply {
+            pbLoading.visibility = View.GONE
+            btnLogin.isEnabled = true
+            tieEmail.text?.clear()
+            tiePassword.text?.clear()
+        }
+    }
+
     private fun updateIfLoading() {
         viewModel.loginError.observe(viewLifecycleOwner) {
             if (it == ValidationError.LOADING) {
@@ -109,6 +119,17 @@ class LoginFragment : Fragment() {
                         LoginFragmentDirections.actionLoginFragmentToDialogFragment(
                             getString(
                                 R.string.no_internet
+                            ),
+                            false,
+                            false
+                        )
+                    )
+                }
+                AuthenticationStatus.EMAIL_INVALID -> {
+                    findNavController().navigate(
+                        LoginFragmentDirections.actionLoginFragmentToDialogFragment(
+                            getString(
+                                R.string.email_invalid
                             ),
                             false,
                             false
