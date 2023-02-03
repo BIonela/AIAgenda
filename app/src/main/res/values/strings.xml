@@ -34,6 +34,10 @@
     <string name="too_many_requests">Accesul la acest cont a fost dezactivat temporar din cauza multor încercări eșuate de conectare.</string>
 
     <string name="another_exception">A aparut o eroare. Va rugam incercati mai tarziu.</string>
+    <string name="home">Acasa</string>
+    <string name="profile">Profil</string>
+    <string name="menu">Meniu</string>
+    <string name="settings">Setari</string>
 
 
     <string-array name="an_studiu">
