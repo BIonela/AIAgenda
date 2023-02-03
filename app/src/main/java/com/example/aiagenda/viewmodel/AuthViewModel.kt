@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.aiagenda.model.User
 import com.example.aiagenda.repository.AuthenticationRepository
 import com.example.aiagenda.util.ValidationError
 
@@ -26,7 +27,8 @@ class AuthViewModel(val app: Application, val repository: AuthenticationReposito
         password: String,
         firstName: String,
         lastName: String,
-        year: String
+        year: String,
+        user: User
     ) {
         _registerError.postValue(ValidationError.LOADING)
         if (validateRegister(
@@ -37,7 +39,7 @@ class AuthViewModel(val app: Application, val repository: AuthenticationReposito
                 year = year
             )
         ) {
-            repository.signUp(email, password)
+            repository.signUp(email, password, user)
         }
     }
 
