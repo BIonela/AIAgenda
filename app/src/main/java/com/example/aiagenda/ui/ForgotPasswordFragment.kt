@@ -96,6 +96,17 @@ class ForgotPasswordFragment : Fragment() {
                         )
                     )
                 }
+                AuthenticationStatus.EMAIL_INVALID -> {
+                    findNavController().navigate(
+                        ForgotPasswordFragmentDirections.actionForgotPasswordFragmentToDialogFragment(
+                            getString(
+                                R.string.email_invalid
+                            ),
+                            false,
+                            false
+                        )
+                    )
+                }
                 AuthenticationStatus.ANOTHER_EXCEPTION -> {
                     findNavController().navigate(
                         ForgotPasswordFragmentDirections.actionForgotPasswordFragmentToDialogFragment(

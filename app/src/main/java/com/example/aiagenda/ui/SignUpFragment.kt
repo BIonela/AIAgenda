@@ -74,8 +74,17 @@ class SignUpFragment : Fragment() {
 
     private fun registerStatus() {
         viewModel.repository.registerStatus.observe(this.viewLifecycleOwner) {
-            binding.pbLoading.visibility = View.GONE
-            binding.btnSignUp.isEnabled = true
+
+            binding.apply {
+                pbLoading.visibility = View.GONE
+                btnSignUp.isEnabled = true
+                tieEmailLayout.isErrorEnabled = false
+                tieLastNameLayout.isErrorEnabled = false
+                tieFirstNameLayout.isErrorEnabled = false
+                tiePasswordLayout.isErrorEnabled = false
+                tvSpinnerError.visibility = View.GONE
+            }
+
             when (it) {
                 AuthenticationStatus.SUCCESS -> {
                     findNavController().navigate(

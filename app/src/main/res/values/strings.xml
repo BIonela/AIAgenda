@@ -24,13 +24,15 @@
     <string name="email_not_valid">Nu ati introdus adresa institutionala UTCB!</string>
     <string name="password_short">Parola trebuie sa contina minim 6 caractere!</string>
     <string name="email_not_found">Nu exista niciun cont asociat adresei de mail.</string>
-    <string name="wrong_password">Parola nu este corecta.</string>
+    <string name="wrong_password">Parola nu este corecta sau adresa de e-mail este invalida (Verificati spatiile albe).</string>
     <string name="recover_password">Recuperare parola</string>
+    <string name="email_invalid">Adresa de e-mail este invalida. Verificati spatiile albe.</string>
     <string name="recover_password_text">Introduceti adresa de e-mail pentru a va trimite un mesaj cu instructiunile de recuperare a parolei</string>
     <string name="send_email">Trimite</string>
     <string name="send_reset_password_email">Un mesaj a fost trimis la adresa de mail introdusa.</string>
     <string name="navigating_back_description">Arrow for navigating back.</string>
-    <string name="email_invalid">Adresa de e-mail este invalida. Verificati spatiile albe.</string>
+    <string name="too_many_requests">Accesul la acest cont a fost dezactivat temporar din cauza multor încercări eșuate de conectare.</string>
+
     <string name="another_exception">A aparut o eroare. Va rugam incercati mai tarziu.</string>
 
 

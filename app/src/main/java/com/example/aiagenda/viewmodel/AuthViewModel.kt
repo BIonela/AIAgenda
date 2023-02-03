@@ -114,7 +114,6 @@ class AuthViewModel(val app: Application, val repository: AuthenticationReposito
         }
     }
 
-    //check if mail exists and internet connection
     private fun validateForgotPassword(email: String): Boolean {
         if (email.isEmpty()) {
             _forgotPasswordError.postValue(ValidationError.EMAIL_IS_EMPTY)

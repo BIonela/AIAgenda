@@ -1,7 +1,6 @@
 package com.example.aiagenda.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -47,11 +46,11 @@ class LoginFragment : Fragment() {
         }
 
         binding.btnLogin.setOnClickListener {
+            validateForm()
             viewModel.login(
                 email = binding.tieEmail.text.toString(),
                 password = binding.tiePassword.text.toString()
             )
-            validateForm()
         }
 
         binding.tvForgotPassword.setOnClickListener {
@@ -85,9 +84,13 @@ class LoginFragment : Fragment() {
 
     private fun registerStatus() {
         viewModel.repository.loginStatus.observe(this.viewLifecycleOwner) {
-            binding.pbLoading.visibility = View.GONE
-            binding.btnLogin.isEnabled = true
-            Log.e("LOGIN", viewModel.repository.loginStatus.value.toString())
+
+            binding.apply {
+                pbLoading.visibility = View.GONE
+                btnLogin.isEnabled = true
+                tieEmailLayout.isErrorEnabled = false
+                tiePasswordLayout.isErrorEnabled = false
+            }
 
             when (it) {
                 AuthenticationStatus.SUCCESS -> {
@@ -105,7 +108,7 @@ class LoginFragment : Fragment() {
                         )
                     )
                 }
-                AuthenticationStatus.WRONG_PASSWORD -> {
+                AuthenticationStatus.WRONG_PASSWORD_OR_EMAIL_INVALID -> {
                     findNavController().navigate(
                         LoginFragmentDirections.actionLoginFragmentToDialogFragment(
                             getString(R.string.wrong_password),
@@ -125,11 +128,11 @@ class LoginFragment : Fragment() {
                         )
                     )
                 }
-                AuthenticationStatus.EMAIL_INVALID -> {
+                AuthenticationStatus.TOO_MANY_REQUESTS -> {
                     findNavController().navigate(
                         LoginFragmentDirections.actionLoginFragmentToDialogFragment(
                             getString(
-                                R.string.email_invalid
+                                R.string.too_many_requests
                             ),
                             false,
                             false
@@ -184,4 +187,5 @@ class LoginFragment : Fragment() {
             }
         }
     }
+
 }
