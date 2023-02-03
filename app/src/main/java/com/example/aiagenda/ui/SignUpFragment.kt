@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.aiagenda.R
 import com.example.aiagenda.databinding.FragmentSignUpBinding
+import com.example.aiagenda.model.User
 import com.example.aiagenda.util.AuthenticationStatus
 import com.example.aiagenda.util.ValidationError
 import com.example.aiagenda.viewmodel.AuthViewModel
@@ -54,7 +55,8 @@ class SignUpFragment : Fragment() {
                 password = binding.etPassword.text.toString(),
                 lastName = binding.etLastName.text.toString(),
                 firstName = binding.etFirstName.text.toString(),
-                year = binding.spYear.selectedItem.toString()
+                year = binding.spYear.selectedItem.toString(),
+                user = getUser()
             )
             validateForm()
         }
@@ -222,5 +224,16 @@ class SignUpFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun getUser(): User {
+        return User(
+            id = "",
+            last_name = binding.etLastName.text.toString(),
+            first_name = binding.etFirstName.text.toString(),
+            study_year = binding.spYear.selectedItem.toString(),
+            email = binding.etEmail.text.toString(),
+            photo_url = "fara poza"
+        )
     }
 }
