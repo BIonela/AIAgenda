@@ -10,12 +10,8 @@ import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 
 class AuthenticationRepository(private val application: Application) {
-    val firebaseUser: MutableLiveData<FirebaseUser> = MutableLiveData()
-    val userLogged: MutableLiveData<Boolean> = MutableLiveData()
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val database: FirebaseFirestore = FirebaseFirestore.getInstance()
@@ -96,7 +92,7 @@ class AuthenticationRepository(private val application: Application) {
         }
     }
 
-    fun updateUserInfo(user: User) {
+    private fun updateUserInfo(user: User) {
         val document = database.collection(FireStoreCollection.USER).document()
         user.id = document.id
         document
