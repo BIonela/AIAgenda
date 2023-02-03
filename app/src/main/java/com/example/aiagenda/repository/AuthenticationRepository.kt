@@ -1,43 +1,90 @@
 package com.example.aiagenda.repository
 
 import android.app.Application
-import android.widget.Toast
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.aiagenda.util.AuthenticationStatus
 import com.google.firebase.FirebaseNetworkException
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
-import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.FirebaseTooManyRequestsException
+import com.google.firebase.auth.*
 
 class AuthenticationRepository(private val application: Application) {
     val firebaseUser: MutableLiveData<FirebaseUser> = MutableLiveData()
     val userLogged: MutableLiveData<Boolean> = MutableLiveData()
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    val status: MutableLiveData<AuthenticationStatus> = MutableLiveData()
+    val registerStatus: MutableLiveData<AuthenticationStatus> = MutableLiveData()
+    val loginStatus: MutableLiveData<AuthenticationStatus> = MutableLiveData()
+    val forgotPasswordStatus: MutableLiveData<AuthenticationStatus> = MutableLiveData()
 
     fun signUp(email: String, password: String) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
-
                 if (task.isSuccessful) {
-                    status.postValue(AuthenticationStatus.SUCCESS)
+                    registerStatus.postValue(AuthenticationStatus.SUCCESS)
                 } else {
-                    // If sign in fails, display a message to the user.
-                    //verificare erori
-//                    Toast.makeText(
-//                        application.applicationContext, "Inregistrare esuata. ${task.exception}",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                    status.postValue(AuthenticationStatus.ERROR)
+                    registerStatus.postValue(AuthenticationStatus.ERROR)
                     try {
                         throw task.exception!!
                     } catch (e: FirebaseAuthUserCollisionException) {
-                        status.postValue(AuthenticationStatus.USER_EXISTS)
+                        registerStatus.postValue(AuthenticationStatus.USER_EXISTS)
                     } catch (e: FirebaseNetworkException) {
-                        status.postValue(AuthenticationStatus.NO_INTERNET_CONNECTION)
+                        registerStatus.postValue(AuthenticationStatus.NO_INTERNET_CONNECTION)
+                    } catch (e: FirebaseAuthInvalidCredentialsException) {
+                        registerStatus.postValue(AuthenticationStatus.EMAIL_INVALID)
+                    } catch (e: Exception) {
+                        registerStatus.postValue(AuthenticationStatus.ANOTHER_EXCEPTION)
                     }
                 }
             }
+            .addOnFailureListener {
+                Log.e("Error", "Sign up not completed")
+            }
+    }
+
+    fun login(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                loginStatus.postValue(AuthenticationStatus.SUCCESS)
+            } else {
+                try {
+                    throw task.exception!!
+                } catch (e: FirebaseAuthInvalidCredentialsException) {
+                    loginStatus.postValue(AuthenticationStatus.WRONG_PASSWORD_OR_EMAIL_INVALID)
+                } catch (e: FirebaseAuthInvalidUserException) {
+                    loginStatus.postValue(AuthenticationStatus.EMAIL_NOT_FOUND)
+                } catch (e: FirebaseAuthInvalidCredentialsException) {
+                    loginStatus.postValue(AuthenticationStatus.WRONG_PASSWORD_OR_EMAIL_INVALID)
+                } catch (e: FirebaseNetworkException) {
+                    loginStatus.postValue(AuthenticationStatus.NO_INTERNET_CONNECTION)
+                } catch (e: FirebaseTooManyRequestsException) {
+                    loginStatus.postValue(AuthenticationStatus.TOO_MANY_REQUESTS)
+                } catch (e: Exception) {
+                    loginStatus.postValue(AuthenticationStatus.ANOTHER_EXCEPTION)
+                }
+            }
+        }
+    }
+
+    fun forgotPassword(email: String) {
+        auth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                forgotPasswordStatus.postValue(AuthenticationStatus.SUCCESS)
+            } else {
+                try {
+                    throw task.exception!!
+                } catch (e: FirebaseNetworkException) {
+                    forgotPasswordStatus.postValue(AuthenticationStatus.NO_INTERNET_CONNECTION)
+                } catch (e: FirebaseAuthInvalidUserException) {
+                    forgotPasswordStatus.postValue(AuthenticationStatus.EMAIL_NOT_FOUND)
+                } catch (e: FirebaseAuthInvalidCredentialsException) {
+                    forgotPasswordStatus.postValue(AuthenticationStatus.EMAIL_INVALID)
+                } catch (e: Exception) {
+                    forgotPasswordStatus.postValue(AuthenticationStatus.ANOTHER_EXCEPTION)
+                }
+            }
+        }.addOnFailureListener {
+            Log.e("Error", "Email reset failed")
+        }
     }
 }

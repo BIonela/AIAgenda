@@ -44,7 +44,7 @@
             app:layout_constraintTop_toBottomOf="@id/tvLogin">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etEmail"
+                android:id="@+id/tieEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -53,7 +53,7 @@
                 android:drawablePadding="10dp"
                 android:fontFamily="@font/roboto_medium_font"
                 android:hint="@string/email"
-                android:inputType="textEmailAddress"
+                android:inputType="text"
                 android:textColorHint="@color/gray_medium"
                 tools:ignore="TextContrastCheck" />
 
@@ -109,6 +109,7 @@
             app:layout_constraintTop_toBottomOf="@id/tvForgotPassword" />
 
         <Button
+            android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_button"
@@ -138,6 +139,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <include
+            android:id="@+id/pbLoading"
+            layout="@layout/loading_animation"
+            android:visibility="gone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
