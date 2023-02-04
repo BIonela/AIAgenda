@@ -49,7 +49,8 @@ class LoginFragment : Fragment() {
             validateForm()
             viewModel.login(
                 email = binding.tieEmail.text.toString(),
-                password = binding.tiePassword.text.toString()
+                password = binding.tiePassword.text.toString(),
+                isChecked = binding.cbKeepMeLoggedIn.isChecked
             )
         }
 

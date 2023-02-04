@@ -1,6 +1,7 @@
 package com.example.aiagenda.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -43,10 +44,10 @@ class AuthViewModel(val app: Application, val repository: AuthenticationReposito
         }
     }
 
-    fun login(email: String, password: String) {
+    fun login(email: String, password: String, isChecked: Boolean) {
         _loginError.postValue(ValidationError.LOADING)
         if (validateLogin(email, password)) {
-            repository.login(email, password)
+            repository.login(email, password, isChecked)
         }
     }
 
@@ -126,6 +127,10 @@ class AuthViewModel(val app: Application, val repository: AuthenticationReposito
             return false
         }
         return true
+    }
+
+    fun logout(result: () -> Unit) {
+        repository.logout(result)
     }
 
     fun getSession(result: (User?) -> Unit) {

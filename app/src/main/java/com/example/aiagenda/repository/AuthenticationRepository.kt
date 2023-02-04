@@ -14,12 +14,11 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.firestore.FirebaseFirestore
 
-
 class AuthenticationRepository(private val application: Application) {
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val database: FirebaseFirestore = FirebaseFirestore.getInstance()
-    val appPreferencesRepository: SharedPreferencesRepository =
+    private val appPreferencesRepository: SharedPreferencesRepository =
         SharedPreferencesRepository(application.applicationContext)
 
 
@@ -54,14 +53,16 @@ class AuthenticationRepository(private val application: Application) {
             }
     }
 
-    fun login(email: String, password: String) {
+    fun login(email: String, password: String, isChecked: Boolean) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                storeSession(id = task.result.user?.uid ?: "") {
-                    if (it == null) {
-                        Log.e("SESSION", "FAILED")
-                    } else {
-                        Log.e("SESSION", "SUCCESS")
+                if (isChecked) {
+                    storeSession(id = task.result.user?.uid ?: "") {
+                        if (it == null) {
+                            Log.e("SESSION", "FAILED")
+                        } else {
+                            Log.e("SESSION", "SUCCESS")
+                        }
                     }
                 }
                 loginStatus.postValue(AuthenticationStatus.SUCCESS)
@@ -119,7 +120,13 @@ class AuthenticationRepository(private val application: Application) {
             }
     }
 
-    fun storeSession(id: String, result: (User?) -> Unit) {
+    fun logout(result: () -> Unit) {
+        auth.signOut()
+        appPreferencesRepository.clear()
+        result.invoke()
+    }
+
+    private fun storeSession(id: String, result: (User?) -> Unit) {
         database.collection(FireStoreCollection.USER).document(id)
             .get()
             .addOnCompleteListener {

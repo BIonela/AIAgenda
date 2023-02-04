@@ -25,4 +25,8 @@ class SharedPreferencesRepository(val context: Context) {
         return gson.fromJson(userStr, User::class.java)
     }
 
+    fun clear() {
+        appPreferences.edit().putString(SharedPrefConstants.USER_SESSION, null).apply()
+    }
+
 }

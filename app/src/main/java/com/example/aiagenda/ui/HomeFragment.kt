@@ -6,11 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.aiagenda.R
 import com.example.aiagenda.databinding.FragmentHomeBinding
+import com.example.aiagenda.viewmodel.AuthViewModel
+import com.example.aiagenda.viewmodel.ViewModelFactory
+import com.google.firebase.auth.FirebaseAuth
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
+    private val authViewModel: AuthViewModel by viewModels {
+        ViewModelFactory(requireActivity().application)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,4 +33,14 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.tvSignOut.setOnClickListener {
+            authViewModel.logout {
+                findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
+            }
+        }
+
+    }
 }
