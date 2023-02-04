@@ -37,7 +37,9 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         navController.addOnDestinationChangedListener { _, nd: NavDestination, _ ->
-            if (nd.id == R.id.loginFragment || nd.id == R.id.signUpFragment || nd.id == R.id.forgotPasswordFragment) {
+            if (nd.id == R.id.loginFragment || nd.id == R.id.signUpFragment || nd.id == R.id.forgotPasswordFragment
+                || nd.id == R.id.dialogFragment
+            ) {
                 binding.bnvMenu.visibility = View.GONE
             } else {
                 binding.bnvMenu.visibility = View.VISIBLE

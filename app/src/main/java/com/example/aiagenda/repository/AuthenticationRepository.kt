@@ -8,13 +8,20 @@ import com.example.aiagenda.util.AuthenticationStatus
 import com.example.aiagenda.util.FireStoreCollection
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.FirebaseTooManyRequestsException
-import com.google.firebase.auth.*
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.firestore.FirebaseFirestore
+
 
 class AuthenticationRepository(private val application: Application) {
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val database: FirebaseFirestore = FirebaseFirestore.getInstance()
+    val appPreferencesRepository: SharedPreferencesRepository =
+        SharedPreferencesRepository(application.applicationContext)
+
 
     val registerStatus: MutableLiveData<AuthenticationStatus> = MutableLiveData()
     val loginStatus: MutableLiveData<AuthenticationStatus> = MutableLiveData()
@@ -24,6 +31,7 @@ class AuthenticationRepository(private val application: Application) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+                    user.id = task.result.user?.uid ?: ""
                     updateUserInfo(user)
                     registerStatus.postValue(AuthenticationStatus.SUCCESS)
                 } else {
@@ -49,6 +57,13 @@ class AuthenticationRepository(private val application: Application) {
     fun login(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
+                storeSession(id = task.result.user?.uid ?: "") {
+                    if (it == null) {
+                        Log.e("SESSION", "FAILED")
+                    } else {
+                        Log.e("SESSION", "SUCCESS")
+                    }
+                }
                 loginStatus.postValue(AuthenticationStatus.SUCCESS)
             } else {
                 try {
@@ -93,8 +108,7 @@ class AuthenticationRepository(private val application: Application) {
     }
 
     private fun updateUserInfo(user: User) {
-        val document = database.collection(FireStoreCollection.USER).document()
-        user.id = document.id
+        val document = database.collection(FireStoreCollection.USER).document(user.id)
         document
             .set(user)
             .addOnSuccessListener {
@@ -103,5 +117,33 @@ class AuthenticationRepository(private val application: Application) {
             .addOnFailureListener {
                 Log.e("TAG", "ERROR")
             }
+    }
+
+    fun storeSession(id: String, result: (User?) -> Unit) {
+        database.collection(FireStoreCollection.USER).document(id)
+            .get()
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    val user = it.result.toObject(User::class.java)
+                    if (user != null) {
+                        appPreferencesRepository.putString(user)
+                    }
+                    result.invoke(user)
+                }
+            }
+            .addOnFailureListener {
+                Log.e("TAG", "SESSION ERROR")
+                result.invoke(null)
+            }
+    }
+
+    fun getSession(result: (User?) -> Unit) {
+        val userStr = appPreferencesRepository.getSession()
+        if (userStr == null) {
+            result.invoke(null)
+        } else {
+            val user = appPreferencesRepository.getUser(userStr)
+            result.invoke(user)
+        }
     }
 }

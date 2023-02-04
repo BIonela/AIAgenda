@@ -128,4 +128,8 @@ class AuthViewModel(val app: Application, val repository: AuthenticationReposito
         return true
     }
 
+    fun getSession(result: (User?) -> Unit) {
+        repository.getSession(result)
+    }
+
 }

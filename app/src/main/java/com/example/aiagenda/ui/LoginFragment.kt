@@ -188,4 +188,13 @@ class LoginFragment : Fragment() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.getSession { user ->
+            if (user != null) {
+                findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+            }
+        }
+    }
+
 }
