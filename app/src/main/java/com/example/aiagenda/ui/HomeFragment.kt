@@ -32,15 +32,4 @@ class HomeFragment : Fragment() {
         )
         return binding.root
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-//        binding.tvSignOut.setOnClickListener {
-//            authViewModel.logout {
-//                findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
-//            }
-//        }
-
-    }
 }
