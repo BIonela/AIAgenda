@@ -1,7 +1,7 @@
 package com.example.aiagenda.repository
 
-import android.app.Application
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.aiagenda.model.User
 import com.example.aiagenda.util.AuthenticationStatus
@@ -14,17 +14,26 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.firestore.FirebaseFirestore
 
-class AuthenticationRepository(private val application: Application) {
+class AuthenticationRepository(
+    private val auth: FirebaseAuth,
+    private val database: FirebaseFirestore,
+    private val appPreferencesRepository: SharedPreferencesRepository
+) {
 
-    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private val database: FirebaseFirestore = FirebaseFirestore.getInstance()
-    private val appPreferencesRepository: SharedPreferencesRepository =
-        SharedPreferencesRepository(application.applicationContext)
+    private val _registerStatus: MutableLiveData<AuthenticationStatus> =
+        MutableLiveData<AuthenticationStatus>()
+    val registerStatus: LiveData<AuthenticationStatus>
+        get() = _registerStatus
 
+    private val _loginStatus: MutableLiveData<AuthenticationStatus> =
+        MutableLiveData<AuthenticationStatus>()
+    val loginStatus: LiveData<AuthenticationStatus>
+        get() = _loginStatus
 
-    val registerStatus: MutableLiveData<AuthenticationStatus> = MutableLiveData()
-    val loginStatus: MutableLiveData<AuthenticationStatus> = MutableLiveData()
-    val forgotPasswordStatus: MutableLiveData<AuthenticationStatus> = MutableLiveData()
+    private val _forgotPasswordStatus: MutableLiveData<AuthenticationStatus> =
+        MutableLiveData<AuthenticationStatus>()
+    val forgotPasswordStatus: LiveData<AuthenticationStatus>
+        get() = _forgotPasswordStatus
 
     fun signUp(email: String, password: String, user: User) {
         auth.createUserWithEmailAndPassword(email, password)
@@ -32,19 +41,19 @@ class AuthenticationRepository(private val application: Application) {
                 if (task.isSuccessful) {
                     user.id = task.result.user?.uid ?: ""
                     updateUserInfo(user)
-                    registerStatus.postValue(AuthenticationStatus.SUCCESS)
+                    _registerStatus.postValue(AuthenticationStatus.SUCCESS)
                 } else {
-                    registerStatus.postValue(AuthenticationStatus.ERROR)
+                    _registerStatus.postValue(AuthenticationStatus.ERROR)
                     try {
                         throw task.exception!!
                     } catch (e: FirebaseAuthUserCollisionException) {
-                        registerStatus.postValue(AuthenticationStatus.USER_EXISTS)
+                        _registerStatus.postValue(AuthenticationStatus.USER_EXISTS)
                     } catch (e: FirebaseNetworkException) {
-                        registerStatus.postValue(AuthenticationStatus.NO_INTERNET_CONNECTION)
+                        _registerStatus.postValue(AuthenticationStatus.NO_INTERNET_CONNECTION)
                     } catch (e: FirebaseAuthInvalidCredentialsException) {
-                        registerStatus.postValue(AuthenticationStatus.EMAIL_INVALID)
+                        _registerStatus.postValue(AuthenticationStatus.EMAIL_INVALID)
                     } catch (e: Exception) {
-                        registerStatus.postValue(AuthenticationStatus.ANOTHER_EXCEPTION)
+                        _registerStatus.postValue(AuthenticationStatus.ANOTHER_EXCEPTION)
                     }
                 }
             }
@@ -65,22 +74,22 @@ class AuthenticationRepository(private val application: Application) {
                         }
                     }
                 }
-                loginStatus.postValue(AuthenticationStatus.SUCCESS)
+                _loginStatus.postValue(AuthenticationStatus.SUCCESS)
             } else {
                 try {
                     throw task.exception!!
                 } catch (e: FirebaseAuthInvalidCredentialsException) {
-                    loginStatus.postValue(AuthenticationStatus.WRONG_PASSWORD_OR_EMAIL_INVALID)
+                    _loginStatus.postValue(AuthenticationStatus.WRONG_PASSWORD_OR_EMAIL_INVALID)
                 } catch (e: FirebaseAuthInvalidUserException) {
-                    loginStatus.postValue(AuthenticationStatus.EMAIL_NOT_FOUND)
+                    _loginStatus.postValue(AuthenticationStatus.EMAIL_NOT_FOUND)
                 } catch (e: FirebaseAuthInvalidCredentialsException) {
-                    loginStatus.postValue(AuthenticationStatus.WRONG_PASSWORD_OR_EMAIL_INVALID)
+                    _loginStatus.postValue(AuthenticationStatus.WRONG_PASSWORD_OR_EMAIL_INVALID)
                 } catch (e: FirebaseNetworkException) {
-                    loginStatus.postValue(AuthenticationStatus.NO_INTERNET_CONNECTION)
+                    _loginStatus.postValue(AuthenticationStatus.NO_INTERNET_CONNECTION)
                 } catch (e: FirebaseTooManyRequestsException) {
-                    loginStatus.postValue(AuthenticationStatus.TOO_MANY_REQUESTS)
+                    _loginStatus.postValue(AuthenticationStatus.TOO_MANY_REQUESTS)
                 } catch (e: Exception) {
-                    loginStatus.postValue(AuthenticationStatus.ANOTHER_EXCEPTION)
+                    _loginStatus.postValue(AuthenticationStatus.ANOTHER_EXCEPTION)
                 }
             }
         }
@@ -89,18 +98,18 @@ class AuthenticationRepository(private val application: Application) {
     fun forgotPassword(email: String) {
         auth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                forgotPasswordStatus.postValue(AuthenticationStatus.SUCCESS)
+                _forgotPasswordStatus.postValue(AuthenticationStatus.SUCCESS)
             } else {
                 try {
                     throw task.exception!!
                 } catch (e: FirebaseNetworkException) {
-                    forgotPasswordStatus.postValue(AuthenticationStatus.NO_INTERNET_CONNECTION)
+                    _forgotPasswordStatus.postValue(AuthenticationStatus.NO_INTERNET_CONNECTION)
                 } catch (e: FirebaseAuthInvalidUserException) {
-                    forgotPasswordStatus.postValue(AuthenticationStatus.EMAIL_NOT_FOUND)
+                    _forgotPasswordStatus.postValue(AuthenticationStatus.EMAIL_NOT_FOUND)
                 } catch (e: FirebaseAuthInvalidCredentialsException) {
-                    forgotPasswordStatus.postValue(AuthenticationStatus.EMAIL_INVALID)
+                    _forgotPasswordStatus.postValue(AuthenticationStatus.EMAIL_INVALID)
                 } catch (e: Exception) {
-                    forgotPasswordStatus.postValue(AuthenticationStatus.ANOTHER_EXCEPTION)
+                    _forgotPasswordStatus.postValue(AuthenticationStatus.ANOTHER_EXCEPTION)
                 }
             }
         }.addOnFailureListener {
@@ -113,7 +122,7 @@ class AuthenticationRepository(private val application: Application) {
         document
             .set(user)
             .addOnSuccessListener {
-                Log.e("TAG", "SUCCES")
+                Log.e("TAG", "SUCCESS")
             }
             .addOnFailureListener {
                 Log.e("TAG", "ERROR")

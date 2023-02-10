@@ -12,8 +12,6 @@ import com.example.aiagenda.util.ValidationError
 class AuthViewModel(val app: Application, val repository: AuthenticationRepository) :
     AndroidViewModel(app) {
 
-    //mutablelivedata password error
-
     private val _registerError = MutableLiveData<ValidationError>()
     val registerError: LiveData<ValidationError> = _registerError
 
