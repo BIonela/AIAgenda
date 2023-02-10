@@ -41,6 +41,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="5dp"
             android:elevation="1dp"
             android:ellipsize="end"
             android:fontFamily="@font/roboto_bold_font"
@@ -51,7 +52,8 @@
             app:layout_constraintBottom_toTopOf="@id/tvStudyYear"
             app:layout_constraintEnd_toEndOf="@id/mcvProfileBackground"
             app:layout_constraintStart_toEndOf="@id/sivProfilePicture"
-            app:layout_constraintTop_toTopOf="@id/sivProfilePicture" />
+            app:layout_constraintTop_toTopOf="@id/sivProfilePicture"
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <TextView
             android:id="@+id/tvStudyYear"

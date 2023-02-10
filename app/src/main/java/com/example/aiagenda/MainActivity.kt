@@ -2,11 +2,15 @@ package com.example.aiagenda
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.onNavDestinationSelected
+import androidx.navigation.ui.setupWithNavController
 import com.example.aiagenda.databinding.ActivityMainBinding
 import com.example.aiagenda.ui.HomeFragment
 import com.example.aiagenda.ui.MenuFragment
