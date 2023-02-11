@@ -5,12 +5,13 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.example.aiagenda.model.User
 import com.example.aiagenda.repository.AuthenticationRepository
 import com.example.aiagenda.util.ValidationError
 
-class AuthViewModel(val app: Application, val repository: AuthenticationRepository) :
-    AndroidViewModel(app) {
+class AuthViewModel(val repository: AuthenticationRepository) :
+    ViewModel() {
 
     private val _registerError = MutableLiveData<ValidationError>()
     val registerError: LiveData<ValidationError> = _registerError
@@ -20,6 +21,9 @@ class AuthViewModel(val app: Application, val repository: AuthenticationReposito
 
     private val _forgotPasswordError = MutableLiveData<ValidationError>()
     val forgotPasswordError: LiveData<ValidationError> = _forgotPasswordError
+
+    private val _user = MutableLiveData<User>()
+    val user: LiveData<User> = _user
 
     fun register(
         email: String,
@@ -132,7 +136,16 @@ class AuthViewModel(val app: Application, val repository: AuthenticationReposito
     }
 
     fun getSession(result: (User?) -> Unit) {
-        repository.getSession(result)
+        repository.getSession {
+            _user.postValue(it)
+            result.invoke(it)
+        }
     }
+
+//    fun getUser() {
+//        repository.getUser {
+//            _user.postValue(it)
+//        }
+//    }
 
 }

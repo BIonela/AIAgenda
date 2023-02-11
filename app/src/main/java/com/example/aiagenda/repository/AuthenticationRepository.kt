@@ -65,13 +65,11 @@ class AuthenticationRepository(
     fun login(email: String, password: String, isChecked: Boolean) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                if (isChecked) {
-                    storeSession(id = task.result.user?.uid ?: "") {
-                        if (it == null) {
-                            Log.e("SESSION", "FAILED")
-                        } else {
-                            Log.e("SESSION", "SUCCESS")
-                        }
+                storeSession(id = task.result.user?.uid ?: "") {
+                    if (it == null) {
+                        Log.e("SESSION", "FAILED")
+                    } else {
+                        Log.e("SESSION", "SUCCESS")
                     }
                 }
                 _loginStatus.postValue(AuthenticationStatus.SUCCESS)
@@ -90,6 +88,7 @@ class AuthenticationRepository(
                     _loginStatus.postValue(AuthenticationStatus.TOO_MANY_REQUESTS)
                 } catch (e: Exception) {
                     _loginStatus.postValue(AuthenticationStatus.ANOTHER_EXCEPTION)
+                    Log.e("LOGIN ERROR", e.message.toString())
                 }
             }
         }
