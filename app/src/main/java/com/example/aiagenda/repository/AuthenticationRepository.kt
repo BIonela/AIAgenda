@@ -1,11 +1,14 @@
 package com.example.aiagenda.repository
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.aiagenda.model.User
 import com.example.aiagenda.util.AuthenticationStatus
 import com.example.aiagenda.util.FireStoreCollection
+import com.example.aiagenda.util.UserDataStatus
+import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuth
@@ -13,11 +16,16 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.StorageReference
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 class AuthenticationRepository(
     private val auth: FirebaseAuth,
     private val database: FirebaseFirestore,
-    private val appPreferencesRepository: SharedPreferencesRepository
+    private val appPreferencesRepository: SharedPreferencesRepository,
+    private val storageFirebase: StorageReference
 ) {
 
     private val _registerStatus: MutableLiveData<AuthenticationStatus> =
@@ -34,6 +42,9 @@ class AuthenticationRepository(
         MutableLiveData<AuthenticationStatus>()
     val forgotPasswordStatus: LiveData<AuthenticationStatus>
         get() = _forgotPasswordStatus
+
+    private val _loading = MutableLiveData<UserDataStatus>()
+    val loading: LiveData<UserDataStatus> = _loading
 
     fun signUp(email: String, password: String, user: User) {
         auth.createUserWithEmailAndPassword(email, password)
@@ -161,4 +172,73 @@ class AuthenticationRepository(
             result.invoke(user)
         }
     }
+
+    //update photo
+    fun uploadPhoto(
+        photoUri: Uri,
+        user: User,
+        onResult: (UserDataStatus, Uri) -> Unit
+    ) {
+        onResult.invoke(UserDataStatus.LOADING, photoUri)
+        try {
+            val imageRef =
+                storageFirebase.child("images/" + user.id + "/" + user.id)
+            val uploadTask = imageRef.putFile(photoUri)
+            uploadTask.addOnSuccessListener {
+                val downloadUrl = imageRef.downloadUrl
+                downloadUrl.addOnSuccessListener { uri ->
+                    updateUser(photoUri, user, onResult)
+                    onResult.invoke(UserDataStatus.SUCCESS, photoUri)
+                }
+                downloadUrl.addOnFailureListener {
+                    onResult.invoke(UserDataStatus.ERROR, photoUri)
+                }
+            }
+        } catch (e: FirebaseException) {
+            onResult.invoke(UserDataStatus.ERROR, photoUri)
+        }
+
+    }
+
+//    suspend fun uploadPhoto(photoUri: Uri, onResult: (UserDataStatus) -> Unit) {
+//        onResult.invoke(UserDataStatus.LOADING)
+//        try {
+//            val uri: Uri = withContext(Dispatchers.IO) {
+//                storageFirebase
+//                    .putFile(photoUri)
+//                    .await()
+//                    .storage
+//                    .downloadUrl
+//                    .await()
+//            }
+//            onResult.invoke(UserDataStatus.SUCCESS)
+//        } catch (e: FirebaseException) {
+//            onResult.invoke(UserDataStatus.ERROR)
+//        } catch (e: java.lang.Exception) {
+//            onResult.invoke(UserDataStatus.ERROR)
+//        }
+//    }
+
+    private fun updateUser(photoUri: Uri, user: User, onResult: (UserDataStatus, Uri) -> Unit) {
+        onResult.invoke(UserDataStatus.LOADING, photoUri)
+        try {
+            val document = database.collection(FireStoreCollection.USER).document(user.id)
+                .update("photo_url", photoUri)
+
+            document
+                .addOnSuccessListener {
+                    storeSession(user.id, {})
+                    onResult.invoke(UserDataStatus.SUCCESS, photoUri)
+                }
+                .addOnFailureListener {
+                    onResult.invoke(UserDataStatus.ERROR, photoUri)
+
+                }
+        } catch (e: FirebaseException) {
+            onResult.invoke(UserDataStatus.ERROR, photoUri)
+        } catch (e: Exception) {
+            onResult.invoke(UserDataStatus.ERROR, photoUri)
+        }
+    }
+
 }
