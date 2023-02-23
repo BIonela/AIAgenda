@@ -2,23 +2,23 @@ package com.example.aiagenda
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuItem
+import android.util.Log
 import android.view.View
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import com.example.aiagenda.databinding.ActivityMainBinding
-import com.example.aiagenda.ui.HomeFragment
-import com.example.aiagenda.ui.MenuFragment
-import com.example.aiagenda.ui.ProfileFragment
-import com.example.aiagenda.ui.SettingsFragment
+import com.example.aiagenda.internet.LiveDataInternetConnections
+import com.example.aiagenda.util.UserDataStatus
+import com.example.aiagenda.viewmodel.UiStateViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var connection: LiveDataInternetConnections
+
+    private val uiStateViewModel: UiStateViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,35 +26,36 @@ class MainActivity : AppCompatActivity() {
             this,
             R.layout.activity_main
         )
+        observeInternet()
         showBottomNavigationMenu()
-        bottomNavigationMenuNavigation()
     }
 
-    private fun bottomNavigationMenuNavigation() {
-        binding.bnvMenu.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.home -> {
-                    replaceFragment(HomeFragment())
-                }
-                R.id.profile -> {
-                    replaceFragment(ProfileFragment())
-                }
-                R.id.menu -> {
-                    replaceFragment(MenuFragment())
-                }
-                R.id.settings -> {
-                    replaceFragment(SettingsFragment())
-                }
-                else -> {}
-            }
-            true
+    private fun observeInternet() {
+        connection = LiveDataInternetConnections(application)
+
+        if (connection.value == null) {
+            binding.tvNoInternet.visibility = View.VISIBLE
+            binding.ivNoInternet.visibility = View.VISIBLE
         }
+
+        connection.observe(this) { isConnected ->
+            if (!isConnected || isConnected == null) {
+                binding.tvNoInternet.visibility = View.VISIBLE
+                binding.ivNoInternet.visibility = View.VISIBLE
+            } else {
+                binding.tvNoInternet.visibility = View.GONE
+                binding.ivNoInternet.visibility = View.GONE
+            }
+        }
+
     }
 
     private fun showBottomNavigationMenu() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.idNavHostFragment) as NavHostFragment
         val navController = navHostFragment.navController
+        val bottomMenu = binding.bnvMenu
+        bottomMenu.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, nd: NavDestination, _ ->
             if (nd.id == R.id.loginFragment
@@ -67,14 +68,13 @@ class MainActivity : AppCompatActivity() {
                 binding.bnvMenu.visibility = View.VISIBLE
             }
         }
-    }
 
-    private fun replaceFragment(fragment: Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(
-            R.id.idNavHostFragment,
-            fragment
-        )
-        transaction.commit()
+        uiStateViewModel.uiState.observe(this) { state ->
+            if (state == UserDataStatus.LOADING) {
+                binding.bnvMenu.visibility = View.GONE
+            } else if (state == UserDataStatus.SUCCESS) {
+                binding.bnvMenu.visibility = View.VISIBLE
+            }
+        }
     }
 }

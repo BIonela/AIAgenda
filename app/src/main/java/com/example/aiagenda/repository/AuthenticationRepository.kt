@@ -187,7 +187,7 @@ class AuthenticationRepository(
             uploadTask.addOnSuccessListener {
                 val downloadUrl = imageRef.downloadUrl
                 downloadUrl.addOnSuccessListener { uri ->
-                    updateUser(photoUri, user, onResult)
+                    updateUser(uri, user, onResult)
                     onResult.invoke(UserDataStatus.SUCCESS, photoUri)
                 }
                 downloadUrl.addOnFailureListener {
@@ -197,7 +197,6 @@ class AuthenticationRepository(
         } catch (e: FirebaseException) {
             onResult.invoke(UserDataStatus.ERROR, photoUri)
         }
-
     }
 
 //    suspend fun uploadPhoto(photoUri: Uri, onResult: (UserDataStatus) -> Unit) {
@@ -232,7 +231,6 @@ class AuthenticationRepository(
                 }
                 .addOnFailureListener {
                     onResult.invoke(UserDataStatus.ERROR, photoUri)
-
                 }
         } catch (e: FirebaseException) {
             onResult.invoke(UserDataStatus.ERROR, photoUri)

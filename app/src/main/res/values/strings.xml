@@ -42,6 +42,7 @@
 
     <string name="student_study_year">Student, An %s</string>
     <string name="full_name">%s %s</string>
+    <string name="no_internet_text">Nu s-a putut realiza conexiunea la internet.</string>
 
     <string-array name="an_studiu">
         <item>Nicio selectie</item>
