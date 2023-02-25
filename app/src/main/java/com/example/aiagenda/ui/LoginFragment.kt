@@ -1,10 +1,12 @@
 package com.example.aiagenda.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -39,6 +41,11 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            requireActivity().finishAffinity()
+        }
+
         binding.tvSignUp.setOnClickListener {
             findNavController().navigate(
                 LoginFragmentDirections.actionLoginFragmentToSignUpFragment()
@@ -49,7 +56,7 @@ class LoginFragment : Fragment() {
             validateForm()
             viewModel.login(
                 email = binding.tieEmail.text.toString(),
-                password = binding.tiePassword.text.toString()
+                password = binding.tiePassword.text.toString(),
             )
         }
 
@@ -94,7 +101,6 @@ class LoginFragment : Fragment() {
 
             when (it) {
                 AuthenticationStatus.SUCCESS -> {
-                    //navigare catre home
                     findNavController().navigate(
                         LoginFragmentDirections.actionLoginFragmentToHomeFragment()
                     )
@@ -150,6 +156,17 @@ class LoginFragment : Fragment() {
                         )
                     )
                 }
+                AuthenticationStatus.ERROR -> {
+                    findNavController().navigate(
+                        LoginFragmentDirections.actionLoginFragmentToDialogFragment(
+                            getString(
+                                R.string.another_exception
+                            ),
+                            false,
+                            true
+                        )
+                    )
+                }
                 else -> return@observe
             }
         }
@@ -184,6 +201,15 @@ class LoginFragment : Fragment() {
                     tiePasswordLayout.error = getString(R.string.password_short)
                     tieEmailLayout.isErrorEnabled = false
                 }
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.getSession { user ->
+            if (user != null) {
+                findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             }
         }
     }

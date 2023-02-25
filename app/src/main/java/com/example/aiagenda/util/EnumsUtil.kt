@@ -22,3 +22,9 @@ enum class ValidationError {
     PASSWORD_SHORT,
     YEAR_NOT_SELECTED
 }
+
+enum class UserDataStatus {
+    LOADING,
+    SUCCESS,
+    ERROR
+}

@@ -1,17 +1,17 @@
 package com.example.aiagenda.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.net.Uri
+import android.util.Log
+import androidx.lifecycle.*
 import com.example.aiagenda.model.User
 import com.example.aiagenda.repository.AuthenticationRepository
+import com.example.aiagenda.util.UserDataStatus
 import com.example.aiagenda.util.ValidationError
+import kotlinx.coroutines.launch
 
-class AuthViewModel(val app: Application, val repository: AuthenticationRepository) :
-    AndroidViewModel(app) {
-
-    //mutablelivedata password error
+class AuthViewModel(val repository: AuthenticationRepository) :
+    ViewModel() {
 
     private val _registerError = MutableLiveData<ValidationError>()
     val registerError: LiveData<ValidationError> = _registerError
@@ -21,6 +21,12 @@ class AuthViewModel(val app: Application, val repository: AuthenticationReposito
 
     private val _forgotPasswordError = MutableLiveData<ValidationError>()
     val forgotPasswordError: LiveData<ValidationError> = _forgotPasswordError
+
+    private val _user = MutableLiveData<User>()
+    val user: LiveData<User> = _user
+
+    private val _loading = MutableLiveData<UserDataStatus>()
+    val loading: LiveData<UserDataStatus> = _loading
 
     fun register(
         email: String,
@@ -127,5 +133,40 @@ class AuthViewModel(val app: Application, val repository: AuthenticationReposito
         }
         return true
     }
+
+    fun logout(result: () -> Unit) {
+        repository.logout(result)
+    }
+
+    fun getSession(result: (User?) -> Unit) {
+        repository.getSession {
+            _user.postValue(it)
+            result.invoke(it)
+        }
+    }
+
+    // TODO:  UPLOAD PHOTO STATUS
+    fun uploadPhoto(
+        photoUri: Uri,
+        user: User,
+        onResult: (UserDataStatus, Uri) -> Unit
+    ) {
+        repository.uploadPhoto(photoUri = photoUri, user = user) { userData, photoUri ->
+            onResult.invoke(userData, photoUri)
+        }
+    }
+
+//    fun uploadPhoto(photoUri: Uri, user: User, onResult: (UserDataStatus) -> Unit) {
+//        onResult.invoke(UserDataStatus.LOADING)
+//        viewModelScope.launch {
+//            repository.uploadPhoto(photoUri, onResult)
+//        }
+//    }
+
+//    fun updateUser(photoUri: Uri, user: User, onResult: (UserDataStatus) -> Unit) {
+//        onResult.invoke(UserDataStatus.LOADING)
+//        repository.updateUser(photoUri, user, onResult)
+//        onResult.invoke(UserDataStatus.SUCCESS)
+//    }
 
 }
