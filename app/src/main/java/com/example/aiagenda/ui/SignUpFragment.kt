@@ -143,6 +143,17 @@ class SignUpFragment : Fragment() {
                         )
                     )
                 }
+                AuthenticationStatus.ERROR -> {
+                    findNavController().navigate(
+                        SignUpFragmentDirections.actionSignUpFragmentToDialogFragment(
+                            getString(
+                                R.string.another_exception
+                            ),
+                            false,
+                            true
+                        )
+                    )
+                }
                 else -> {
                     return@observe
                 }

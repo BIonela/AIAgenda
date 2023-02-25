@@ -33,6 +33,9 @@
     <string name="navigating_back_description">Arrow for navigating back.</string>
     <string name="too_many_requests">Accesul la acest cont a fost dezactivat temporar din cauza multor încercări eșuate de conectare.</string>
     <string name="another_exception">A aparut o eroare. Va rugam incercati mai tarziu.</string>
+    <string name="reconnect_error">A aparut o eroare. Va rugam sa va reconectati.</string>
+    <string name="permission_deny">Pentru a actualiza poza de profil este necesara acceptarea permisiunii (Setari/Aplicatii/AIAgenda/Permisiuni).</string>
+
 
     //Menu Strings
     <string name="home">Acasa</string>

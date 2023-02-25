@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavDestination
@@ -74,6 +75,15 @@ class MainActivity : AppCompatActivity() {
                 binding.bnvMenu.visibility = View.GONE
             } else if (state == UserDataStatus.SUCCESS) {
                 binding.bnvMenu.visibility = View.VISIBLE
+            } else {
+                binding.bnvMenu.visibility = View.GONE
+                Toast.makeText(
+                    this,
+                    resources.getString(
+                        R.string.reconnect_error
+                    ),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }

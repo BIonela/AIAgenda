@@ -2,7 +2,6 @@ package com.example.aiagenda.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,12 +13,18 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.example.aiagenda.MainActivity
+import android.Manifest
+import android.net.Uri
+import android.widget.Toast
 import com.example.aiagenda.R
 import com.example.aiagenda.databinding.FragmentProfileBinding
 import com.example.aiagenda.util.UserDataStatus
 import com.example.aiagenda.viewmodel.AuthViewModel
 import com.example.aiagenda.viewmodel.UiStateViewModel
 import com.example.aiagenda.viewmodel.ViewModelFactory
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
@@ -28,7 +33,20 @@ class ProfileFragment : Fragment() {
     }
     private val loadingViewModel: UiStateViewModel by activityViewModels()
 
-    private var contract = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+    private val requestSinglePermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                gallery.launch("image/*")
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    resources.getString(R.string.permission_deny),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+    private var gallery = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         authViewModel.getSession { user ->
             if (user != null) {
                 if (uri != null) {
@@ -60,13 +78,6 @@ class ProfileFragment : Fragment() {
         }
     }
 
-//    private var camera = registerForActivityResult(ActivityResultContracts.TakePicture()) {}
-//    {
-//        if (it) {
-//            binding.ivProfile.setImageURI(uri)
-//        }
-//    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -90,32 +101,15 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        binding.tvFragment.setOnClickListener {
-
-//            val photoFile = File.createTempFile(
-//                "IMG_",
-//                ".jpg",
-//                requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-//            )
-//
-//            uri = FileProvider.getUriForFile(
-//                requireContext(),
-//                "${requireContext().packageName}.provider",
-//                photoFile
-//            )
-
-//            camera.launch(uri)
-        }
-
-
-//        authViewModel.loading.observe(viewLifecycleOwner) {
-//            Log.e("UPLOAD", it.toString())
-//        }
+        loadPhoto()
 
         binding.tvGallery.setOnClickListener {
-            contract.launch("image/*")
+            requestSinglePermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
 
+    }
+
+    private fun loadPhoto() {
         authViewModel.getSession {
             authViewModel.user.observe(viewLifecycleOwner) { user ->
                 if (user.photo_url != "") {
@@ -141,7 +135,6 @@ class ProfileFragment : Fragment() {
                     )
                 }
             }
-
         }
     }
 }

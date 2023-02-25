@@ -49,10 +49,10 @@ class AuthViewModel(val repository: AuthenticationRepository) :
         }
     }
 
-    fun login(email: String, password: String, isChecked: Boolean) {
+    fun login(email: String, password: String) {
         _loginError.postValue(ValidationError.LOADING)
         if (validateLogin(email, password)) {
-            repository.login(email, password, isChecked)
+            repository.login(email, password)
         }
     }
 

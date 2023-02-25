@@ -1,6 +1,7 @@
 package com.example.aiagenda.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -56,7 +57,6 @@ class LoginFragment : Fragment() {
             viewModel.login(
                 email = binding.tieEmail.text.toString(),
                 password = binding.tiePassword.text.toString(),
-                isChecked = binding.cbKeepMeLoggedIn.isChecked
             )
         }
 
@@ -101,7 +101,6 @@ class LoginFragment : Fragment() {
 
             when (it) {
                 AuthenticationStatus.SUCCESS -> {
-                    //navigare catre home
                     findNavController().navigate(
                         LoginFragmentDirections.actionLoginFragmentToHomeFragment()
                     )
@@ -147,6 +146,17 @@ class LoginFragment : Fragment() {
                     )
                 }
                 AuthenticationStatus.ANOTHER_EXCEPTION -> {
+                    findNavController().navigate(
+                        LoginFragmentDirections.actionLoginFragmentToDialogFragment(
+                            getString(
+                                R.string.another_exception
+                            ),
+                            false,
+                            true
+                        )
+                    )
+                }
+                AuthenticationStatus.ERROR -> {
                     findNavController().navigate(
                         LoginFragmentDirections.actionLoginFragmentToDialogFragment(
                             getString(

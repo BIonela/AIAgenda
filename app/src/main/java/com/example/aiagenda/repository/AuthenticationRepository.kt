@@ -69,40 +69,43 @@ class AuthenticationRepository(
                 }
             }
             .addOnFailureListener {
-                Log.e("Error", "Sign up not completed")
+                _registerStatus.postValue(AuthenticationStatus.ERROR)
             }
     }
 
-    fun login(email: String, password: String, isChecked: Boolean) {
-        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                storeSession(id = task.result.user?.uid ?: "") {
-                    if (it == null) {
-                        Log.e("SESSION", "FAILED")
-                    } else {
-                        Log.e("SESSION", "SUCCESS")
+    fun login(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    storeSession(id = task.result.user?.uid ?: "") {
+                        if (it == null) {
+                            Log.e("SESSION", "FAILED")
+                        } else {
+                            Log.e("SESSION", "SUCCESS")
+                        }
+                    }
+                    _loginStatus.postValue(AuthenticationStatus.SUCCESS)
+                } else {
+                    try {
+                        throw task.exception!!
+                    } catch (e: FirebaseAuthInvalidCredentialsException) {
+                        _loginStatus.postValue(AuthenticationStatus.WRONG_PASSWORD_OR_EMAIL_INVALID)
+                    } catch (e: FirebaseAuthInvalidUserException) {
+                        _loginStatus.postValue(AuthenticationStatus.EMAIL_NOT_FOUND)
+                    } catch (e: FirebaseAuthInvalidCredentialsException) {
+                        _loginStatus.postValue(AuthenticationStatus.WRONG_PASSWORD_OR_EMAIL_INVALID)
+                    } catch (e: FirebaseNetworkException) {
+                        _loginStatus.postValue(AuthenticationStatus.NO_INTERNET_CONNECTION)
+                    } catch (e: FirebaseTooManyRequestsException) {
+                        _loginStatus.postValue(AuthenticationStatus.TOO_MANY_REQUESTS)
+                    } catch (e: Exception) {
+                        _loginStatus.postValue(AuthenticationStatus.ANOTHER_EXCEPTION)
                     }
                 }
-                _loginStatus.postValue(AuthenticationStatus.SUCCESS)
-            } else {
-                try {
-                    throw task.exception!!
-                } catch (e: FirebaseAuthInvalidCredentialsException) {
-                    _loginStatus.postValue(AuthenticationStatus.WRONG_PASSWORD_OR_EMAIL_INVALID)
-                } catch (e: FirebaseAuthInvalidUserException) {
-                    _loginStatus.postValue(AuthenticationStatus.EMAIL_NOT_FOUND)
-                } catch (e: FirebaseAuthInvalidCredentialsException) {
-                    _loginStatus.postValue(AuthenticationStatus.WRONG_PASSWORD_OR_EMAIL_INVALID)
-                } catch (e: FirebaseNetworkException) {
-                    _loginStatus.postValue(AuthenticationStatus.NO_INTERNET_CONNECTION)
-                } catch (e: FirebaseTooManyRequestsException) {
-                    _loginStatus.postValue(AuthenticationStatus.TOO_MANY_REQUESTS)
-                } catch (e: Exception) {
-                    _loginStatus.postValue(AuthenticationStatus.ANOTHER_EXCEPTION)
-                    Log.e("LOGIN ERROR", e.message.toString())
-                }
             }
-        }
+            .addOnFailureListener {
+                _loginStatus.postValue(AuthenticationStatus.ERROR)
+            }
     }
 
     fun forgotPassword(email: String) {
@@ -123,7 +126,7 @@ class AuthenticationRepository(
                 }
             }
         }.addOnFailureListener {
-            Log.e("Error", "Email reset failed")
+            _forgotPasswordStatus.postValue(AuthenticationStatus.ERROR)
         }
     }
 
@@ -173,7 +176,6 @@ class AuthenticationRepository(
         }
     }
 
-    //update photo
     fun uploadPhoto(
         photoUri: Uri,
         user: User,
@@ -194,29 +196,10 @@ class AuthenticationRepository(
                     onResult.invoke(UserDataStatus.ERROR, photoUri)
                 }
             }
-        } catch (e: FirebaseException) {
+        } catch (e: Exception) {
             onResult.invoke(UserDataStatus.ERROR, photoUri)
         }
     }
-
-//    suspend fun uploadPhoto(photoUri: Uri, onResult: (UserDataStatus) -> Unit) {
-//        onResult.invoke(UserDataStatus.LOADING)
-//        try {
-//            val uri: Uri = withContext(Dispatchers.IO) {
-//                storageFirebase
-//                    .putFile(photoUri)
-//                    .await()
-//                    .storage
-//                    .downloadUrl
-//                    .await()
-//            }
-//            onResult.invoke(UserDataStatus.SUCCESS)
-//        } catch (e: FirebaseException) {
-//            onResult.invoke(UserDataStatus.ERROR)
-//        } catch (e: java.lang.Exception) {
-//            onResult.invoke(UserDataStatus.ERROR)
-//        }
-//    }
 
     private fun updateUser(photoUri: Uri, user: User, onResult: (UserDataStatus, Uri) -> Unit) {
         onResult.invoke(UserDataStatus.LOADING, photoUri)
