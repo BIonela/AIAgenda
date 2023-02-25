@@ -69,7 +69,7 @@ class AuthenticationRepository(
                 }
             }
             .addOnFailureListener {
-                _registerStatus.postValue(AuthenticationStatus.ERROR)
+                Log.e("ERROR", it.message.toString())
             }
     }
 
@@ -92,8 +92,6 @@ class AuthenticationRepository(
                         _loginStatus.postValue(AuthenticationStatus.WRONG_PASSWORD_OR_EMAIL_INVALID)
                     } catch (e: FirebaseAuthInvalidUserException) {
                         _loginStatus.postValue(AuthenticationStatus.EMAIL_NOT_FOUND)
-                    } catch (e: FirebaseAuthInvalidCredentialsException) {
-                        _loginStatus.postValue(AuthenticationStatus.WRONG_PASSWORD_OR_EMAIL_INVALID)
                     } catch (e: FirebaseNetworkException) {
                         _loginStatus.postValue(AuthenticationStatus.NO_INTERNET_CONNECTION)
                     } catch (e: FirebaseTooManyRequestsException) {
@@ -104,7 +102,7 @@ class AuthenticationRepository(
                 }
             }
             .addOnFailureListener {
-                _loginStatus.postValue(AuthenticationStatus.ERROR)
+                Log.e("ERROR", it.message.toString())
             }
     }
 
@@ -126,7 +124,7 @@ class AuthenticationRepository(
                 }
             }
         }.addOnFailureListener {
-            _forgotPasswordStatus.postValue(AuthenticationStatus.ERROR)
+            Log.e("ERROR", it.message.toString())
         }
     }
 
