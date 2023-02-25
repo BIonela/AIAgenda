@@ -143,6 +143,17 @@ class SignUpFragment : Fragment() {
                         )
                     )
                 }
+                AuthenticationStatus.ERROR -> {
+                    findNavController().navigate(
+                        SignUpFragmentDirections.actionSignUpFragmentToDialogFragment(
+                            getString(
+                                R.string.another_exception
+                            ),
+                            false,
+                            true
+                        )
+                    )
+                }
                 else -> {
                     return@observe
                 }
@@ -233,7 +244,7 @@ class SignUpFragment : Fragment() {
             first_name = binding.etFirstName.text.toString(),
             study_year = binding.spYear.selectedItem.toString(),
             email = binding.etEmail.text.toString(),
-            photo_url = "fara poza"
+            photo_url = ""
         )
     }
 }

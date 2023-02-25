@@ -118,6 +118,17 @@ class ForgotPasswordFragment : Fragment() {
                         )
                     )
                 }
+                AuthenticationStatus.ERROR -> {
+                    findNavController().navigate(
+                        ForgotPasswordFragmentDirections.actionForgotPasswordFragmentToDialogFragment(
+                            getString(
+                                R.string.another_exception
+                            ),
+                            false,
+                            true
+                        )
+                    )
+                }
                 else -> return@observe
             }
         }

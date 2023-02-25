@@ -96,18 +96,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tiePasswordLayout" />
 
-        <CheckBox
-            android:id="@+id/cbKeepMeLoggedIn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:buttonTint="@color/orange_dark"
-            android:fontFamily="@font/roboto_medium_font"
-            android:text="@string/keep_me_logged_in"
-            android:textColor="@color/orange_dark"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvForgotPassword" />
-
         <Button
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
@@ -117,7 +105,7 @@
             android:text="@string/login"
             app:layout_constraintBottom_toTopOf="@id/tvNoAccount"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cbKeepMeLoggedIn" />
+            app:layout_constraintTop_toBottomOf="@id/tvForgotPassword" />
 
         <TextView
             android:id="@+id/tvNoAccount"

@@ -56,10 +56,12 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_homeFragment_to_dialogFragment"
-            app:destination="@id/dialogFragment" />
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/forgotPasswordFragment"
@@ -70,4 +72,19 @@
             android:id="@+id/action_forgotPasswordFragment_to_dialogFragment"
             app:destination="@id/dialogFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.aiagenda.ui.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="com.example.aiagenda.ui.MenuFragment"
+        android:label="MenuFragment"
+        tools:layout="@layout/fragment_menu" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.aiagenda.ui.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings" />
 </navigation>
