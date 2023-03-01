@@ -14,7 +14,6 @@ import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.example.aiagenda.MainActivity
 import android.Manifest
-import android.net.Uri
 import android.widget.Toast
 import com.example.aiagenda.R
 import com.example.aiagenda.databinding.FragmentProfileBinding
@@ -22,9 +21,6 @@ import com.example.aiagenda.util.UserDataStatus
 import com.example.aiagenda.viewmodel.AuthViewModel
 import com.example.aiagenda.viewmodel.UiStateViewModel
 import com.example.aiagenda.viewmodel.ViewModelFactory
-import java.io.File
-import java.text.SimpleDateFormat
-import java.util.*
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
@@ -54,11 +50,7 @@ class ProfileFragment : Fragment() {
                         if (it == UserDataStatus.SUCCESS) {
                             if (isAdded) {
                                 binding.sivProfile.colorFilter = null
-                                Glide.with(this)
-                                    .load(uri)
-                                    .placeholder(R.drawable.progress_animation)
-                                    .centerCrop()
-                                    .into(binding.sivProfile)
+                                loadPhoto(uri.toString())
                                 binding.sivProfile.visibility = View.VISIBLE
                                 loadingViewModel.setSuccess()
                             }
@@ -94,31 +86,55 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tvSignOut.setOnClickListener {
+        binding.ivLogout.setOnClickListener {
             authViewModel.logout {
                 val i = Intent(activity, MainActivity::class.java)
                 startActivity(i)
             }
         }
 
-        loadPhoto()
+        loadUserData()
 
-        binding.tvGallery.setOnClickListener {
+        binding.ivGallery.setOnClickListener {
             requestSinglePermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
-
     }
 
-    private fun loadPhoto() {
+    private fun loadPhoto(uri: String) {
+        Glide.with(this)
+            .load(uri)
+            .placeholder(R.drawable.progress_animation)
+            .centerCrop()
+            .into(binding.sivProfile)
+    }
+
+    private fun loadUserData() {
         authViewModel.getSession {
             authViewModel.user.observe(viewLifecycleOwner) { user ->
+                binding.tvName.text = getString(
+                    R.string.full_name,
+                    user.first_name,
+                    user.last_name
+                )
+                binding.tvLastName.text = getString(
+                    R.string.last_name,
+                    user.last_name
+                )
+                binding.tvFirstName.text = getString(
+                    R.string.first_name,
+                    user.first_name
+                )
+                binding.tvEmail.text = getString(
+                    R.string.email,
+                    user.email
+                )
+                binding.tvStudyYear.text = getString(
+                    R.string.study_year,
+                    user.study_year
+                )
                 if (user.photo_url != "") {
                     binding.sivProfile.colorFilter = null
-                    Glide.with(this)
-                        .load(user.photo_url)
-                        .placeholder(R.drawable.progress_animation)
-                        .centerCrop()
-                        .into(binding.sivProfile)
+                    loadPhoto(user.photo_url)
                 } else {
                     binding.sivProfile.setBackgroundColor(
                         ContextCompat.getColor(

@@ -2,7 +2,7 @@
     <string name="app_name">AIAgenda</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="email">Email</string>
+    <string name="email_label">Email</string>
     <string name="login">Autentificare</string>
     <string name="login_image_content_description">Image of a student and a to do list.</string>
     <string name="password">Parola</string>
@@ -12,9 +12,9 @@
     <string name="no_account">Nu ai cont?&#160;</string>
     <string name="sign_up">Inregistreaza-te</string>
     <string name="sign_up_title">Inregistrare</string>
-    <string name="last_name">Nume</string>
-    <string name="first_name">Prenume</string>
-    <string name="study_year">An de studiu:</string>
+    <string name="last_name_label">Nume</string>
+    <string name="first_name_label">Prenume</string>
+    <string name="study_year_label">An de studiu:</string>
     <string name="select_year">Selectati anul</string>
     <string name="ok">OK</string>
     <string name="email_used">Adresa de e-mail are deja un cont asociat.</string>
@@ -36,7 +36,6 @@
     <string name="reconnect_error">A aparut o eroare. Va rugam sa va reconectati.</string>
     <string name="permission_deny">Pentru a actualiza poza de profil este necesara acceptarea permisiunii (Setari/Aplicatii/AIAgenda/Permisiuni).</string>
 
-
     //Menu Strings
     <string name="home">Acasa</string>
     <string name="profile">Profil</string>
@@ -46,6 +45,15 @@
     <string name="student_study_year">Student, An %s</string>
     <string name="full_name">%s %s</string>
     <string name="no_internet_text">Nu s-a putut realiza conexiunea la internet.</string>
+    <string name="personal_data">Date personale:</string>
+    <string name="change_picture_description">Imagine pentru modificarea fotografiei de profil.</string>
+    <string name="logout_description">Imagine pentru delogare.</string>
+    <string name="last_name">Nume: %s</string>
+    <string name="first_name">Prenume: %s</string>
+    <string name="email">Email: %s</string>
+    <string name="study_year">An de studiu: %s</string>
+    <string name="change_profile_picture">Modificare poza de profil:</string>
+    <string name="sign_out">Delogare:</string>
 
     <string-array name="an_studiu">
         <item>Nicio selectie</item>
