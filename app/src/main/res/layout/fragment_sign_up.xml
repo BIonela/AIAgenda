@@ -60,7 +60,7 @@
                 android:drawableStart="@drawable/ic_person"
                 android:drawablePadding="10dp"
                 android:fontFamily="@font/roboto_medium_font"
-                android:hint="@string/last_name"
+                android:hint="@string/last_name_label"
                 android:inputType="text"
                 android:textColorHint="@color/gray_medium"
                 tools:ignore="TextContrastCheck" />
@@ -86,7 +86,7 @@
                 android:drawableStart="@drawable/ic_person"
                 android:drawablePadding="5dp"
                 android:fontFamily="@font/roboto_medium_font"
-                android:hint="@string/first_name"
+                android:hint="@string/first_name_label"
                 android:inputType="text"
                 android:textColorHint="@color/gray_medium"
                 tools:ignore="TextContrastCheck" />
@@ -112,7 +112,7 @@
                 android:drawableStart="@drawable/ic_alternate_email"
                 android:drawablePadding="10dp"
                 android:fontFamily="@font/roboto_medium_font"
-                android:hint="@string/email"
+                android:hint="@string/email_label"
                 android:inputType="textEmailAddress"
                 android:textColorHint="@color/gray_medium"
                 tools:ignore="TextContrastCheck" />
@@ -153,7 +153,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="35dp"
             android:fontFamily="@font/roboto_medium_font"
-            android:text="@string/study_year"
+            android:text="@string/study_year_label"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@id/tiePasswordLayout"

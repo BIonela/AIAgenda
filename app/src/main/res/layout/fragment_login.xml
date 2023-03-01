@@ -52,7 +52,7 @@
                 android:drawableStart="@drawable/ic_alternate_email"
                 android:drawablePadding="10dp"
                 android:fontFamily="@font/roboto_medium_font"
-                android:hint="@string/email"
+                android:hint="@string/email_label"
                 android:inputType="text"
                 android:textColorHint="@color/gray_medium"
                 tools:ignore="TextContrastCheck" />
