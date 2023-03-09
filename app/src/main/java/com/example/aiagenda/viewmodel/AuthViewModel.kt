@@ -145,7 +145,6 @@ class AuthViewModel(val repository: AuthenticationRepository) :
         }
     }
 
-    // TODO:  UPLOAD PHOTO STATUS
     fun uploadPhoto(
         photoUri: Uri,
         user: User,

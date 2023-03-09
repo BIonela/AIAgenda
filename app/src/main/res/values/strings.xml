@@ -54,6 +54,7 @@
     <string name="study_year">An de studiu: %s</string>
     <string name="change_profile_picture">Modificare poza de profil:</string>
     <string name="sign_out">Delogare:</string>
+    <string name="group">Grupa:</string>
 
     <string-array name="an_studiu">
         <item>Nicio selectie</item>
@@ -61,6 +62,11 @@
         <item>2</item>
         <item>3</item>
         <item>4</item>
+    </string-array>
+
+    <string-array name="grupa">
+        <item>1</item>
+        <item>2</item>
     </string-array>
 
 </resources>

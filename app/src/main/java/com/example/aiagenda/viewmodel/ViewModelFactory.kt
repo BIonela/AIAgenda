@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.aiagenda.repository.AuthenticationRepository
-import com.example.aiagenda.repository.ProfileRepository
+import com.example.aiagenda.repository.TimetableRepository
 import com.example.aiagenda.repository.SharedPreferencesRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -20,15 +20,15 @@ class ViewModelFactory(app: Application) : ViewModelProvider.Factory {
     private val authRepository = AuthenticationRepository(
         auth, database, appPreferencesRepository, storageReference
     )
-    private val profileRepository = ProfileRepository(storageReference, database)
+    private val profileRepository = TimetableRepository(database)
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(AuthViewModel::class.java)) {
             return AuthViewModel(authRepository) as T
         }
-        if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
-            return ProfileViewModel(profileRepository) as T
+        if (modelClass.isAssignableFrom(TimetableViewModel::class.java)) {
+            return TimetableViewModel(profileRepository) as T
         }
         throw IllegalArgumentException("Unknown viewModel class")
     }
