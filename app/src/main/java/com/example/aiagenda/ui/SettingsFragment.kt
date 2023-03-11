@@ -1,23 +1,22 @@
 package com.example.aiagenda.ui
 
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.aiagenda.R
 import com.example.aiagenda.databinding.FragmentSettingsBinding
-import com.example.aiagenda.model.TimetableTime
+import com.example.aiagenda.util.UiStatus
 import com.example.aiagenda.viewmodel.AuthViewModel
 import com.example.aiagenda.viewmodel.TimetableViewModel
 import com.example.aiagenda.viewmodel.ViewModelFactory
 import com.islandparadise14.mintable.model.ScheduleEntity
-import java.util.*
 import kotlin.collections.ArrayList
 
 class SettingsFragment : Fragment() {
@@ -29,7 +28,6 @@ class SettingsFragment : Fragment() {
         ViewModelFactory(requireActivity().application)
     }
 
-    private val day = arrayOf("Luni", "Marti", "Miercuri", "Joi", "Vineri")
     private val scheduleList: ArrayList<ScheduleEntity> = ArrayList()
 
     override fun onCreateView(
@@ -45,30 +43,52 @@ class SettingsFragment : Fragment() {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.timetable.initTable(day)
+
+        binding.timetable.initTable(timetableViewModel.days)
+
+        setSpinner()
+        observeUiState()
 
         authViewModel.getSession { user ->
             if (user != null) {
                 timetableViewModel.getCourses(user)
             }
         }
+
         timetableViewModel.getTimetableTime()
 
-        timetableViewModel.timetableTime.observe(viewLifecycleOwner) { time ->
-            val startTime = time["startTime"]
-            val startHoliday = time["startHoliday"]
-            val endHoliday = time["endHoliday"]
+        addAllCourses()
+        addGroupCourses()
+        observeGroupCourses()
 
-            if (startTime != null && startHoliday != null && endHoliday != null) {
-                timetableViewModel.isOdd(startTime, startHoliday, endHoliday) { idOdd ->
-                    timetableViewModel.getGroupCourses("Two", idOdd)
+    }
+
+    private fun setSpinner() {
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_dropdown_item,
+            resources.getStringArray(R.array.grupa)
+        )
+        binding.spGroup.adapter = adapter
+
+        binding.spGroup.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?, position: Int, id: Long
+            ) {
+                if (position >= 0) {
+                    timetableViewModel.setValue(resources.getStringArray(R.array.grupa)[position])
                 }
             }
-        }
 
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+    }
+
+    private fun addAllCourses() {
         timetableViewModel.timetable.observe(viewLifecycleOwner) { timetable ->
             timetable.courses.map {
                 scheduleList.add(
@@ -85,26 +105,69 @@ class SettingsFragment : Fragment() {
             }
             binding.timetable.updateSchedules(scheduleList)
         }
-
-        timetableViewModel.groupCourses.observe(viewLifecycleOwner) { groupCourses ->
-            groupCourses.map {
-                scheduleList.add(
-                    ScheduleEntity(
-                        originId = it.id,
-                        scheduleName = it.name,
-                        roomInfo = it.roomInfo,
-                        scheduleDay = it.scheduleDay,
-                        startTime = it.startTime,
-                        endTime = it.endTime,
-                        backgroundColor = "#000000"
-                    )
-                )
-            }
-            binding.timetable.updateSchedules(scheduleList)
-        }
-
-
     }
 
+    private fun addGroupCourses() {
+        timetableViewModel.allCoursesByGroup.observe(viewLifecycleOwner) { groupCourses ->
+            binding.timetable.updateSchedules(
+                scheduleList.plus(
+                    groupCourses.first.plus(groupCourses.second).map {
+                        ScheduleEntity(
+                            originId = it.id,
+                            scheduleName = it.name,
+                            roomInfo = it.roomInfo,
+                            scheduleDay = it.scheduleDay,
+                            startTime = it.startTime,
+                            endTime = it.endTime,
+                            backgroundColor = getRandomColor()
+                        )
+                    } as ArrayList<ScheduleEntity>) as ArrayList<ScheduleEntity>)
+        }
+    }
 
+    private fun observeGroupCourses() {
+        timetableViewModel.groupTime.observe(viewLifecycleOwner) { groupTime ->
+            val time = groupTime.first
+            val startTime = time["startTime"]
+            val startHoliday = time["startHoliday"]
+            val endHoliday = time["endHoliday"]
+
+            authViewModel.getSession { user ->
+                if (user != null) {
+                    timetableViewModel.getGroupCourses(user, groupTime.second)
+                    if (startTime != null && startHoliday != null && endHoliday != null) {
+                        timetableViewModel.isOdd(startTime, startHoliday, endHoliday) { isOdd ->
+                            timetableViewModel.getGroupCoursesByWeek(user, groupTime.second, isOdd)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeUiState() {
+        timetableViewModel.uiState.observe(viewLifecycleOwner) { uiStatus ->
+            when (uiStatus) {
+                UiStatus.LOADING -> {
+                    binding.pbLoading.visibility = View.VISIBLE
+                }
+                UiStatus.SUCCESS -> {
+                    binding.pbLoading.visibility = View.GONE
+                }
+                else -> {
+                    findNavController().navigate(
+                        SettingsFragmentDirections.actionSettingsFragmentToDialogFragment(
+                            getString(R.string.another_exception),
+                            false,
+                            true
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private fun getRandomColor(): String {
+        return resources.getStringArray(R.array.colors).random()
+    }
 }

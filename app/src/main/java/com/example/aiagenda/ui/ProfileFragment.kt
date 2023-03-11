@@ -17,7 +17,7 @@ import android.Manifest
 import android.widget.Toast
 import com.example.aiagenda.R
 import com.example.aiagenda.databinding.FragmentProfileBinding
-import com.example.aiagenda.util.UserDataStatus
+import com.example.aiagenda.util.UiStatus
 import com.example.aiagenda.viewmodel.AuthViewModel
 import com.example.aiagenda.viewmodel.UiStateViewModel
 import com.example.aiagenda.viewmodel.ViewModelFactory
@@ -47,7 +47,7 @@ class ProfileFragment : Fragment() {
             if (user != null) {
                 if (uri != null) {
                     authViewModel.uploadPhoto(uri, user) { it, _ ->
-                        if (it == UserDataStatus.SUCCESS) {
+                        if (it == UiStatus.SUCCESS) {
                             if (isAdded) {
                                 binding.sivProfile.colorFilter = null
                                 loadPhoto(uri.toString())
@@ -55,11 +55,11 @@ class ProfileFragment : Fragment() {
                                 loadingViewModel.setSuccess()
                             }
                             binding.pbLoading.visibility = View.GONE
-                        } else if (it == UserDataStatus.LOADING) {
+                        } else if (it == UiStatus.LOADING) {
                             binding.pbLoading.visibility = View.VISIBLE
                             binding.sivProfile.visibility = View.GONE
                             loadingViewModel.setLoading()
-                        } else if (it == UserDataStatus.ERROR) {
+                        } else if (it == UiStatus.ERROR) {
                             binding.pbLoading.visibility = View.GONE
                             binding.sivProfile.visibility = View.GONE
                             loadingViewModel.setError()

@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.aiagenda.model.User
 import com.example.aiagenda.util.AuthenticationStatus
 import com.example.aiagenda.util.FireStoreCollection
-import com.example.aiagenda.util.UserDataStatus
+import com.example.aiagenda.util.UiStatus
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -17,9 +17,6 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.StorageReference
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 
 class AuthenticationRepository(
     private val auth: FirebaseAuth,
@@ -43,8 +40,8 @@ class AuthenticationRepository(
     val forgotPasswordStatus: LiveData<AuthenticationStatus>
         get() = _forgotPasswordStatus
 
-    private val _loading = MutableLiveData<UserDataStatus>()
-    val loading: LiveData<UserDataStatus> = _loading
+    private val _loading = MutableLiveData<UiStatus>()
+    val loading: LiveData<UiStatus> = _loading
 
     fun signUp(email: String, password: String, user: User) {
         auth.createUserWithEmailAndPassword(email, password)
@@ -177,9 +174,9 @@ class AuthenticationRepository(
     fun uploadPhoto(
         photoUri: Uri,
         user: User,
-        onResult: (UserDataStatus, Uri) -> Unit
+        onResult: (UiStatus, Uri) -> Unit
     ) {
-        onResult.invoke(UserDataStatus.LOADING, photoUri)
+        onResult.invoke(UiStatus.LOADING, photoUri)
         try {
             val imageRef =
                 storageFirebase.child("images/" + user.id + "/" + user.id)
@@ -188,19 +185,19 @@ class AuthenticationRepository(
                 val downloadUrl = imageRef.downloadUrl
                 downloadUrl.addOnSuccessListener { uri ->
                     updateUser(uri, user, onResult)
-                    onResult.invoke(UserDataStatus.SUCCESS, photoUri)
+                    onResult.invoke(UiStatus.SUCCESS, photoUri)
                 }
                 downloadUrl.addOnFailureListener {
-                    onResult.invoke(UserDataStatus.ERROR, photoUri)
+                    onResult.invoke(UiStatus.ERROR, photoUri)
                 }
             }
         } catch (e: Exception) {
-            onResult.invoke(UserDataStatus.ERROR, photoUri)
+            onResult.invoke(UiStatus.ERROR, photoUri)
         }
     }
 
-    private fun updateUser(photoUri: Uri, user: User, onResult: (UserDataStatus, Uri) -> Unit) {
-        onResult.invoke(UserDataStatus.LOADING, photoUri)
+    private fun updateUser(photoUri: Uri, user: User, onResult: (UiStatus, Uri) -> Unit) {
+        onResult.invoke(UiStatus.LOADING, photoUri)
         try {
             val document = database.collection(FireStoreCollection.USER).document(user.id)
                 .update("photo_url", photoUri)
@@ -208,15 +205,15 @@ class AuthenticationRepository(
             document
                 .addOnSuccessListener {
                     storeSession(user.id, {})
-                    onResult.invoke(UserDataStatus.SUCCESS, photoUri)
+                    onResult.invoke(UiStatus.SUCCESS, photoUri)
                 }
                 .addOnFailureListener {
-                    onResult.invoke(UserDataStatus.ERROR, photoUri)
+                    onResult.invoke(UiStatus.ERROR, photoUri)
                 }
         } catch (e: FirebaseException) {
-            onResult.invoke(UserDataStatus.ERROR, photoUri)
+            onResult.invoke(UiStatus.ERROR, photoUri)
         } catch (e: Exception) {
-            onResult.invoke(UserDataStatus.ERROR, photoUri)
+            onResult.invoke(UiStatus.ERROR, photoUri)
         }
     }
 

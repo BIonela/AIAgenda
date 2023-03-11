@@ -2,7 +2,6 @@ package com.example.aiagenda
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -12,7 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.aiagenda.databinding.ActivityMainBinding
 import com.example.aiagenda.internet.LiveDataInternetConnections
-import com.example.aiagenda.util.UserDataStatus
+import com.example.aiagenda.util.UiStatus
 import com.example.aiagenda.viewmodel.UiStateViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -71,9 +70,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         uiStateViewModel.uiState.observe(this) { state ->
-            if (state == UserDataStatus.LOADING) {
+            if (state == UiStatus.LOADING) {
                 binding.bnvMenu.visibility = View.GONE
-            } else if (state == UserDataStatus.SUCCESS) {
+            } else if (state == UiStatus.SUCCESS) {
                 binding.bnvMenu.visibility = View.VISIBLE
             } else {
                 binding.bnvMenu.visibility = View.GONE

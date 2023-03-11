@@ -25,7 +25,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/black"
-            android:entries="@array/grupa"
             android:gravity="center"
             app:layout_constraintBottom_toBottomOf="@id/tvGroup"
             app:layout_constraintStart_toEndOf="@id/tvGroup"
@@ -33,9 +32,9 @@
             app:layout_constraintWidth_percent=".3" />
 
         <com.otaliastudios.zoom.ZoomLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:scrollbars="vertical|horizontal"
             app:alignment="center"
             app:animationDuration="280"
@@ -43,7 +42,9 @@
             app:hasClickableChildren="false"
             app:horizontalPanEnabled="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvGroup"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvCourses"
             app:maxZoom="2.5"
             app:maxZoomType="zoom"
             app:minZoom="1"
@@ -63,12 +64,38 @@
             <com.islandparadise14.mintable.MinTimeTableView
                 android:id="@+id/timetable"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 app:isFullWidth="true"
                 app:menuColor="@color/white"
                 app:widthPadding="15" />
 
         </com.otaliastudios.zoom.ZoomLayout>
+
+        <TextView
+            android:id="@+id/tvCourses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="5dp"
+            android:fontFamily="@font/roboto_medium_font"
+            android:text="Cursuri: "
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@id/tvGroup"
+            app:layout_constraintTop_toBottomOf="@id/tvGroup" />
+
+        <View
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginStart="10dp"
+            android:background="#FDA950"
+            app:layout_constraintBottom_toBottomOf="@id/tvCourses"
+            app:layout_constraintStart_toEndOf="@id/tvCourses"
+            app:layout_constraintTop_toTopOf="@id/tvCourses" />
+
+        <include
+            android:id="@+id/pbLoading"
+            layout="@layout/loading_animation"
+            android:visibility="gone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
