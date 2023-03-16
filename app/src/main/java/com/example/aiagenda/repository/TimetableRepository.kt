@@ -4,6 +4,7 @@ import com.example.aiagenda.model.Course
 import com.example.aiagenda.model.Timetable
 import com.example.aiagenda.model.TimetableTime
 import com.example.aiagenda.model.User
+import com.example.aiagenda.util.FireStoreCollection
 import com.example.aiagenda.util.UiStatus
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
@@ -15,7 +16,7 @@ class TimetableRepository(
     fun getCourses(user: User, result: (Timetable) -> Unit, uiState: (UiStatus) -> Unit) {
         val studyYear = user.study_year
         val docRef =
-            database.collection("timetable").document("year${studyYear}")
+            database.collection(FireStoreCollection.TIMETABLE).document("year${studyYear}")
         docRef.get()
             .addOnSuccessListener { documentSnapshot ->
                 val document = documentSnapshot.toObject<Timetable>()
@@ -34,7 +35,7 @@ class TimetableRepository(
         uiState: (UiStatus) -> Unit
     ) {
         val docRef =
-            database.collection("timeData")
+            database.collection(FireStoreCollection.TIMETABLE)
         docRef.get()
             .addOnSuccessListener { document ->
                 val timeTimetable = mutableMapOf<String, TimetableTime>()
@@ -58,7 +59,7 @@ class TimetableRepository(
         uiState: (UiStatus) -> Unit
     ) {
         val studyYear = user.study_year
-        val docRef = database.collection("timetable").document("year${studyYear}")
+        val docRef = database.collection(FireStoreCollection.TIMETABLE).document("year${studyYear}")
             .collection("group${groupName}${isOdd}")
         docRef
             .get()
@@ -83,7 +84,7 @@ class TimetableRepository(
         uiState: (UiStatus) -> Unit
     ) {
         val studyYear = user.study_year
-        val docRef = database.collection("timetable").document("year${studyYear}")
+        val docRef = database.collection(FireStoreCollection.TIMETABLE).document("year${studyYear}")
             .collection("group${groupName}")
         docRef
             .get()

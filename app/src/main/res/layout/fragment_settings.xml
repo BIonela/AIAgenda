@@ -16,7 +16,7 @@
             android:fontFamily="@font/roboto_medium_font"
             android:text="@string/group"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,17 +24,17 @@
             android:id="@+id/spGroup"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/black"
-            android:gravity="center"
+            android:popupBackground="@color/gray_lighter"
             app:layout_constraintBottom_toBottomOf="@id/tvGroup"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvGroup"
             app:layout_constraintTop_toTopOf="@id/tvGroup"
-            app:layout_constraintWidth_percent=".3" />
+            app:layout_constraintWidth_percent=".7" />
 
         <com.otaliastudios.zoom.ZoomLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:scrollbars="vertical|horizontal"
             app:alignment="center"
             app:animationDuration="280"
@@ -77,13 +77,14 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="5dp"
             android:fontFamily="@font/roboto_medium_font"
-            android:text="Cursuri: "
+            android:text="@string/courses"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@id/tvGroup"
             app:layout_constraintTop_toBottomOf="@id/tvGroup" />
 
         <View
+            android:id="@+id/viewCourses"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_marginStart="10dp"
@@ -91,6 +92,28 @@
             app:layout_constraintBottom_toBottomOf="@id/tvCourses"
             app:layout_constraintStart_toEndOf="@id/tvCourses"
             app:layout_constraintTop_toTopOf="@id/tvCourses" />
+
+        <TextView
+            android:id="@+id/tvLabs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/roboto_medium_font"
+            android:text="Laborator/Seminar: "
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/tvCourses"
+            app:layout_constraintEnd_toStartOf="@id/viewLabs"
+            app:layout_constraintTop_toTopOf="@id/tvCourses" />
+
+        <View
+            android:id="@+id/viewLabs"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/gradient"
+            app:layout_constraintBottom_toBottomOf="@id/tvLabs"
+            app:layout_constraintEnd_toEndOf="@id/spGroup"
+            app:layout_constraintTop_toTopOf="@id/tvLabs" />
 
         <include
             android:id="@+id/pbLoading"

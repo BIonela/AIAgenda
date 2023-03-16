@@ -1,10 +1,11 @@
 package com.example.aiagenda.util
 
 object FireStoreCollection {
-    val USER = "user"
+    const val USER = "user"
+    const val TIMETABLE = "timetable"
 }
 
 object SharedPrefConstants {
-    val LOCAL_SHARED_PREF = "local_shared_pref"
-    val USER_SESSION = "user_session"
+    const val LOCAL_SHARED_PREF = "local_shared_pref"
+    const val USER_SESSION = "user_session"
 }

@@ -55,6 +55,7 @@
     <string name="change_profile_picture">Modificare poza de profil:</string>
     <string name="sign_out">Delogare:</string>
     <string name="group">Grupa:</string>
+    <string name="courses">Cursuri:</string>
 
     <string-array name="an_studiu">
         <item>Nicio selectie</item>
