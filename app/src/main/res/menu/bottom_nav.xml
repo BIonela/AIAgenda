@@ -17,8 +17,8 @@
         android:title="@string/menu" />
 
     <item
-        android:id="@+id/settingsFragment"
-        android:icon="@drawable/ic_settings"
-        android:title="@string/settings" />
+        android:id="@+id/timetableFragment"
+        android:icon="@drawable/ic_timetable"
+        android:title="@string/timetable" />
 
 </menu>

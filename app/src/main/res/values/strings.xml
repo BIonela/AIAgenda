@@ -40,7 +40,7 @@
     <string name="home">Acasa</string>
     <string name="profile">Profil</string>
     <string name="menu">Meniu</string>
-    <string name="settings">Setari</string>
+    <string name="timetable">Orar</string>
 
     <string name="student_study_year">Student, An %s</string>
     <string name="full_name">%s %s</string>

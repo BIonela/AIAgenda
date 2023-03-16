@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.aiagenda.R
-import com.example.aiagenda.databinding.FragmentSettingsBinding
+import com.example.aiagenda.databinding.FragmentTimetableBinding
 import com.example.aiagenda.util.UiStatus
 import com.example.aiagenda.viewmodel.AuthViewModel
 import com.example.aiagenda.viewmodel.TimetableViewModel
@@ -19,15 +19,14 @@ import com.example.aiagenda.viewmodel.ViewModelFactory
 import com.islandparadise14.mintable.model.ScheduleEntity
 import kotlin.collections.ArrayList
 
-class SettingsFragment : Fragment() {
-    private lateinit var binding: FragmentSettingsBinding
+class TimetableFragment : Fragment() {
+    private lateinit var binding: FragmentTimetableBinding
     private val authViewModel: AuthViewModel by viewModels {
         ViewModelFactory(requireActivity().application)
     }
     private val timetableViewModel: TimetableViewModel by viewModels {
         ViewModelFactory(requireActivity().application)
     }
-
     private val scheduleList: ArrayList<ScheduleEntity> = ArrayList()
 
     override fun onCreateView(
@@ -36,7 +35,7 @@ class SettingsFragment : Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.fragment_settings,
+            R.layout.fragment_timetable,
             container,
             false
         )
@@ -156,7 +155,7 @@ class SettingsFragment : Fragment() {
                 }
                 else -> {
                     findNavController().navigate(
-                        SettingsFragmentDirections.actionSettingsFragmentToDialogFragment(
+                        TimetableFragmentDirections.actionTimetableFragmentToDialogFragment(
                             getString(R.string.another_exception),
                             false,
                             true

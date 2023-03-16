@@ -83,12 +83,12 @@
         android:label="MenuFragment"
         tools:layout="@layout/fragment_menu" />
     <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.example.aiagenda.ui.SettingsFragment"
-        android:label="SettingsFragment"
-        tools:layout="@layout/fragment_settings" >
+        android:id="@+id/timetableFragment"
+        android:name="com.example.aiagenda.ui.TimetableFragment"
+        android:label="TimetableFragment"
+        tools:layout="@layout/fragment_timetable" >
         <action
-            android:id="@+id/action_settingsFragment_to_dialogFragment"
+            android:id="@+id/action_timetableFragment_to_dialogFragment"
             app:destination="@id/dialogFragment" />
     </fragment>
 </navigation>
