@@ -23,7 +23,7 @@ enum class ValidationError {
     YEAR_NOT_SELECTED
 }
 
-enum class UserDataStatus {
+enum class UiStatus {
     LOADING,
     SUCCESS,
     ERROR

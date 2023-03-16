@@ -40,7 +40,7 @@
     <string name="home">Acasa</string>
     <string name="profile">Profil</string>
     <string name="menu">Meniu</string>
-    <string name="settings">Setari</string>
+    <string name="timetable">Orar</string>
 
     <string name="student_study_year">Student, An %s</string>
     <string name="full_name">%s %s</string>
@@ -54,6 +54,8 @@
     <string name="study_year">An de studiu: %s</string>
     <string name="change_profile_picture">Modificare poza de profil:</string>
     <string name="sign_out">Delogare:</string>
+    <string name="group">Grupa:</string>
+    <string name="courses">Cursuri:</string>
 
     <string-array name="an_studiu">
         <item>Nicio selectie</item>
@@ -61,6 +63,21 @@
         <item>2</item>
         <item>3</item>
         <item>4</item>
+    </string-array>
+
+    <string-array name="grupa">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="colors">
+        <item>#2F75FD</item>
+        <item>#E02FFD</item>
+        <item>#F70C0C</item>
+        <item>#42FF00</item>
+        <item>#00C2FF</item>
+        <item>#FF0099</item>
+        <item>#757890</item>
     </string-array>
 
 </resources>

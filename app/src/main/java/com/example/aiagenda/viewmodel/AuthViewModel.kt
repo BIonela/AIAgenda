@@ -1,14 +1,11 @@
 package com.example.aiagenda.viewmodel
 
-import android.app.Application
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.aiagenda.model.User
 import com.example.aiagenda.repository.AuthenticationRepository
-import com.example.aiagenda.util.UserDataStatus
+import com.example.aiagenda.util.UiStatus
 import com.example.aiagenda.util.ValidationError
-import kotlinx.coroutines.launch
 
 class AuthViewModel(val repository: AuthenticationRepository) :
     ViewModel() {
@@ -25,8 +22,8 @@ class AuthViewModel(val repository: AuthenticationRepository) :
     private val _user = MutableLiveData<User>()
     val user: LiveData<User> = _user
 
-    private val _loading = MutableLiveData<UserDataStatus>()
-    val loading: LiveData<UserDataStatus> = _loading
+    private val _loading = MutableLiveData<UiStatus>()
+    val loading: LiveData<UiStatus> = _loading
 
     fun register(
         email: String,
@@ -145,11 +142,10 @@ class AuthViewModel(val repository: AuthenticationRepository) :
         }
     }
 
-    // TODO:  UPLOAD PHOTO STATUS
     fun uploadPhoto(
         photoUri: Uri,
         user: User,
-        onResult: (UserDataStatus, Uri) -> Unit
+        onResult: (UiStatus, Uri) -> Unit
     ) {
         repository.uploadPhoto(photoUri = photoUri, user = user) { userData, photoUri ->
             onResult.invoke(userData, photoUri)
