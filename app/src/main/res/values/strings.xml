@@ -56,6 +56,22 @@
     <string name="sign_out">Delogare:</string>
     <string name="group">Grupa:</string>
     <string name="courses">Cursuri:</string>
+    <string name="add_task_description">Adauga o tema noua.</string>
+    <string name="add_task">Adaugare Tema</string>
+    <string name="title">Titlu</string>
+    <string name="task_title_hint">Titlul temei</string>
+    <string name="class_name">Materia</string>
+    <string name="class_name_hint">Denumirea materiei</string>
+    <string name="start_date_hint">Data de inceput a predarii</string>
+    <string name="start_date">Data de inceput</string>
+    <string name="end_date">Data de predat</string>
+    <string name="end_date_hint">Data de predare</string>
+    <string name="floor">Etaj</string>
+    <string name="floor_hint">Numarul etajului</string>
+    <string name="room">Sala</string>
+    <string name="room_hint">Numarul salii</string>
+    <string name="task_photo_description">Fotografia corespunzatoare temei</string>
+    <string name="add_photo">Incarcare Poza</string>
 
     <string-array name="an_studiu">
         <item>Nicio selectie</item>

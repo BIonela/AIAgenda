@@ -89,6 +89,19 @@
             app:layout_constraintVertical_bias="0.0"
             tools:listitem="@layout/item_task" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/ic_add"
+            app:fabSize="normal"
+            android:backgroundTint="@color/blue_light"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:contentDescription="@string/add_task_description" />
+
         <include
             android:id="@+id/pbLoading"
             layout="@layout/loading_animation"

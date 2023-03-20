@@ -54,8 +54,10 @@ class HomeFragment : Fragment() {
         binding.rvTasks.layoutManager = LinearLayoutManager(context)
         binding.rvTasks.adapter = taskAdapter
 
-        taskAdapter.onItemClick = {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToTaskDetailsFragment(it))
+        binding.fabAdd.setOnClickListener {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToCreateTaskFragment()
+            )
         }
 
         authViewModel.getSession { user ->
@@ -67,6 +69,14 @@ class HomeFragment : Fragment() {
         taskViewModel.tasks.observe(viewLifecycleOwner) { tasks ->
             //TODO: verifica daca lista e goala
             taskAdapter.submitList(tasks.tasks)
+        }
+
+        taskAdapter.onItemClick = {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToTaskDetailsFragment(
+                    it
+                )
+            )
         }
 
 
