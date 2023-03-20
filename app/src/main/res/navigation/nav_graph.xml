@@ -62,6 +62,9 @@
         <action
             android:id="@+id/action_homeFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_taskDetailsFragment"
+            app:destination="@id/taskDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/forgotPasswordFragment"
@@ -90,5 +93,14 @@
         <action
             android:id="@+id/action_timetableFragment_to_dialogFragment"
             app:destination="@id/dialogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/taskDetailsFragment"
+        tools:layout="@layout/fragment_task_details"
+        android:name="com.example.aiagenda.ui.TaskDetailsFragment"
+        android:label="TaskDetailsFragment" >
+        <argument
+            android:name="task"
+            app:argType="com.example.aiagenda.model.Task" />
     </fragment>
 </navigation>

@@ -6,21 +6,29 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.aiagenda.R
+import com.example.aiagenda.adapter.TaskAdapter
 import com.example.aiagenda.databinding.FragmentHomeBinding
 import com.example.aiagenda.viewmodel.AuthViewModel
+import com.example.aiagenda.viewmodel.TaskViewModel
 import com.example.aiagenda.viewmodel.ViewModelFactory
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
 
+    private val taskAdapter = TaskAdapter()
     private val authViewModel: AuthViewModel by viewModels {
+        ViewModelFactory(requireActivity().application)
+    }
+    private val taskViewModel: TaskViewModel by viewModels {
         ViewModelFactory(requireActivity().application)
     }
 
@@ -41,6 +49,28 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {}
         observe()
+        //////////////////////
+
+        binding.rvTasks.layoutManager = LinearLayoutManager(context)
+        binding.rvTasks.adapter = taskAdapter
+
+        taskAdapter.onItemClick = {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToTaskDetailsFragment(it))
+        }
+
+        authViewModel.getSession { user ->
+            if (user != null) {
+                taskViewModel.getTasks(user)
+            }
+        }
+
+        taskViewModel.tasks.observe(viewLifecycleOwner) { tasks ->
+            //TODO: verifica daca lista e goala
+            taskAdapter.submitList(tasks.tasks)
+        }
+
+
+        /////////////////////
     }
 
     private fun observe() {
