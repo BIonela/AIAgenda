@@ -10,8 +10,9 @@ data class Task(
     val className: String = " ",
     val startDay: String = " ",
     val endDay: String = " ",
-    val photoUrl: String = " ",
-    val location: String = " "
+    val floor: String = " ",
+    val room: String = " ",
+    var photoUrl: String = " "
 ) : Parcelable
 
 data class TaskBody(

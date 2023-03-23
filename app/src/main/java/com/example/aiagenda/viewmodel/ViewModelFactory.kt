@@ -3,10 +3,8 @@ package com.example.aiagenda.viewmodel
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.aiagenda.repository.AuthenticationRepository
-import com.example.aiagenda.repository.TimetableRepository
-import com.example.aiagenda.repository.SharedPreferencesRepository
-import com.example.aiagenda.repository.TaskRepository
+import androidx.lifecycle.viewmodel.CreationExtras
+import com.example.aiagenda.repository.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -23,6 +21,7 @@ class ViewModelFactory(app: Application) : ViewModelProvider.Factory {
     )
     private val timetableRepository = TimetableRepository(database)
     private val taskRepository = TaskRepository(database)
+    private val createTaskRepository = CreateTaskRepository(database, storageReference)
 
 
     @Suppress("UNCHECKED_CAST")
@@ -35,6 +34,9 @@ class ViewModelFactory(app: Application) : ViewModelProvider.Factory {
         }
         if (modelClass.isAssignableFrom(TaskViewModel::class.java)) {
             return TaskViewModel(taskRepository) as T
+        }
+        if (modelClass.isAssignableFrom(CreateTaskViewModel::class.java)) {
+            return CreateTaskViewModel(createTaskRepository) as T
         }
         throw IllegalArgumentException("Unknown viewModel class")
     }

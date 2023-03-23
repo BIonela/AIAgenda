@@ -110,5 +110,9 @@
         android:id="@+id/createTaskFragment"
         android:name="com.example.aiagenda.ui.CreateTaskFragment"
         android:label="CreateTaskFragment"
-        tools:layout="@layout/fragment_create_task" />
+        tools:layout="@layout/fragment_create_task" >
+        <action
+            android:id="@+id/action_createTaskFragment_to_dialogFragment"
+            app:destination="@id/dialogFragment" />
+    </fragment>
 </navigation>
