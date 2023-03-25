@@ -66,12 +66,14 @@
     <string name="start_date">Data de inceput</string>
     <string name="end_date">Data de predat</string>
     <string name="end_date_hint">Data de predare ZZ/MM/AAAA</string>
-    <string name="floor">Etaj</string>
-    <string name="floor_hint">Numarul etajului</string>
-    <string name="room">Sala</string>
-    <string name="room_hint">Numarul salii</string>
     <string name="task_photo_description">Fotografia corespunzatoare temei</string>
     <string name="add_photo">Incarcare Poza</string>
+    <string name="no_tasks_description">Image for empty list of tasks.</string>
+    <string name="no_tasks">Nicio sarcina adaugata...</string>
+    <string name="iv_calendar_description">Deschidere calendar pentru alegerea datei.</string>
+    <string name="description">Descriere/Observatii</string>
+    <string name="description_hint">Descriere/Observatii privind tema creata</string>
+    <string name="delete_task_description">Delete a task</string>
 
     <string-array name="an_studiu">
         <item>Nicio selectie</item>

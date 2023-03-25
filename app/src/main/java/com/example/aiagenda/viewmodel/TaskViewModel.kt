@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.aiagenda.model.Task
 import com.example.aiagenda.model.TaskBody
 import com.example.aiagenda.model.Timetable
 import com.example.aiagenda.model.User
@@ -29,5 +30,12 @@ class TaskViewModel(private val repository: TaskRepository) : ViewModel() {
             _uiState.postValue(uiStatus)
         })
     }
+    fun deleteTask(user: User, task: Task) {
+        _uiState.postValue(UiStatus.LOADING)
+        repository.deleteTask(user, task) { state ->
+            _uiState.postValue(state)
+        }
+    }
+
 
 }

@@ -1,11 +1,13 @@
 package com.example.aiagenda.repository
 
 import android.util.Log
+import com.example.aiagenda.model.Task
 import com.example.aiagenda.model.TaskBody
 import com.example.aiagenda.model.Timetable
 import com.example.aiagenda.model.User
 import com.example.aiagenda.util.FireStoreCollection
 import com.example.aiagenda.util.UiStatus
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 
@@ -29,6 +31,17 @@ class TaskRepository(
             }
             .addOnFailureListener {
                 uiStatus.invoke(UiStatus.ERROR)
+            }
+    }
+
+    fun deleteTask(user: User, task: Task, uiState: (UiStatus) -> Unit) {
+        val documentRef = database.collection("task").document(user.id)
+        documentRef.update("tasks", FieldValue.arrayRemove(task))
+            .addOnSuccessListener {
+                uiState.invoke(UiStatus.SUCCESS)
+            }
+            .addOnFailureListener {
+                uiState.invoke(UiStatus.ERROR)
             }
     }
 

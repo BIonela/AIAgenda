@@ -33,12 +33,14 @@ class CreateTaskFragment : Fragment() {
 
     private var gallery = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         if (isAdded) {
-            this.uri = uri.toString()
-            Glide.with(this)
-                .load(uri)
-                .placeholder(R.drawable.progress_animation)
-                .centerCrop()
-                .into(binding.ivTaskPhoto)
+            if (uri != null) {
+                this.uri = uri.toString()
+                Glide.with(this)
+                    .load(uri)
+                    .placeholder(R.drawable.progress_animation)
+                    .centerCrop()
+                    .into(binding.ivTaskPhoto)
+            }
         }
     }
 
@@ -67,6 +69,14 @@ class CreateTaskFragment : Fragment() {
             findNavController().navigateUp()
         }
 
+        binding.etStartDate.setOnClickListener {
+            openDatePickerDialog(binding.etStartDate)
+        }
+
+        binding.etEndDate.setOnClickListener {
+            openDatePickerDialog(binding.etEndDate)
+        }
+
         binding.ivStartDate.setOnClickListener {
             openDatePickerDialog(binding.etStartDate)
         }
@@ -88,8 +98,8 @@ class CreateTaskFragment : Fragment() {
                         className = binding.etClass.text.toString(),
                         startDay = binding.etStartDate.text.toString(),
                         endDay = binding.etEndDate.text.toString(),
-                        floor = binding.etFloor.text.toString(),
-                        room = binding.etRoom.text.toString()
+                        description = binding.etDescription.text.toString()
+
                     )
                     createTaskViewModel.addTask(user, task, uri)
                 }
@@ -134,8 +144,7 @@ class CreateTaskFragment : Fragment() {
             etClass.text.clear()
             etStartDate.text.clear()
             etEndDate.text.clear()
-            etFloor.text.clear()
-            etRoom.text.clear()
+            etDescription.text.clear()
             ivTaskPhoto.setImageDrawable(null)
         }
         this.uri = ""

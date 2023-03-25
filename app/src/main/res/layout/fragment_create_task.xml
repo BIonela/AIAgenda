@@ -113,11 +113,14 @@
             android:layout_marginTop="5dp"
             android:afterTextChanged="@{viewModel::setStartTime}"
             android:background="@drawable/edit_text_background"
+            android:enabled="true"
+            android:focusable="false"
             android:fontFamily="@font/roboto_medium_font"
             android:hint="@string/start_date_hint"
             android:importantForAutofill="no"
             android:inputType="date"
             android:padding="10dp"
+            android:textColor="@color/black"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvStartDate" />
@@ -126,7 +129,7 @@
             android:id="@+id/ivStartDate"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:importantForAccessibility="no"
+            android:contentDescription="@string/iv_calendar_description"
             android:paddingHorizontal="15dp"
             android:src="@drawable/ic_date"
             app:layout_constraintBottom_toBottomOf="@id/etStartDate"
@@ -153,11 +156,14 @@
             android:layout_marginTop="5dp"
             android:afterTextChanged="@{viewModel::setEndTime}"
             android:background="@drawable/edit_text_background"
+            android:enabled="true"
+            android:focusable="false"
             android:fontFamily="@font/roboto_medium_font"
             android:hint="@string/end_date_hint"
             android:importantForAutofill="no"
             android:inputType="date"
             android:padding="10dp"
+            android:textColor="@color/black"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvEndDate" />
@@ -166,7 +172,7 @@
             android:id="@+id/ivEndDate"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:importantForAccessibility="no"
+            android:contentDescription="@string/iv_calendar_description"
             android:paddingHorizontal="15dp"
             android:src="@drawable/ic_date"
             app:layout_constraintBottom_toBottomOf="@id/etEndDate"
@@ -175,63 +181,34 @@
             app:tint="@color/gray_medium" />
 
         <TextView
-            android:id="@+id/tvFloor"
+            android:id="@+id/tvDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/roboto_regular_font"
-            android:text="@string/floor"
+            android:text="@string/description"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etEndDate" />
 
         <EditText
-            android:id="@+id/etFloor"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="10dp"
-            android:afterTextChanged="@{viewModel::setFloor}"
-            android:background="@drawable/edit_text_background"
-            android:fontFamily="@font/roboto_medium_font"
-            android:hint="@string/floor_hint"
-            android:importantForAutofill="no"
-            android:inputType="number"
-            android:padding="8dp"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@id/etRoom"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvFloor" />
-
-        <TextView
-            android:id="@+id/tvRoom"
-            android:layout_width="wrap_content"
+            android:id="@+id/etDescription"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/roboto_regular_font"
-            android:text="@string/room"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="@id/etRoom"
-            app:layout_constraintTop_toBottomOf="@+id/etEndDate" />
-
-        <EditText
-            android:id="@+id/etRoom"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
             android:layout_marginTop="5dp"
-            android:afterTextChanged="@{viewModel::setRoom}"
+            android:afterTextChanged="@{viewModel::setDescription}"
             android:background="@drawable/edit_text_background"
             android:fontFamily="@font/roboto_medium_font"
-            android:hint="@string/room_hint"
+            android:hint="@string/description_hint"
             android:importantForAutofill="no"
-            android:inputType="number"
-            android:padding="8dp"
+            android:inputType="textMultiLine"
+            android:lines="3"
+            android:padding="10dp"
+            android:textColor="@color/black"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/etFloor"
-            app:layout_constraintTop_toBottomOf="@id/tvFloor" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDescription" />
 
         <ImageView
             android:id="@+id/ivTaskPhoto"
@@ -243,7 +220,7 @@
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toTopOf="@id/btnCreateTask"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etFloor"
+            app:layout_constraintTop_toBottomOf="@id/etDescription"
             app:layout_constraintVertical_bias="0.55"
             app:layout_constraintWidth_percent="0.4" />
 

@@ -1,12 +1,10 @@
 package com.example.aiagenda.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -48,29 +46,27 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {}
-        observe()
-        //////////////////////
+        observeUser()
 
-        binding.rvTasks.layoutManager = LinearLayoutManager(context)
-        binding.rvTasks.adapter = taskAdapter
+        attachAdapter()
+        createTask()
+        getTasks()
+        navigateToTask()
+        deleteTask()
+    }
 
-        binding.fabAdd.setOnClickListener {
-            findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToCreateTaskFragment()
-            )
-        }
-
+    private fun deleteTask() {
         authViewModel.getSession { user ->
-            if (user != null) {
-                taskViewModel.getTasks(user)
+            taskAdapter.onDelete = {
+                if (user != null) {
+                    taskViewModel.deleteTask(user, it)
+                    taskViewModel.getTasks(user)
+                }
             }
         }
+    }
 
-        taskViewModel.tasks.observe(viewLifecycleOwner) { tasks ->
-            //TODO: verifica daca lista e goala
-            taskAdapter.submitList(tasks.tasks)
-        }
-
+    private fun navigateToTask() {
         taskAdapter.onItemClick = {
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToTaskDetailsFragment(
@@ -78,12 +74,49 @@ class HomeFragment : Fragment() {
                 )
             )
         }
-
-
-        /////////////////////
     }
 
-    private fun observe() {
+    private fun getTasks() {
+        authViewModel.getSession { user ->
+            if (user != null) {
+                taskViewModel.getTasks(user)
+            }
+        }
+
+        taskViewModel.tasks.observe(viewLifecycleOwner) { tasks ->
+            if (tasks.tasks.isEmpty()) {
+                binding.apply {
+                    tvToDo.visibility = View.GONE
+                    tvNoTasks.visibility = View.VISIBLE
+                    ivNoTasks.visibility = View.VISIBLE
+                }
+            } else {
+                binding.apply {
+                    tvToDo.visibility = View.VISIBLE
+                    tvNoTasks.visibility = View.GONE
+                    ivNoTasks.visibility = View.GONE
+                }
+            }
+            taskAdapter.submitList(tasks.tasks)
+        }
+    }
+
+    private fun createTask() {
+        binding.fabAdd.setOnClickListener {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToCreateTaskFragment()
+            )
+        }
+    }
+
+    private fun attachAdapter() {
+        binding.rvTasks.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = taskAdapter
+        }
+    }
+
+    private fun observeUser() {
         authViewModel.getSession {
             authViewModel.user.observe(viewLifecycleOwner) { user ->
                 if (user == null) {

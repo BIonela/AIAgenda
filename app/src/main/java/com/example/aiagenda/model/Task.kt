@@ -10,8 +10,7 @@ data class Task(
     val className: String = " ",
     val startDay: String = " ",
     val endDay: String = " ",
-    val floor: String = " ",
-    val room: String = " ",
+    val description: String = " ",
     var photoUrl: String = " "
 ) : Parcelable
 

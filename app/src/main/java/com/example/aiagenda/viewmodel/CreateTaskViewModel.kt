@@ -28,13 +28,9 @@ class CreateTaskViewModel(private val repository: CreateTaskRepository) : ViewMo
     val endTime: LiveData<String>
         get() = _endTime
 
-    private var _floor = MutableLiveData<String>()
-    val floor: LiveData<String>
-        get() = _floor
-
-    private var _room = MutableLiveData<String>()
-    val room: LiveData<String>
-        get() = _room
+    private var _description = MutableLiveData<String>()
+    val description: LiveData<String>
+        get() = _description
 
     private val _uiState: MutableLiveData<UiStatus> =
         MutableLiveData<UiStatus>()
@@ -46,8 +42,7 @@ class CreateTaskViewModel(private val repository: CreateTaskRepository) : ViewMo
         addSource(_className) { value = setIsEnabled() }
         addSource(_startTime) { value = setIsEnabled() }
         addSource(_endTime) { value = setIsEnabled() }
-        addSource(_floor) { value = setIsEnabled() }
-        addSource(_room) { value = setIsEnabled() }
+        addSource(_description) { value = setIsEnabled() }
     }
     val isEnabled: LiveData<Boolean>
         get() = _isEnabled
@@ -68,12 +63,8 @@ class CreateTaskViewModel(private val repository: CreateTaskRepository) : ViewMo
         _endTime.postValue(endTime.toString())
     }
 
-    fun setFloor(floor: Editable) {
-        _floor.postValue(floor.toString())
-    }
-
-    fun setRoom(room: Editable) {
-        _room.postValue(room.toString())
+    fun setDescription(description: Editable) {
+        _description.postValue(description.toString())
     }
 
     private fun isValid(field: String?): Boolean {
@@ -82,7 +73,7 @@ class CreateTaskViewModel(private val repository: CreateTaskRepository) : ViewMo
 
     private fun setIsEnabled(): Boolean {
         return (isValid(_taskTitle.value) && isValid(_className.value) && isValid(_startTime.value)
-                && isValid(_endTime.value) && isValid(_floor.value) && isValid(_room.value))
+                && isValid(_endTime.value) && isValid(_description.value))
     }
 
     fun addTask(user: User, task: Task, photoUri: String) {

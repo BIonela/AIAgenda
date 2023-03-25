@@ -20,6 +20,7 @@ import kotlin.math.roundToInt
 class TaskAdapter : ListAdapter<Task, TaskAdapter.TaskViewHolder>(DiffCallback) {
 
     var onItemClick: ((Task) -> Unit)? = null
+    var onDelete: ((Task) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         return TaskViewHolder(
@@ -63,8 +64,11 @@ class TaskAdapter : ListAdapter<Task, TaskAdapter.TaskViewHolder>(DiffCallback) 
                 itemView.setOnClickListener {
                     onItemClick?.invoke(task)
                 }
-            }
 
+                ivDelete.setOnClickListener {
+                    onDelete?.invoke(task)
+                }
+            }
         }
 
     }

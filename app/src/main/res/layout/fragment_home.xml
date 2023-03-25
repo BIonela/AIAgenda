@@ -95,12 +95,40 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/blue_light"
+            android:contentDescription="@string/add_task_description"
             android:src="@drawable/ic_add"
             app:fabSize="normal"
-            android:backgroundTint="@color/blue_light"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivNoTasks"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:contentDescription="@string/no_tasks_description"
+            android:padding="20dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/no_task"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:contentDescription="@string/add_task_description" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvNoTasks" />
+
+        <TextView
+            android:id="@+id/tvNoTasks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:fontFamily="@font/roboto_medium_font"
+            android:gravity="center"
+            android:text="@string/no_tasks"
+            android:textSize="18sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mcvProfileBackground" />
 
         <include
             android:id="@+id/pbLoading"

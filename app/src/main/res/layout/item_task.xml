@@ -13,7 +13,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="25dp"
+            android:layout_marginStart="25dp"
             android:paddingVertical="15dp">
 
             <TextView
@@ -50,13 +50,34 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginEnd="10dp"
                 android:progress="50"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/vwDivider"
                 app:layout_constraintStart_toStartOf="@id/tvTitleTask"
                 app:layout_constraintTop_toBottomOf="@+id/tvClassName"
                 app:trackThickness="4dp" />
+
+            <View
+                android:id="@+id/vwDivider"
+                android:layout_width="3dp"
+                android:layout_height="0dp"
+                android:background="@color/gray_medium"
+                app:layout_constraintBottom_toBottomOf="@id/lProgressIndicator"
+                app:layout_constraintEnd_toStartOf="@id/ivDelete"
+                app:layout_constraintTop_toTopOf="@id/tvTitleTask" />
+
+            <ImageView
+                android:id="@+id/ivDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:contentDescription="@string/delete_task_description"
+                android:paddingHorizontal="15dp"
+                android:src="@drawable/ic_delete"
+                app:layout_constraintBottom_toBottomOf="@id/lProgressIndicator"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvTitleTask"
+                app:tint="@color/gray_medium" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
