@@ -24,12 +24,14 @@ class TaskViewModel(private val repository: TaskRepository) : ViewModel() {
         get() = _uiState
 
     fun getTasks(user: User) {
+        _uiState.postValue(UiStatus.LOADING)
         repository.getTasks(user, { tasks ->
             _tasks.postValue(tasks)
         }, { uiStatus ->
             _uiState.postValue(uiStatus)
         })
     }
+
     fun deleteTask(user: User, task: Task) {
         _uiState.postValue(UiStatus.LOADING)
         repository.deleteTask(user, task) { state ->

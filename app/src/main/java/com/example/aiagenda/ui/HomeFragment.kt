@@ -1,6 +1,7 @@
 package com.example.aiagenda.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.example.aiagenda.R
 import com.example.aiagenda.adapter.TaskAdapter
 import com.example.aiagenda.databinding.FragmentHomeBinding
+import com.example.aiagenda.util.UiStatus
 import com.example.aiagenda.viewmodel.AuthViewModel
 import com.example.aiagenda.viewmodel.TaskViewModel
 import com.example.aiagenda.viewmodel.ViewModelFactory
@@ -48,6 +50,7 @@ class HomeFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {}
         observeUser()
 
+        observeTaskUiState()
         attachAdapter()
         createTask()
         getTasks()
@@ -55,8 +58,30 @@ class HomeFragment : Fragment() {
         deleteTask()
     }
 
+    private fun observeTaskUiState() {
+        taskViewModel.uiState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                UiStatus.LOADING -> {
+                    binding.pbLoading.visibility = View.VISIBLE
+                }
+                UiStatus.SUCCESS -> {
+                    binding.pbLoading.visibility = View.GONE
+                }
+                else -> {
+                    findNavController().navigate(
+                        HomeFragmentDirections.actionHomeFragmentToDialogFragment(
+                            getString(R.string.another_exception),
+                            false,
+                            true
+                        )
+                    )
+                }
+            }
+        }
+    }
+
     private fun deleteTask() {
-        authViewModel.getSession { user ->
+        authViewModel.user.observe(viewLifecycleOwner) { user ->
             taskAdapter.onDelete = {
                 if (user != null) {
                     taskViewModel.deleteTask(user, it)
@@ -77,7 +102,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun getTasks() {
-        authViewModel.getSession { user ->
+        authViewModel.user.observe(viewLifecycleOwner) { user ->
             if (user != null) {
                 taskViewModel.getTasks(user)
             }

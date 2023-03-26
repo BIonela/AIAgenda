@@ -68,6 +68,9 @@
         <action
             android:id="@+id/action_homeFragment_to_createTaskFragment"
             app:destination="@id/createTaskFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_dialogFragment"
+            app:destination="@id/dialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/forgotPasswordFragment"

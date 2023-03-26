@@ -71,9 +71,10 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/roboto_medium_font"
             android:padding="10dp"
-            android:text="De facut: "
+            android:text="@string/to_do"
             android:textColor="@color/black"
             android:textSize="16sp"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mcvProfileBackground" />
 
@@ -110,11 +111,11 @@
             android:padding="20dp"
             android:scaleType="centerInside"
             android:src="@drawable/no_task"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvNoTasks" />
+            app:layout_constraintTop_toBottomOf="@id/tvNoTasks"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/tvNoTasks"
@@ -125,7 +126,6 @@
             android:gravity="center"
             android:text="@string/no_tasks"
             android:textSize="18sp"
-            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mcvProfileBackground" />

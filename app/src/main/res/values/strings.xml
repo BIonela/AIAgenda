@@ -74,6 +74,7 @@
     <string name="description">Descriere/Observatii</string>
     <string name="description_hint">Descriere/Observatii privind tema creata</string>
     <string name="delete_task_description">Delete a task</string>
+    <string name="to_do">De facut:</string>
 
     <string-array name="an_studiu">
         <item>Nicio selectie</item>
