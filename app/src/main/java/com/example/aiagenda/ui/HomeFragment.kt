@@ -11,16 +11,24 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.aiagenda.R
+import com.example.aiagenda.adapter.TaskAdapter
 import com.example.aiagenda.databinding.FragmentHomeBinding
+import com.example.aiagenda.util.UiStatus
 import com.example.aiagenda.viewmodel.AuthViewModel
+import com.example.aiagenda.viewmodel.TaskViewModel
 import com.example.aiagenda.viewmodel.ViewModelFactory
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
 
+    private val taskAdapter = TaskAdapter()
     private val authViewModel: AuthViewModel by viewModels {
+        ViewModelFactory(requireActivity().application)
+    }
+    private val taskViewModel: TaskViewModel by viewModels {
         ViewModelFactory(requireActivity().application)
     }
 
@@ -40,10 +48,100 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {}
-        observe()
+        observeUser()
+
+        observeTaskUiState()
+        attachAdapter()
+        createTask()
+        getTasks()
+        navigateToTask()
+        deleteTask()
     }
 
-    private fun observe() {
+    private fun observeTaskUiState() {
+        taskViewModel.uiState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                UiStatus.LOADING -> {
+                    binding.pbLoading.visibility = View.VISIBLE
+                }
+                UiStatus.SUCCESS -> {
+                    binding.pbLoading.visibility = View.GONE
+                }
+                else -> {
+                    findNavController().navigate(
+                        HomeFragmentDirections.actionHomeFragmentToDialogFragment(
+                            getString(R.string.another_exception),
+                            false,
+                            true
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private fun deleteTask() {
+        authViewModel.user.observe(viewLifecycleOwner) { user ->
+            taskAdapter.onDelete = {
+                if (user != null) {
+                    taskViewModel.deleteTask(user, it)
+                    taskViewModel.getTasks(user)
+                }
+            }
+        }
+    }
+
+    private fun navigateToTask() {
+        taskAdapter.onItemClick = {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToTaskDetailsFragment(
+                    it
+                )
+            )
+        }
+    }
+
+    private fun getTasks() {
+        authViewModel.user.observe(viewLifecycleOwner) { user ->
+            if (user != null) {
+                taskViewModel.getTasks(user)
+            }
+        }
+
+        taskViewModel.tasks.observe(viewLifecycleOwner) { tasks ->
+            if (tasks.tasks.isEmpty()) {
+                binding.apply {
+                    tvToDo.visibility = View.GONE
+                    tvNoTasks.visibility = View.VISIBLE
+                    ivNoTasks.visibility = View.VISIBLE
+                }
+            } else {
+                binding.apply {
+                    tvToDo.visibility = View.VISIBLE
+                    tvNoTasks.visibility = View.GONE
+                    ivNoTasks.visibility = View.GONE
+                }
+            }
+            taskAdapter.submitList(tasks.tasks)
+        }
+    }
+
+    private fun createTask() {
+        binding.fabAdd.setOnClickListener {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToCreateTaskFragment()
+            )
+        }
+    }
+
+    private fun attachAdapter() {
+        binding.rvTasks.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = taskAdapter
+        }
+    }
+
+    private fun observeUser() {
         authViewModel.getSession {
             authViewModel.user.observe(viewLifecycleOwner) { user ->
                 if (user == null) {

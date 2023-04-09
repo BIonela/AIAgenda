@@ -30,7 +30,7 @@
     <string name="recover_password_text">Introduceti adresa de e-mail pentru a va trimite un mesaj cu instructiunile de recuperare a parolei</string>
     <string name="send_email">Trimite</string>
     <string name="send_reset_password_email">Un mesaj a fost trimis la adresa de mail introdusa.</string>
-    <string name="navigating_back_description">Arrow for navigating back.</string>
+    <string name="navigating_back_description">Sageata pentru a naviga inapoi.</string>
     <string name="too_many_requests">Accesul la acest cont a fost dezactivat temporar din cauza multor încercări eșuate de conectare.</string>
     <string name="another_exception">A aparut o eroare. Va rugam incercati mai tarziu.</string>
     <string name="reconnect_error">A aparut o eroare. Va rugam sa va reconectati.</string>
@@ -56,6 +56,26 @@
     <string name="sign_out">Delogare:</string>
     <string name="group">Grupa:</string>
     <string name="courses">Cursuri:</string>
+    <string name="add_task_description">Adauga o tema noua.</string>
+    <string name="add_task">Adaugare Tema</string>
+    <string name="title">Titlu</string>
+    <string name="task_title_hint">Titlul temei</string>
+    <string name="class_name">Materia</string>
+    <string name="class_name_hint">Denumirea materiei</string>
+    <string name="start_date_hint">Data de inceput ZZ/MM/AAAA</string>
+    <string name="start_date">Data de inceput</string>
+    <string name="end_date">Data de predat</string>
+    <string name="end_date_hint">Data de predare ZZ/MM/AAAA</string>
+    <string name="task_photo_description">Fotografia corespunzatoare temei</string>
+    <string name="add_photo">Incarcare Poza</string>
+    <string name="no_tasks_description">Image for empty list of tasks.</string>
+    <string name="no_tasks">Nicio sarcina adaugata...</string>
+    <string name="iv_calendar_description">Deschidere calendar pentru alegerea datei.</string>
+    <string name="description">Descriere/Observatii</string>
+    <string name="description_hint">Descriere/Observatii privind tema creata</string>
+    <string name="delete_task_description">Delete a task</string>
+    <string name="to_do">De facut:</string>
+    <string name="task_percent">%s\%%</string>
 
     <string-array name="an_studiu">
         <item>Nicio selectie</item>

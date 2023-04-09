@@ -6,7 +6,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="25dp"
+        android:paddingHorizontal="25dp"
+        android:paddingTop="25dp"
         tools:context=".ui.HomeFragment">
 
         <com.google.android.material.card.MaterialCardView
@@ -64,14 +65,70 @@
             app:layout_constraintTop_toBottomOf="@id/tvName" />
 
         <TextView
+            android:id="@+id/tvToDo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="HELLO"
-            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/roboto_medium_font"
+            android:padding="10dp"
+            android:text="@string/to_do"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mcvProfileBackground" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvTasks"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvToDo"
+            app:layout_constraintVertical_bias="0.0"
+            tools:listitem="@layout/item_task" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/blue_light"
+            android:contentDescription="@string/add_task_description"
+            android:src="@drawable/ic_add"
+            app:fabSize="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivNoTasks"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:contentDescription="@string/no_tasks_description"
+            android:padding="20dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/no_task"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/tvNoTasks"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/tvNoTasks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:fontFamily="@font/roboto_medium_font"
+            android:gravity="center"
+            android:text="@string/no_tasks"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mcvProfileBackground" />
 
         <include
             android:id="@+id/pbLoading"

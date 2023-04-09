@@ -49,6 +49,7 @@ class AuthenticationRepository(
                 if (task.isSuccessful) {
                     user.id = task.result.user?.uid ?: ""
                     updateUserInfo(user)
+                    createTaskField(user)
                     _registerStatus.postValue(AuthenticationStatus.SUCCESS)
                 } else {
                     _registerStatus.postValue(AuthenticationStatus.ERROR)
@@ -217,4 +218,16 @@ class AuthenticationRepository(
         }
     }
 
+    private fun createTaskField(user: User) {
+        val data: MutableMap<String, List<Any>> = mutableMapOf("tasks" to emptyList())
+        val document = database.collection("task").document(user.id)
+        document
+            .set(data)
+            .addOnSuccessListener {
+                Log.e("CREATETASKFIELD", "SUCCESS")
+            }
+            .addOnFailureListener {
+                Log.e("CREATETASKFIELD", "ERROR")
+            }
+    }
 }

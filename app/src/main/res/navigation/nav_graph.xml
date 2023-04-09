@@ -62,6 +62,15 @@
         <action
             android:id="@+id/action_homeFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_taskDetailsFragment"
+            app:destination="@id/taskDetailsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_createTaskFragment"
+            app:destination="@id/createTaskFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_dialogFragment"
+            app:destination="@id/dialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/forgotPasswordFragment"
@@ -86,9 +95,27 @@
         android:id="@+id/timetableFragment"
         android:name="com.example.aiagenda.ui.TimetableFragment"
         android:label="TimetableFragment"
-        tools:layout="@layout/fragment_timetable" >
+        tools:layout="@layout/fragment_timetable">
         <action
             android:id="@+id/action_timetableFragment_to_dialogFragment"
+            app:destination="@id/dialogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/taskDetailsFragment"
+        android:name="com.example.aiagenda.ui.TaskDetailsFragment"
+        android:label="TaskDetailsFragment"
+        tools:layout="@layout/fragment_task_details">
+        <argument
+            android:name="task"
+            app:argType="com.example.aiagenda.model.Task" />
+    </fragment>
+    <fragment
+        android:id="@+id/createTaskFragment"
+        android:name="com.example.aiagenda.ui.CreateTaskFragment"
+        android:label="CreateTaskFragment"
+        tools:layout="@layout/fragment_create_task" >
+        <action
+            android:id="@+id/action_createTaskFragment_to_dialogFragment"
             app:destination="@id/dialogFragment" />
     </fragment>
 </navigation>
