@@ -2,13 +2,13 @@ package com.example.aiagenda.ui
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -19,6 +19,7 @@ import com.example.aiagenda.util.UiStatus
 import com.example.aiagenda.viewmodel.AuthViewModel
 import com.example.aiagenda.viewmodel.CreateTaskViewModel
 import com.example.aiagenda.viewmodel.ViewModelFactory
+import java.text.SimpleDateFormat
 import java.util.*
 
 class CreateTaskFragment : Fragment() {
@@ -99,7 +100,6 @@ class CreateTaskFragment : Fragment() {
                         startDay = binding.etStartDate.text.toString(),
                         endDay = binding.etEndDate.text.toString(),
                         description = binding.etDescription.text.toString()
-
                     )
                     createTaskViewModel.addTask(user, task, uri)
                 }
@@ -164,6 +164,19 @@ class CreateTaskFragment : Fragment() {
                 editTextField.setText(datePicked)
             }, year, month, day
         )
+
+        val stringDate = binding.etStartDate.text.toString()
+        if (stringDate.isNotBlank()) {
+            val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.US)
+            val date = formatter.parse(stringDate)
+            val startDateCalendar = Calendar.getInstance()
+            if (date != null) {
+                startDateCalendar.time = date
+            }
+            datePickerDialog.datePicker.minDate = startDateCalendar.timeInMillis
+        } else {
+            datePickerDialog.datePicker.minDate = calendar.timeInMillis
+        }
         datePickerDialog.show()
     }
 

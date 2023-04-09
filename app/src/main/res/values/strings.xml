@@ -30,7 +30,7 @@
     <string name="recover_password_text">Introduceti adresa de e-mail pentru a va trimite un mesaj cu instructiunile de recuperare a parolei</string>
     <string name="send_email">Trimite</string>
     <string name="send_reset_password_email">Un mesaj a fost trimis la adresa de mail introdusa.</string>
-    <string name="navigating_back_description">Arrow for navigating back.</string>
+    <string name="navigating_back_description">Sageata pentru a naviga inapoi.</string>
     <string name="too_many_requests">Accesul la acest cont a fost dezactivat temporar din cauza multor încercări eșuate de conectare.</string>
     <string name="another_exception">A aparut o eroare. Va rugam incercati mai tarziu.</string>
     <string name="reconnect_error">A aparut o eroare. Va rugam sa va reconectati.</string>
@@ -75,6 +75,7 @@
     <string name="description_hint">Descriere/Observatii privind tema creata</string>
     <string name="delete_task_description">Delete a task</string>
     <string name="to_do">De facut:</string>
+    <string name="task_percent">%s\%%</string>
 
     <string-array name="an_studiu">
         <item>Nicio selectie</item>
