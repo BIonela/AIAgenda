@@ -22,7 +22,6 @@ class TaskRepository(
             .addOnSuccessListener { documentSnapshot ->
 
                 val item = documentSnapshot.toObject<TaskBody>()
-                Log.e("repo", item.toString())
                 if (item != null) {
                     result.invoke(item)
                     uiStatus.invoke(UiStatus.SUCCESS)

@@ -90,7 +90,11 @@
         android:id="@+id/menuFragment"
         android:name="com.example.aiagenda.ui.MenuFragment"
         android:label="MenuFragment"
-        tools:layout="@layout/fragment_menu" />
+        tools:layout="@layout/fragment_menu" >
+        <action
+            android:id="@+id/action_menuFragment_to_classesFragment"
+            app:destination="@id/classesFragment" />
+    </fragment>
     <fragment
         android:id="@+id/timetableFragment"
         android:name="com.example.aiagenda.ui.TimetableFragment"
@@ -113,9 +117,18 @@
         android:id="@+id/createTaskFragment"
         android:name="com.example.aiagenda.ui.CreateTaskFragment"
         android:label="CreateTaskFragment"
-        tools:layout="@layout/fragment_create_task" >
+        tools:layout="@layout/fragment_create_task">
         <action
             android:id="@+id/action_createTaskFragment_to_dialogFragment"
+            app:destination="@id/dialogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/classesFragment"
+        android:name="com.example.aiagenda.ui.ClassesFragment"
+        android:label="ClassesFragment"
+        tools:layout="@layout/fragment_classes" >
+        <action
+            android:id="@+id/action_classesFragment_to_dialogFragment"
             app:destination="@id/dialogFragment" />
     </fragment>
 </navigation>

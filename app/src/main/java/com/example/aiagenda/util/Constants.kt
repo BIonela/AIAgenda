@@ -4,6 +4,7 @@ object FireStoreCollection {
     const val USER = "user"
     const val TIMETABLE = "timetable"
     const val TIMETABLE_TIME = "timeData"
+    const val CLASSES = "classes"
 }
 
 object SharedPrefConstants {

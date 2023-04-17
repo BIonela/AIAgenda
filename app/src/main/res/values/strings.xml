@@ -76,6 +76,8 @@
     <string name="delete_task_description">Delete a task</string>
     <string name="to_do">De facut:</string>
     <string name="task_percent">%s\%%</string>
+    <string name="classes">Materii</string>
+    <string name="classbook">Catalog</string>
 
     <string-array name="an_studiu">
         <item>Nicio selectie</item>
