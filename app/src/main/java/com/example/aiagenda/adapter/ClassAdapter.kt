@@ -9,8 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.aiagenda.R
 import com.example.aiagenda.databinding.ItemClassBinding
 import com.example.aiagenda.model.Class
+import com.example.aiagenda.model.Course
 
 class ClassAdapter : ListAdapter<Class, ClassAdapter.ClassViewHolder>(DiffCallback) {
+
+    var onItemClick: (() -> Unit)? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -45,6 +48,11 @@ class ClassAdapter : ListAdapter<Class, ClassAdapter.ClassViewHolder>(DiffCallba
 
         fun bind(course: Class) {
             binding.tvClassName.text = course.name
+
+            itemView.setOnClickListener {
+                onItemClick?.invoke()
+            }
+
         }
 
     }

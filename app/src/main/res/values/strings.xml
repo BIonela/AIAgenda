@@ -101,4 +101,14 @@
         <item>#757890</item>
     </string-array>
 
+    <array name="chart_colors">
+        <item>#304567</item>
+        <item>#309967</item>
+        <item>#476567</item>
+        <item>#890567</item>
+        <item>#a35567</item>
+        <item>#ff5f67</item>
+        <item>#3ca567</item>
+    </array>
+
 </resources>

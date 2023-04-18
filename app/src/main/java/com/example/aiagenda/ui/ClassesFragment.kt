@@ -48,6 +48,7 @@ class ClassesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         observeUiState()
+        navigateToClass()
 
         binding.rvClasses.apply {
             layoutManager = LinearLayoutManager(context)
@@ -91,6 +92,14 @@ class ClassesFragment : Fragment() {
                     )
                 }
             }
+        }
+    }
+
+    private fun navigateToClass() {
+        classAdapter.onItemClick = {
+            findNavController().navigate(
+                ClassesFragmentDirections.actionClassesFragmentToClassDetailsFragment()
+            )
         }
     }
 }

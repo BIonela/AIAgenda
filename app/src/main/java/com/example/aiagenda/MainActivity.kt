@@ -65,6 +65,7 @@ class MainActivity : AppCompatActivity() {
                 || nd.id == R.id.taskDetailsFragment
                 || nd.id == R.id.createTaskFragment
                 || nd.id == R.id.classesFragment
+                || nd.id == R.id.classDetailsFragment
             ) {
                 binding.bnvMenu.visibility = View.GONE
             } else {
