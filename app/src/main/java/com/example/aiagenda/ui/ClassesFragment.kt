@@ -11,19 +11,17 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.aiagenda.R
-import com.example.aiagenda.adapter.ClassAdapter
-import com.example.aiagenda.adapter.TaskAdapter
+import com.example.aiagenda.adapter.SchoolClassAdapter
 import com.example.aiagenda.databinding.FragmentClassesBinding
 import com.example.aiagenda.util.UiStatus
 import com.example.aiagenda.viewmodel.AuthViewModel
 import com.example.aiagenda.viewmodel.ClassViewModel
-import com.example.aiagenda.viewmodel.TaskViewModel
 import com.example.aiagenda.viewmodel.ViewModelFactory
 
 class ClassesFragment : Fragment() {
     private lateinit var binding: FragmentClassesBinding
 
-    private val classAdapter = ClassAdapter()
+    private val schoolClassAdapter = SchoolClassAdapter()
     private val authViewModel: AuthViewModel by viewModels {
         ViewModelFactory(requireActivity().application)
     }
@@ -52,7 +50,7 @@ class ClassesFragment : Fragment() {
 
         binding.rvClasses.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = classAdapter
+            adapter = schoolClassAdapter
         }
 
         binding.ivArrowBack.setOnClickListener {
@@ -67,7 +65,7 @@ class ClassesFragment : Fragment() {
 
         classViewModel.classes.observe(viewLifecycleOwner) {
             Log.e("CLASSES", it.toString())
-            classAdapter.submitList(it)
+            schoolClassAdapter.submitList(it)
 
         }
 
@@ -96,9 +94,9 @@ class ClassesFragment : Fragment() {
     }
 
     private fun navigateToClass() {
-        classAdapter.onItemClick = {
+        schoolClassAdapter.onItemClick = {
             findNavController().navigate(
-                ClassesFragmentDirections.actionClassesFragmentToClassDetailsFragment()
+                ClassesFragmentDirections.actionClassesFragmentToClassDetailsFragment(it)
             )
         }
     }

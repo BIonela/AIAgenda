@@ -138,5 +138,9 @@
         android:id="@+id/classDetailsFragment"
         android:name="com.example.aiagenda.ui.ClassDetailsFragment"
         android:label="ClassDetailsFragment"
-        tools:layout="@layout/fragment_class_details" />
+        tools:layout="@layout/fragment_class_details" >
+        <argument
+            android:name="SchoolClass"
+            app:argType="com.example.aiagenda.model.SchoolClass" />
+    </fragment>
 </navigation>

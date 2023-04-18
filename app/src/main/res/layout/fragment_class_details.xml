@@ -24,9 +24,10 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_bold_font"
             android:textColor="@color/black"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/ivArrowBack"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivArrowBack"
+            app:layout_constraintStart_toStartOf="@id/ivArrowBack"
             app:layout_constraintTop_toTopOf="@id/ivArrowBack"
             tools:text="Matematica" />
 
@@ -34,11 +35,94 @@
             android:id="@+id/pieChart"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="15dp"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent=".4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvClassName" />
+
+        <TextView
+            android:id="@+id/tvExamType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/roboto_regular_font"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@id/pieChart"
+            app:layout_constraintTop_toBottomOf="@id/pieChart" />
+
+        <TextView
+            android:id="@+id/tvCredits"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/roboto_regular_font"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@id/pieChart"
+            app:layout_constraintTop_toBottomOf="@id/tvExamType" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvBackground"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:backgroundTint="@color/gray_lighter"
+            app:cardCornerRadius="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvCredits">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp">
+
+                <TextView
+                    android:id="@+id/tvTeacherTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular_font"
+                    android:text="@string/teacher_description"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvTeacherName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:drawablePadding="15dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/roboto_regular_font"
+                    android:maxLines="2"
+                    android:textColor="@color/black"
+                    app:drawableLeftCompat="@drawable/ic_person"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvTeacherTitle" />
+
+                <TextView
+                    android:id="@+id/tvTeacherEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:drawablePadding="15dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/roboto_regular_font"
+                    android:maxLines="2"
+                    android:textColor="@color/black"
+                    app:drawableLeftCompat="@drawable/ic_alternate_email"
+                    app:layout_constraintStart_toStartOf="@id/tvTeacherName"
+                    app:layout_constraintTop_toBottomOf="@id/tvTeacherName" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

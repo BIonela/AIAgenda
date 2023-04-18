@@ -78,6 +78,9 @@
     <string name="task_percent">%s\%%</string>
     <string name="classes">Materii</string>
     <string name="classbook">Catalog</string>
+    <string name="exam_type">Tip examinare: %s</string>
+    <string name="credits">Numar de credite: %s</string>
+    <string name="teacher_description">Profesor titular:</string>
 
     <string-array name="an_studiu">
         <item>Nicio selectie</item>

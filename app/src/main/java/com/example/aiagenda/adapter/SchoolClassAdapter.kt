@@ -8,17 +8,16 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aiagenda.R
 import com.example.aiagenda.databinding.ItemClassBinding
-import com.example.aiagenda.model.Class
-import com.example.aiagenda.model.Course
+import com.example.aiagenda.model.SchoolClass
 
-class ClassAdapter : ListAdapter<Class, ClassAdapter.ClassViewHolder>(DiffCallback) {
+class SchoolClassAdapter : ListAdapter<SchoolClass, SchoolClassAdapter.ClassViewHolder>(DiffCallback) {
 
-    var onItemClick: (() -> Unit)? = null
+    var onItemClick: ((SchoolClass) -> Unit)? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ClassAdapter.ClassViewHolder {
+    ): SchoolClassAdapter.ClassViewHolder {
         return ClassViewHolder(
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
@@ -32,12 +31,12 @@ class ClassAdapter : ListAdapter<Class, ClassAdapter.ClassViewHolder>(DiffCallba
         holder.bind(course)
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<Class>() {
-        override fun areItemsTheSame(oldItem: Class, newItem: Class): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<SchoolClass>() {
+        override fun areItemsTheSame(oldItem: SchoolClass, newItem: SchoolClass): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Class, newItem: Class): Boolean {
+        override fun areContentsTheSame(oldItem: SchoolClass, newItem: SchoolClass): Boolean {
             return oldItem.name == newItem.name
         }
     }
@@ -46,11 +45,11 @@ class ClassAdapter : ListAdapter<Class, ClassAdapter.ClassViewHolder>(DiffCallba
         private var binding: ItemClassBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(course: Class) {
+        fun bind(course: SchoolClass) {
             binding.tvClassName.text = course.name
 
             itemView.setOnClickListener {
-                onItemClick?.invoke()
+                onItemClick?.invoke(course)
             }
 
         }
