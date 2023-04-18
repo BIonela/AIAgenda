@@ -138,7 +138,19 @@
         android:id="@+id/classDetailsFragment"
         android:name="com.example.aiagenda.ui.ClassDetailsFragment"
         android:label="ClassDetailsFragment"
-        tools:layout="@layout/fragment_class_details" >
+        tools:layout="@layout/fragment_class_details">
+        <argument
+            android:name="SchoolClass"
+            app:argType="com.example.aiagenda.model.SchoolClass" />
+        <action
+            android:id="@+id/action_classDetailsFragment_to_coursesFragment"
+            app:destination="@id/coursesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/coursesFragment"
+        android:name="com.example.aiagenda.ui.CoursesFragment"
+        android:label="CoursesFragment"
+        tools:layout="@layout/fragment_courses" >
         <argument
             android:name="SchoolClass"
             app:argType="com.example.aiagenda.model.SchoolClass" />

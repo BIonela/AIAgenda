@@ -1,10 +1,17 @@
 package com.example.aiagenda.ui
 
+import android.app.DownloadManager
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -15,6 +22,7 @@ import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import java.io.File
 
 class ClassDetailsFragment : Fragment() {
     private lateinit var binding: FragmentClassDetailsBinding
@@ -44,10 +52,26 @@ class ClassDetailsFragment : Fragment() {
         binding.ivArrowBack.setOnClickListener {
             findNavController().navigateUp()
         }
+        binding.btnCourses.setOnClickListener {
+            findNavController().navigate(
+                ClassDetailsFragmentDirections.actionClassDetailsFragmentToCoursesFragment(args.schoolClass)
+            )
+
+//            val downloadManager = requireActivity().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+//            val url = "https://firebasestorage.googleapis.com/v0/b/aiagenda-5241a.appspot.com/o/courses%2FTehnici%20de%20securizare%20a%20datelor%20si%20programelor%2F1.%20SSI%20-%20Introducere%20-%20Copy.pdf?alt=media&token=af067045-0f9f-4b88-b088-ff4851513c61"
+//            val request = DownloadManager.Request(Uri.parse(url))
+//            request.setTitle("CURS1") // setați numele dorit pentru fișier
+//            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+//            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "curs1.pdf") // setați calea dorită pentru descărcare
+//
+//            downloadManager.enqueue(request)
+
+
+        }
     }
 
     private fun setInfo() {
-        binding.tvClassName.text = args.schoolClass.name
+        binding.tvClassName.text = args.schoolClass.shortName
         binding.tvExamType.text = getString(
             R.string.exam_type,
             args.schoolClass.exam.replaceFirstChar { value -> value.titlecase() }
@@ -73,8 +97,7 @@ class ClassDetailsFragment : Fragment() {
         }
         val dataSet = PieDataSet(entries, " ")
         dataSet.valueTextSize = 16f
-        val colors = resources.getIntArray(R.array.chart_colors).toMutableList()
-        dataSet.colors = colors
+        dataSet.colors = resources.getIntArray(R.array.chart_colors).toMutableList()
         val data = PieData(dataSet)
 
         binding.pieChart.apply {

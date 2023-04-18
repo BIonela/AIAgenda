@@ -21,7 +21,7 @@ class ViewModelFactory(app: Application) : ViewModelProvider.Factory {
     private val timetableRepository = TimetableRepository(database)
     private val taskRepository = TaskRepository(database)
     private val createTaskRepository = CreateTaskRepository(database, storageReference)
-    private val classRepository = ClassRepository(database)
+    private val classRepository = ClassRepository(database, storageReference)
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

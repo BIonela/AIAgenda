@@ -66,7 +66,6 @@ class ClassesFragment : Fragment() {
         classViewModel.classes.observe(viewLifecycleOwner) {
             Log.e("CLASSES", it.toString())
             schoolClassAdapter.submitList(it)
-
         }
 
     }

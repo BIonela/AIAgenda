@@ -1,5 +1,6 @@
 package com.example.aiagenda.repository
 
+import android.util.Log
 import com.example.aiagenda.model.SchoolClassBody
 import com.example.aiagenda.model.User
 import com.example.aiagenda.util.FireStoreCollection
@@ -7,9 +8,12 @@ import com.example.aiagenda.util.UiStatus
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.example.aiagenda.model.SchoolClass
+import com.google.firebase.storage.StorageReference
+import java.io.File
 
 class ClassRepository(
-    private val database: FirebaseFirestore
+    private val database: FirebaseFirestore,
+    private val storageFirebase: StorageReference
 ) {
 
     fun getClasses(user: User, result: (List<SchoolClass>) -> Unit, uiState: (UiStatus) -> Unit) {

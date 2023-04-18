@@ -19,6 +19,8 @@
                 android:id="@+id/tvClassName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
                 android:layout_marginStart="15dp"
                 android:fontFamily="@font/roboto_medium_font"
                 android:gravity="start"

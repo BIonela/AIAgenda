@@ -81,6 +81,7 @@
     <string name="exam_type">Tip examinare: %s</string>
     <string name="credits">Numar de credite: %s</string>
     <string name="teacher_description">Profesor titular:</string>
+    <string name="course">Cursuri</string>
 
     <string-array name="an_studiu">
         <item>Nicio selectie</item>
@@ -107,10 +108,10 @@
     <array name="chart_colors">
         <item>#304567</item>
         <item>#309967</item>
-        <item>#476567</item>
         <item>#890567</item>
-        <item>#a35567</item>
         <item>#ff5f67</item>
+        <item>#476567</item>
+        <item>#a35567</item>
         <item>#3ca567</item>
     </array>
 
