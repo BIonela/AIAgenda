@@ -1,7 +1,6 @@
 package com.example.aiagenda.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -64,7 +63,6 @@ class ClassesFragment : Fragment() {
         }
 
         classViewModel.classes.observe(viewLifecycleOwner) {
-            Log.e("CLASSES", it.toString())
             schoolClassAdapter.submitList(it)
         }
 
