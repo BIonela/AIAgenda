@@ -76,6 +76,15 @@
     <string name="delete_task_description">Delete a task</string>
     <string name="to_do">De facut:</string>
     <string name="task_percent">%s\%%</string>
+    <string name="classes">Materii</string>
+    <string name="classbook">Catalog</string>
+    <string name="exam_type">Tip examinare: %s</string>
+    <string name="credits">Numar de credite: %s</string>
+    <string name="teacher_description">Profesor titular:</string>
+    <string name="course">Cursuri</string>
+    <string name="no_course">Lista de cursuri este goala.</string>
+    <string name="file_downloading">Fisierul se descarca...</string>
+
 
     <string-array name="an_studiu">
         <item>Nicio selectie</item>
@@ -98,5 +107,15 @@
         <item>#FF0099</item>
         <item>#757890</item>
     </string-array>
+
+    <array name="chart_colors">
+        <item>#304567</item>
+        <item>#309967</item>
+        <item>#890567</item>
+        <item>#ff5f67</item>
+        <item>#476567</item>
+        <item>#a35567</item>
+        <item>#3ca567</item>
+    </array>
 
 </resources>

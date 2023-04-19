@@ -3,7 +3,6 @@ package com.example.aiagenda.viewmodel
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.aiagenda.repository.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -22,7 +21,7 @@ class ViewModelFactory(app: Application) : ViewModelProvider.Factory {
     private val timetableRepository = TimetableRepository(database)
     private val taskRepository = TaskRepository(database)
     private val createTaskRepository = CreateTaskRepository(database, storageReference)
-
+    private val classRepository = ClassRepository(database, storageReference)
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -37,6 +36,9 @@ class ViewModelFactory(app: Application) : ViewModelProvider.Factory {
         }
         if (modelClass.isAssignableFrom(CreateTaskViewModel::class.java)) {
             return CreateTaskViewModel(createTaskRepository) as T
+        }
+        if (modelClass.isAssignableFrom(ClassViewModel::class.java)) {
+            return ClassViewModel(classRepository) as T
         }
         throw IllegalArgumentException("Unknown viewModel class")
     }

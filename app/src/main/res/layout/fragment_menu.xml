@@ -1,18 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="25dp"
         tools:context=".ui.MenuFragment">
 
-        <!-- TODO: Update blank fragment layout -->
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Menu Fragment"
-            android:textSize="40sp" />
+            android:id="@+id/tvMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold_font"
+            android:text="@string/menu"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </FrameLayout>
+        <Button
+            android:id="@+id/btnClasses"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/green_medium"
+            android:fontFamily="@font/roboto_medium_font"
+            android:gravity="start"
+            android:paddingVertical="16dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="@string/classes"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvMenu" />
+
+        <Button
+            android:id="@+id/btnClassbook"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:backgroundTint="@color/blue_dark"
+            android:fontFamily="@font/roboto_medium_font"
+            android:gravity="start"
+            android:paddingVertical="16dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="@string/classbook"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnClasses" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

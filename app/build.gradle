@@ -78,5 +78,7 @@ dependencies {
     //Zoom
     implementation 'com.otaliastudios:zoomlayout:1.9.0'
 
+    //Pie chart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
 }
