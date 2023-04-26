@@ -3,6 +3,7 @@ package com.example.aiagenda.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.aiagenda.model.Grade
 import com.example.aiagenda.repository.ClassRepository
 import com.example.aiagenda.model.SchoolClass
 import com.example.aiagenda.model.User
@@ -27,5 +28,12 @@ class ClassViewModel(private val repository: ClassRepository) : ViewModel() {
         }, { uiStatus ->
             _uiState.postValue(uiStatus)
         })
+    }
+
+    fun setGrade(user: User, grade: List<Grade>) {
+        _uiState.postValue(UiStatus.LOADING)
+        repository.setGrade(user, grade) {
+            _uiState.postValue(it)
+        }
     }
 }

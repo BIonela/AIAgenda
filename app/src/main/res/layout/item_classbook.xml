@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/orange_lighter">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/vwBorderLeft"
+                android:layout_width="4dp"
+                android:layout_height="0dp"
+                android:background="@color/gray_light"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/vwBorderTop"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:background="@color/gray_light"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/vwBorderRight"
+                android:layout_width="4dp"
+                android:layout_height="0dp"
+                android:background="@color/gray_light"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/vwBorderBottom"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:background="@color/gray_light"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/tvClassName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_medium_font"
+                android:maxLines="4"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@id/vwBorderBottom"
+                app:layout_constraintEnd_toStartOf="@id/etGrade"
+                app:layout_constraintStart_toStartOf="@id/vwBorderLeft"
+                app:layout_constraintTop_toTopOf="@id/vwBorderTop"
+                tools:text="Romana" />
+
+            <EditText
+                android:id="@+id/etGrade"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:autofillHints="Nota"
+                android:hint="@string/grade"
+                android:maxLength="2"
+                android:inputType="number"
+                android:padding="10dp"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/tvClassName"
+                app:layout_constraintEnd_toStartOf="@id/vwBorderRight"
+                app:layout_constraintTop_toTopOf="@id/tvClassName"
+                app:layout_constraintWidth_percent=".16" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -1,6 +1,6 @@
 package com.example.aiagenda.repository
 
-import android.util.Log
+import com.example.aiagenda.model.Grade
 import com.example.aiagenda.model.SchoolClassBody
 import com.example.aiagenda.model.User
 import com.example.aiagenda.util.FireStoreCollection
@@ -8,12 +8,10 @@ import com.example.aiagenda.util.UiStatus
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.example.aiagenda.model.SchoolClass
-import com.google.firebase.storage.StorageReference
-import java.io.File
+import com.google.firebase.firestore.FieldValue
 
 class ClassRepository(
-    private val database: FirebaseFirestore,
-    private val storageFirebase: StorageReference
+    private val database: FirebaseFirestore
 ) {
 
     fun getClasses(user: User, result: (List<SchoolClass>) -> Unit, uiState: (UiStatus) -> Unit) {
@@ -32,4 +30,26 @@ class ClassRepository(
                 uiState.invoke(UiStatus.ERROR)
             }
     }
+
+    fun setGrade(user: User, grades: List<Grade>, uiState: (UiStatus) -> Unit) {
+        val docRef = database.collection(FireStoreCollection.USER).document(user.id)
+        docRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    docRef.update("grades", grades)
+                        .addOnSuccessListener {
+                            uiState.invoke(UiStatus.SUCCESS)
+                        }
+                        .addOnFailureListener {
+                            uiState.invoke(UiStatus.ERROR)
+                        }
+                } else {
+                    uiState.invoke(UiStatus.ERROR)
+                }
+            }
+            .addOnFailureListener {
+                uiState.invoke(UiStatus.ERROR)
+            }
+    }
+
 }

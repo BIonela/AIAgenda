@@ -94,6 +94,9 @@
         <action
             android:id="@+id/action_menuFragment_to_classesFragment"
             app:destination="@id/classesFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_classbookFragment"
+            app:destination="@id/classbookFragment" />
     </fragment>
     <fragment
         android:id="@+id/timetableFragment"
@@ -150,9 +153,18 @@
         android:id="@+id/coursesFragment"
         android:name="com.example.aiagenda.ui.CoursesFragment"
         android:label="CoursesFragment"
-        tools:layout="@layout/fragment_courses" >
+        tools:layout="@layout/fragment_courses">
         <argument
             android:name="SchoolClass"
             app:argType="com.example.aiagenda.model.SchoolClass" />
+    </fragment>
+    <fragment
+        android:id="@+id/classbookFragment"
+        android:name="com.example.aiagenda.ui.ClassbookFragment"
+        android:label="SchoolbookFragment"
+        tools:layout="@layout/fragment_classbook" >
+        <action
+            android:id="@+id/action_classbookFragment_to_dialogFragment"
+            app:destination="@id/dialogFragment" />
     </fragment>
 </navigation>
