@@ -1,12 +1,10 @@
 package com.example.aiagenda.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.aiagenda.model.Task
 import com.example.aiagenda.model.TaskBody
-import com.example.aiagenda.model.Timetable
 import com.example.aiagenda.model.User
 import com.example.aiagenda.repository.TaskRepository
 import com.example.aiagenda.util.UiStatus

@@ -8,7 +8,6 @@ import com.example.aiagenda.util.UiStatus
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.example.aiagenda.model.SchoolClass
-import com.google.firebase.firestore.FieldValue
 
 class ClassRepository(
     private val database: FirebaseFirestore

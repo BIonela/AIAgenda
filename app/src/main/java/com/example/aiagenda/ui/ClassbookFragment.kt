@@ -17,6 +17,7 @@ import com.example.aiagenda.util.UiStatus
 import com.example.aiagenda.viewmodel.AuthViewModel
 import com.example.aiagenda.viewmodel.ClassViewModel
 import com.example.aiagenda.viewmodel.ViewModelFactory
+import java.text.DecimalFormat
 
 class ClassbookFragment : Fragment() {
     private lateinit var binding: FragmentClassbookBinding
@@ -45,17 +46,19 @@ class ClassbookFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setAdapter()
         observeUiState()
+        navigateBack()
+        calculateAverage()
+    }
 
+    private fun navigateBack() {
         binding.ivArrowBack.setOnClickListener {
             findNavController().navigateUp()
         }
+    }
 
-        binding.rvClassbook.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = classbookAdapter
-        }
-
+    private fun calculateAverage() {
         authViewModel.getSession { user ->
             if (user != null) {
                 classViewModel.getClasses(user)
@@ -73,9 +76,30 @@ class ClassbookFragment : Fragment() {
 
                 binding.btnCalculate.setOnClickListener {
                     classViewModel.setGrade(user, grades)
-                }
+                    var sum = 0
+                    var totalCredits = 0
+                    var average = 0.0
 
+                    for (grade in grades) {
+                        sum += grade.grade * grade.credits
+                        totalCredits += grade.credits
+                        average = sum.toDouble() / totalCredits.toDouble()
+
+                    }
+                    if (average != 0.0) {
+                        binding.tvGrade.text = DecimalFormat("#.00").format(average).toString()
+                    } else {
+                        binding.tvGrade.text = 0.toString()
+                    }
+                }
             }
+        }
+    }
+
+    private fun setAdapter() {
+        binding.rvClassbook.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = classbookAdapter
         }
 
         classViewModel.classes.observe(viewLifecycleOwner) {

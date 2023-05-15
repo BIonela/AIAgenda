@@ -205,7 +205,7 @@ class AuthenticationRepository(
 
             document
                 .addOnSuccessListener {
-                    storeSession(user.id, {})
+                    storeSession(user.id) {}
                     onResult.invoke(UiStatus.SUCCESS, photoUri)
                 }
                 .addOnFailureListener {

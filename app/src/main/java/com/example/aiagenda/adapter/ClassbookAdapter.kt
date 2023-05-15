@@ -62,14 +62,20 @@ class ClassbookAdapter :
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
                     if (!p0.isNullOrBlank()) {
-                        val grade = Grade(course.name, p0.toString().toInt())
+                        val grade =
+                            Grade(
+                                name = course.name,
+                                grade = p0.toString().toInt(),
+                                credits = course.credits
+                            )
                         onGradeAdded?.invoke(grade)
 
+                    } else {
+                        onGradeAdded?.invoke(Grade(name = course.name, grade = 0, credits = 0))
                     }
-                    else {
-                        onGradeAdded?.invoke(Grade(course.name, 0))
-                    }
+
                 }
 
                 override fun afterTextChanged(p0: Editable?) {}
