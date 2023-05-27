@@ -1,9 +1,7 @@
 package com.example.aiagenda.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -12,10 +10,6 @@ import com.example.aiagenda.R
 import com.example.aiagenda.databinding.ItemTaskBinding
 import com.example.aiagenda.model.Task
 import com.example.aiagenda.util.calculateDaysLeft
-import java.time.LocalDate
-import java.time.Period
-import java.time.format.DateTimeFormatter
-import kotlin.math.roundToInt
 
 class TaskAdapter : ListAdapter<Task, TaskAdapter.TaskViewHolder>(DiffCallback) {
 

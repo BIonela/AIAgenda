@@ -67,6 +67,7 @@ class MainActivity : AppCompatActivity() {
                 || nd.id == R.id.classesFragment
                 || nd.id == R.id.classDetailsFragment
                 || nd.id == R.id.coursesFragment
+                || nd.id == R.id.classbookFragment
             ) {
                 binding.bnvMenu.visibility = View.GONE
             } else {

@@ -13,24 +13,14 @@ import com.example.aiagenda.util.UiStatus
 class CreateTaskViewModel(private val repository: CreateTaskRepository) : ViewModel() {
 
     private var _taskTitle = MutableLiveData<String>()
-    val taskTitle: LiveData<String>
-        get() = _taskTitle
 
     private var _className = MutableLiveData<String>()
-    val className: LiveData<String>
-        get() = _className
 
     private var _startTime = MutableLiveData<String>()
-    val startTime: LiveData<String>
-        get() = _startTime
 
     private var _endTime = MutableLiveData<String>()
-    val endTime: LiveData<String>
-        get() = _endTime
 
     private var _description = MutableLiveData<String>()
-    val description: LiveData<String>
-        get() = _description
 
     private val _uiState: MutableLiveData<UiStatus> =
         MutableLiveData<UiStatus>()

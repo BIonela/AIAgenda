@@ -84,6 +84,8 @@
     <string name="course">Cursuri</string>
     <string name="no_course">Lista de cursuri este goala.</string>
     <string name="file_downloading">Fisierul se descarca...</string>
+    <string name="grade">Nota</string>
+    <string name="calculate_grade">Calculeaza media</string>
 
 
     <string-array name="an_studiu">

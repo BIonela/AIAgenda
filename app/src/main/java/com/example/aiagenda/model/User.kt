@@ -6,5 +6,6 @@ data class User(
     val first_name: String = " ",
     val study_year: String = " ",
     val email: String = " ",
-    val photo_url: String = " "
+    val photo_url: String = " ",
+    var grades: MutableList<Grade> = mutableListOf()
 )

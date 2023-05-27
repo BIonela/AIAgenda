@@ -147,7 +147,7 @@ class AuthViewModel(val repository: AuthenticationRepository) :
         user: User,
         onResult: (UiStatus, Uri) -> Unit
     ) {
-        repository.uploadPhoto(photoUri = photoUri, user = user) { userData, photoUri ->
+        repository.uploadPhoto(photoUri = photoUri, user = user) { userData, _ ->
             onResult.invoke(userData, photoUri)
         }
     }

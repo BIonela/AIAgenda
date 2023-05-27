@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="25dp"
-        tools:context=".ui.CoursesFragment">
+        tools:context=".ui.ClassbookFragment">
 
         <ImageView
             android:id="@+id/ivArrowBack"
@@ -19,55 +19,59 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvClasses"
+            android:id="@+id/tvClassBook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_bold_font"
-            android:text="@string/course"
+            android:text="@string/classbook"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/ivArrowBack"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/ivArrowBack"
-            />
+            app:layout_constraintStart_toStartOf="@id/ivArrowBack"
+            app:layout_constraintTop_toTopOf="@id/ivArrowBack" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvCourses"
-            android:layout_width="match_parent"
+            android:id="@+id/rvClassbook"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="25dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="20dp"
+            app:layout_constraintBottom_toTopOf="@id/btnCalculate"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivArrowBack" />
+            app:layout_constraintTop_toBottomOf="@id/tvClassBook" />
 
-        <TextView
-            android:id="@+id/tvNoCourse"
+        <Button
+            android:id="@+id/btnCalculate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_medium_font"
-            android:text="@string/no_course"
-            android:textAlignment="center"
-            android:textColor="@color/gray_medium"
-            android:textSize="22sp"
-            app:layout_constraintBottom_toTopOf="@+id/ivNoCourse"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivArrowBack"
-            app:layout_constraintWidth_percent=".5" />
-
-        <ImageView
-            android:id="@+id/ivNoCourse"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/no_course"
-            android:src="@drawable/ic_no_course"
+            android:background="@drawable/rounded_button"
+            android:fontFamily="@font/roboto_bold_font"
+            android:text="@string/calculate_grade"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvNoCourse" />
+            app:layout_constraintWidth_percent=".6" />
+
+        <TextView
+            android:id="@+id/tvGrade"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold_font"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@id/btnCalculate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnCalculate"
+            app:layout_constraintTop_toTopOf="@id/btnCalculate"
+            tools:text="9,33" />
+
+        <include
+            android:id="@+id/pbLoading"
+            layout="@layout/loading_animation"
+            android:visibility="gone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

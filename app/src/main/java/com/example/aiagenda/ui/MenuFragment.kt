@@ -28,10 +28,19 @@ class MenuFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setControls()
+    }
 
+    private fun setControls() {
         binding.btnClasses.setOnClickListener {
             findNavController().navigate(
                 MenuFragmentDirections.actionMenuFragmentToClassesFragment()
+            )
+        }
+
+        binding.btnClassbook.setOnClickListener {
+            findNavController().navigate(
+                MenuFragmentDirections.actionMenuFragmentToClassbookFragment()
             )
         }
     }

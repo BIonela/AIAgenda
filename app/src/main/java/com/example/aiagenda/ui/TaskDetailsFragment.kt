@@ -1,6 +1,5 @@
 package com.example.aiagenda.ui
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,10 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.aiagenda.R
 import com.example.aiagenda.databinding.FragmentTaskDetailsBinding
 import com.example.aiagenda.util.calculateDaysLeft
