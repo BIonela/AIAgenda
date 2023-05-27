@@ -28,11 +28,11 @@ class ClassbookFragment : Fragment() {
     }
     private val classViewModel: ClassViewModel by viewModels {
         ViewModelFactory(requireActivity().application)
-    }
+}
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+override fun onCreateView(
+    inflater: LayoutInflater, container: ViewGroup?,
+    savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(
             inflater,
