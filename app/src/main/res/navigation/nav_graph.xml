@@ -97,6 +97,9 @@
         <action
             android:id="@+id/action_menuFragment_to_classbookFragment"
             app:destination="@id/classbookFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_postsFragment"
+            app:destination="@id/postsFragment" />
     </fragment>
     <fragment
         android:id="@+id/timetableFragment"
@@ -162,9 +165,14 @@
         android:id="@+id/classbookFragment"
         android:name="com.example.aiagenda.ui.ClassbookFragment"
         android:label="SchoolbookFragment"
-        tools:layout="@layout/fragment_classbook" >
+        tools:layout="@layout/fragment_classbook">
         <action
             android:id="@+id/action_classbookFragment_to_dialogFragment"
             app:destination="@id/dialogFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/postsFragment"
+        android:name="com.example.aiagenda.ui.PostsFragment"
+        android:label="PostsFragment"
+        tools:layout="@layout/fragment_posts" />
 </navigation>

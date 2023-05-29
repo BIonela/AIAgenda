@@ -32,6 +32,7 @@ class MenuFragment : Fragment() {
     }
 
     private fun setControls() {
+
         binding.btnClasses.setOnClickListener {
             findNavController().navigate(
                 MenuFragmentDirections.actionMenuFragmentToClassesFragment()
@@ -41,6 +42,12 @@ class MenuFragment : Fragment() {
         binding.btnClassbook.setOnClickListener {
             findNavController().navigate(
                 MenuFragmentDirections.actionMenuFragmentToClassbookFragment()
+            )
+        }
+
+        binding.btnPosts.setOnClickListener {
+            findNavController().navigate(
+                MenuFragmentDirections.actionMenuFragmentToPostsFragment()
             )
         }
     }

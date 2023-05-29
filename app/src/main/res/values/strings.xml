@@ -86,6 +86,7 @@
     <string name="file_downloading">Fisierul se descarca...</string>
     <string name="grade">Nota</string>
     <string name="calculate_grade">Calculeaza media</string>
+    <string name="posts">Postari</string>
 
 
     <string-array name="an_studiu">
