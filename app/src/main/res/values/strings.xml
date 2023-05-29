@@ -87,6 +87,7 @@
     <string name="grade">Nota</string>
     <string name="calculate_grade">Calculeaza media</string>
     <string name="posts">Postari</string>
+    <string name="add_post_description">Adauga o postare noua.</string>
 
 
     <string-array name="an_studiu">

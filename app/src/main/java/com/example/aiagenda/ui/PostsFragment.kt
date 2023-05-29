@@ -6,12 +6,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.aiagenda.R
+import com.example.aiagenda.adapter.PostsAdapter
 import com.example.aiagenda.databinding.FragmentPostsBinding
+import com.example.aiagenda.util.UiStatus
+import com.example.aiagenda.viewmodel.AuthViewModel
+import com.example.aiagenda.viewmodel.PostsViewModel
+import com.example.aiagenda.viewmodel.ViewModelFactory
 
 class PostsFragment : Fragment() {
     private lateinit var binding: FragmentPostsBinding
+
+    private val postsAdapter = PostsAdapter()
+    private val authViewModel: AuthViewModel by viewModels {
+        ViewModelFactory(requireActivity().application)
+    }
+    private val postsViewModel: PostsViewModel by viewModels {
+        ViewModelFactory(requireActivity().application)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,8 +43,65 @@ class PostsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setControls()
+        attachAdapter()
+        observeUiState()
+        getPosts()
+        submitList()
+
+
+    }
+
+    private fun setControls() {
         binding.ivArrowBack.setOnClickListener {
             findNavController().navigateUp()
+        }
+    }
+
+    private fun getPosts() {
+        authViewModel.getSession { user ->
+            if (user != null) {
+                if (user.email == "admin${user.study_year}@student.utcb.ro") {
+                    binding.fabAdd.visibility = View.VISIBLE
+                }
+                postsViewModel.getPosts(user)
+            }
+        }
+    }
+
+    private fun submitList() {
+        postsViewModel.posts.observe(viewLifecycleOwner) { posts ->
+            postsAdapter.submitList(posts.posts)
+        }
+    }
+
+    private fun observeUiState() {
+        postsViewModel.uiState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                UiStatus.LOADING -> {
+                    binding.pbLoading.visibility = View.VISIBLE
+                }
+                UiStatus.SUCCESS -> {
+                    binding.pbLoading.visibility = View.GONE
+                }
+                else -> {
+                    findNavController().navigate(
+                        HomeFragmentDirections.actionHomeFragmentToDialogFragment(
+                            getString(R.string.another_exception),
+                            false,
+                            true
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private fun attachAdapter() {
+        binding.rvPosts.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = postsAdapter
         }
     }
 
