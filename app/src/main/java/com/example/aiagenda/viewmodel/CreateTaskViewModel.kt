@@ -72,5 +72,4 @@ class CreateTaskViewModel(private val repository: CreateTaskRepository) : ViewMo
             _uiState.postValue(state)
         }
     }
-
 }

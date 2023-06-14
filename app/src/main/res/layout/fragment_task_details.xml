@@ -27,8 +27,7 @@
             app:layout_constraintEnd_toStartOf="@id/pbTask"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="asdfsadsdafseefffefasdf" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvCourseName"
@@ -142,8 +141,7 @@
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/tvDescriptionTitle"
-            app:layout_constraintTop_toBottomOf="@id/tvDescriptionTitle"
-            tools:text="ADFfdfasdfasdgggggggggggggggggggggggggggggggga" />
+            app:layout_constraintTop_toBottomOf="@id/tvDescriptionTitle" />
 
         <ImageView
             android:id="@+id/ivTaskPhoto"

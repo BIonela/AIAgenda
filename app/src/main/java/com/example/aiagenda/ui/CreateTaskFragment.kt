@@ -179,5 +179,4 @@ class CreateTaskFragment : Fragment() {
         }
         datePickerDialog.show()
     }
-
 }

@@ -131,10 +131,10 @@ class AuthenticationRepository(
         document
             .set(user)
             .addOnSuccessListener {
-                Log.e("TAG", "SUCCESS")
+                Log.e("UPDATE USER", "SUCCESS")
             }
             .addOnFailureListener {
-                Log.e("TAG", "ERROR")
+                Log.e("UPDATE USER", "ERROR")
             }
     }
 
@@ -224,10 +224,10 @@ class AuthenticationRepository(
         document
             .set(data)
             .addOnSuccessListener {
-                Log.e("CREATETASKFIELD", "SUCCESS")
+                Log.e("CREATE TASK FIELD", "SUCCESS")
             }
             .addOnFailureListener {
-                Log.e("CREATETASKFIELD", "ERROR")
+                Log.e("CREATE TASK FIELD", "ERROR")
             }
     }
 }

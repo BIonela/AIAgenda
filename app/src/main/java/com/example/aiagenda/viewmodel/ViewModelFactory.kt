@@ -22,6 +22,7 @@ class ViewModelFactory(app: Application) : ViewModelProvider.Factory {
     private val taskRepository = TaskRepository(database)
     private val createTaskRepository = CreateTaskRepository(database, storageReference)
     private val classRepository = ClassRepository(database)
+    private val postsRepository = PostsRepository(database)
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -39,6 +40,9 @@ class ViewModelFactory(app: Application) : ViewModelProvider.Factory {
         }
         if (modelClass.isAssignableFrom(ClassViewModel::class.java)) {
             return ClassViewModel(classRepository) as T
+        }
+        if (modelClass.isAssignableFrom(PostsViewModel::class.java)) {
+            return PostsViewModel(postsRepository) as T
         }
         throw IllegalArgumentException("Unknown viewModel class")
     }
