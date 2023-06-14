@@ -19,7 +19,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvClasses"
+            android:id="@+id/tvPosts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_bold_font"
@@ -39,7 +39,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvClasses"
+            app:layout_constraintTop_toBottomOf="@id/tvPosts"
             tools:listitem="@layout/item_posts" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -55,6 +55,34 @@
             app:fabSize="normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/tvNoPosts"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium_font"
+            android:text="@string/no_posts"
+            android:textAlignment="center"
+            android:textColor="@color/gray_medium"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toTopOf="@+id/ivNoPosts"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivArrowBack"
+            app:layout_constraintWidth_percent=".5" />
+
+        <ImageView
+            android:id="@+id/ivNoPosts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/no_posts"
+            android:src="@drawable/ic_no_course"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvNoPosts" />
 
         <include
             android:id="@+id/pbLoading"

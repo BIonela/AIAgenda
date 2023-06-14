@@ -134,11 +134,7 @@ class TimetableViewModel(private val repository: TimetableRepository) : ViewMode
         }
     }
 
-    fun isOdd(
-        startYear: TimetableTime,
-        startHoliday: TimetableTime,
-        endHoliday: TimetableTime,
-        result: (Boolean) -> Unit
+    fun isOdd(startYear: TimetableTime, startHoliday: TimetableTime, endHoliday: TimetableTime, result: (Boolean) -> Unit
     ) {
         val startDate = LocalDate.of(startYear.year, startYear.month, startYear.dayOfMonth)
         val currentDate = LocalDate.now()

@@ -91,7 +91,6 @@ class AuthViewModel(val repository: AuthenticationRepository) :
         return true
     }
 
-    //check if empty, if user exists, if password wrong, if email is not student.utcb.ro
     private fun validateLogin(email: String, password: String): Boolean {
         if (email.isEmpty()) {
             _loginError.postValue(ValidationError.EMAIL_IS_EMPTY)
@@ -151,18 +150,4 @@ class AuthViewModel(val repository: AuthenticationRepository) :
             onResult.invoke(userData, photoUri)
         }
     }
-
-//    fun uploadPhoto(photoUri: Uri, user: User, onResult: (UserDataStatus) -> Unit) {
-//        onResult.invoke(UserDataStatus.LOADING)
-//        viewModelScope.launch {
-//            repository.uploadPhoto(photoUri, onResult)
-//        }
-//    }
-
-//    fun updateUser(photoUri: Uri, user: User, onResult: (UserDataStatus) -> Unit) {
-//        onResult.invoke(UserDataStatus.LOADING)
-//        repository.updateUser(photoUri, user, onResult)
-//        onResult.invoke(UserDataStatus.SUCCESS)
-//    }
-
 }

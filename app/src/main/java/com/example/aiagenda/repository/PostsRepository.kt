@@ -1,11 +1,10 @@
 package com.example.aiagenda.repository
 
 import android.util.Log
-import com.example.aiagenda.model.PostBody
-import com.example.aiagenda.model.TaskBody
-import com.example.aiagenda.model.User
+import com.example.aiagenda.model.*
 import com.example.aiagenda.util.FireStoreCollection
 import com.example.aiagenda.util.UiStatus
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 
@@ -28,6 +27,18 @@ class PostsRepository(
             }
             .addOnFailureListener {
                 uiStatus.invoke(UiStatus.ERROR)
+            }
+    }
+
+    fun addPost(user: User, post: Post, uiState: (UiStatus) -> Unit) {
+        val documentRef = database.collection("posts").document("posts${user.study_year}")
+        documentRef
+            .update("posts", FieldValue.arrayUnion(post))
+            .addOnSuccessListener {
+                uiState.invoke(UiStatus.SUCCESS)
+            }
+            .addOnFailureListener {
+                uiState.invoke(UiStatus.ERROR)
             }
     }
 }

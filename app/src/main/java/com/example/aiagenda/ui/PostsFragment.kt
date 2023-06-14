@@ -1,6 +1,7 @@
 package com.example.aiagenda.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,8 @@ import com.example.aiagenda.util.UiStatus
 import com.example.aiagenda.viewmodel.AuthViewModel
 import com.example.aiagenda.viewmodel.PostsViewModel
 import com.example.aiagenda.viewmodel.ViewModelFactory
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.RemoteMessage
 
 class PostsFragment : Fragment() {
     private lateinit var binding: FragmentPostsBinding
@@ -49,13 +52,18 @@ class PostsFragment : Fragment() {
         observeUiState()
         getPosts()
         submitList()
-
+        updateUI()
 
     }
 
     private fun setControls() {
         binding.ivArrowBack.setOnClickListener {
             findNavController().navigateUp()
+        }
+        binding.fabAdd.setOnClickListener {
+            findNavController().navigate(
+                PostsFragmentDirections.actionPostsFragmentToCreatePostFragment()
+            )
         }
     }
 
@@ -67,6 +75,19 @@ class PostsFragment : Fragment() {
                 }
                 postsViewModel.getPosts(user)
             }
+        }
+    }
+
+    private fun updateUI() {
+        postsViewModel.posts.observe(viewLifecycleOwner) { postsBody ->
+            if (postsBody.posts.isEmpty()) {
+                binding.tvNoPosts.visibility = View.VISIBLE
+                binding.ivNoPosts.visibility = View.VISIBLE
+            } else {
+                binding.tvNoPosts.visibility = View.GONE
+                binding.ivNoPosts.visibility = View.GONE
+            }
+
         }
     }
 
@@ -104,5 +125,4 @@ class PostsFragment : Fragment() {
             adapter = postsAdapter
         }
     }
-
 }
